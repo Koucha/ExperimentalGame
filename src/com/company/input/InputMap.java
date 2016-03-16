@@ -185,7 +185,7 @@ public class InputMap
 	 * Adjusts the position of the Key inside the sorted array if the code of the Key was altered
 	 *
 	 * @param key altered Key
-	 * @param up  bubble direction (true if newKeyCode > oldKeyCode)
+	 * @param up  bubble direction (true if new key code &gt; old key code)
 	 */
 	private void bubbleKey( Key key, boolean up )
 	{
@@ -221,9 +221,9 @@ public class InputMap
 
 	/**
 	 * Callback interface to be implemented
-	 * <p>
+	 *
 	 * for example through lambda-expressions:
-	 * (evt) -> { ... }
+	 * (evt) -&gt; { ... }
 	 */
 	public interface Callback
 	{
