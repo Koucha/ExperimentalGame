@@ -1,5 +1,8 @@
 package com.company;
 
+/**
+ * Represents a skill that can be used by {@link Character}s
+ */
 public class Skill
 {
 	private TargetType targeting;
@@ -13,26 +16,53 @@ public class Skill
 		baseDamagePlus = 0;
 	}
 
+	/**
+	 * @return the targeting type used by this skill (see {@link TargetType})
+	 */
 	public TargetType getTargeting()
 	{
 		return targeting;
 	}
 
+	/**
+	 * @return the damage multiplier of this skill
+	 */
 	public float getDamageMultiplier()
 	{
 		return damageMultiplier;
 	}
 
+	/**
+	 * @return the base damage bonus of this skill
+	 */
 	public int getBaseDamagePlus()
 	{
 		return baseDamagePlus;
 	}
 
+	/**
+	 * Different types of Targeting
+	 */
 	public enum TargetType
 	{
-		none(),
-		single(),
-		direction(),
-		area()
+		/**
+		 * no target has to be selected
+		 */
+		none,
+
+		/**
+		 * one character is targeted
+		 */
+		single,
+
+		/**
+		 * the skill strikes in one direction
+		 */
+		direction,
+
+		/**
+		 * the skill affects the area around a point
+		 */
+		area
 	}
 }

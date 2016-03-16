@@ -3,10 +3,18 @@ package com.company.input;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * Key listener that forwards key events to an {@link InputBridge}
+ */
 public class KeyInput extends KeyAdapter
 {
 	private InputBridge inputBridge;
 
+	/**
+	 * Constructor
+	 *
+	 * @param inputBridge {@link InputBridge} the key input should be forwarded to
+	 */
 	public KeyInput( InputBridge inputBridge )
 	{
 		this.inputBridge = inputBridge;

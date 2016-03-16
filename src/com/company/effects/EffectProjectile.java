@@ -1,36 +1,36 @@
 package com.company.effects;
 
+import com.company.Game;
+
 import java.awt.*;
 
 /**
- * Fast Ray
+ * Small projectile
  * <p>
  * For more info see {@link Effect}
  */
-public class EffectRay extends Effect
+public class EffectProjectile extends Effect
 {
 	private float angle;
 	private float posX;
 	private float posY;
-	private float length;
+	private int length;
 	private int width;
 	private float vel;
 	private Color color;
-	private int lifeCycles;
 
 	/**
-	 * Constructs a EffectRay object
+	 * Constructs a EffectProjectile object
 	 *
-	 * @param posX       x coordinate of source position
-	 * @param posY       y coordinate of source position
-	 * @param angle      angle of the direction (radians measured from top, clockwise)
-	 * @param length     initial length of the ray (it will grow rapidly)
-	 * @param width      width of the ray
-	 * @param vel        velocity of the beginning of the ray
-	 * @param lifeCycles number of cycles the ray should be displayed
-	 * @param color      color of the ray
+	 * @param posX   x coordinate of source position
+	 * @param posY   y coordinate of source position
+	 * @param angle  angle of the direction (radians measured from top, clockwise)
+	 * @param length length of the projectile
+	 * @param width  width of the projectile
+	 * @param vel    velocity of the projectile
+	 * @param color  color of the projectile
 	 */
-	public EffectRay( float posX, float posY, float angle, int length, int width, float vel, int lifeCycles, Color color )
+	public EffectProjectile( float posX, float posY, float angle, int length, int width, float vel, Color color )
 	{
 		this.angle = angle;
 		this.posX = posX;
@@ -38,20 +38,16 @@ public class EffectRay extends Effect
 		this.length = length;
 		this.width = width;
 		this.vel = vel;
-		this.lifeCycles = lifeCycles;
 		this.color = color;
 	}
 
 	@Override
 	public void tick()
 	{
-		lifeCycles--;
-
-		length++;
 		posX -= vel * Math.sin( angle );
 		posY += vel * Math.cos( angle );
 
-		if( lifeCycles < 0 )
+		if( posX + length < 0 || posY + length < 0 || posX - length > Game.WIDTH || posY - length > Game.HEIGHT )
 		{
 			endEffect();
 		}

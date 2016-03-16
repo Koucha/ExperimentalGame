@@ -4,20 +4,34 @@ import com.company.input.InputEvent;
 import com.company.input.InputMap;
 import com.sun.glass.events.KeyEvent;
 
+/**
+ * Receives mouse and keyboard input and generates instructions for the player {@link Character}
+ */
 public class PlayerController implements Controller
 {
 	private int bitmask = 0;
 
+	/**
+	 * Constructor
+	 *
+	 * @param inputMap links between keys and actions are saved into this map
+	 */
 	public PlayerController( InputMap inputMap )
 	{
 		inputMap.addLink( "Forward", KeyEvent.VK_W, ( e ) -> handleEvent( e, Selector.up ) );
 		inputMap.addLink( "Backward", KeyEvent.VK_S, ( e ) -> handleEvent( e, Selector.down ) );
 		inputMap.addLink( "Turn Left", KeyEvent.VK_A, ( e ) -> handleEvent( e, Selector.left ) );
 		inputMap.addLink( "Turn Right", KeyEvent.VK_D, ( e ) -> handleEvent( e, Selector.right ) );
-		inputMap.addLink( "Skill 1", KeyEvent.VK_1, ( e ) -> handleEvent( e, Selector.skill1 ) );
-		inputMap.addLink( "Skill 2", KeyEvent.VK_2, ( e ) -> handleEvent( e, Selector.skill2 ) );
+		inputMap.addLink( "Skill 1", KeyEvent.VK_SPACE, ( e ) -> handleEvent( e, Selector.skill1 ) );
+		inputMap.addLink( "Skill 2", KeyEvent.VK_F, ( e ) -> handleEvent( e, Selector.skill2 ) );
 	}
 
+	/**
+	 * Handles the {@link InputEvent}s received through the {@link InputMap}
+	 *
+	 * @param evt key event
+	 * @param bit selector specifying the action to be performed (see {@link Selector})
+	 */
 	private void handleEvent( InputEvent evt, Selector bit )
 	{
 		try
@@ -35,6 +49,13 @@ public class PlayerController implements Controller
 		}
 	}
 
+	/**
+	 * Determine if the event was caused by a press or release action
+	 *
+	 * @param evt key event
+	 * @return true if the key was pressed, false if it was released
+	 * @throws InvalidStateException if the key was neither pressed nor released
+	 */
 	private boolean isPressed( InputEvent evt ) throws InvalidStateException
 	{
 		switch( evt.type )
@@ -84,11 +105,20 @@ public class PlayerController implements Controller
 		return action;
 	}
 
+	/**
+	 * Tests if the bit of the mask specified by the selector is set
+	 *
+	 * @param bit selector (see {@link Selector}
+	 * @return true if the bit was set, false otherwise
+	 */
 	private boolean testMask( Selector bit )
 	{
 		return (bitmask & bit.value()) != 0;
 	}
 
+	/**
+	 * Associates actions to flags of a bit mask
+	 */
 	private enum Selector
 	{
 		up( 0x0000001 ),
@@ -111,12 +141,18 @@ public class PlayerController implements Controller
 			this.val = val;
 		}
 
+		/**
+		 * @return flag bit
+		 */
 		public int value()
 		{
 			return val;
 		}
 	}
 
+	/**
+	 * Is thrown if a key event performed an unknown action
+	 */
 	public class InvalidStateException extends Exception
 	{
 	}

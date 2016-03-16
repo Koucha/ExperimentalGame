@@ -3,17 +3,21 @@ package com.company.input;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Mouse listener that forwards mouse button events and the mouse position to an {@link InputBridge}
+ */
 public class MouseInput extends MouseAdapter
 {
-	private int mouseX;
-	private int mouseY;
 	private InputBridge inputBridge;
 
+	/**
+	 * Constructor
+	 *
+	 * @param inputBridge {@link InputBridge} the mouse input should be forwarded to
+	 */
 	public MouseInput( InputBridge inputBridge )
 	{
 		this.inputBridge = inputBridge;
-		mouseX = 0;
-		mouseY = 0;
 	}
 
 	@Override
@@ -40,6 +44,12 @@ public class MouseInput extends MouseAdapter
 		inputBridge.doMouseMovement( e.getX(), e.getY() );
 	}
 
+	/**
+	 * Generates codes for the mouse buttons in harmony with the keyboard key codes
+	 *
+	 * @param e mouse button event
+	 * @return code of the button pressed
+	 */
 	private int parseButton( MouseEvent e )
 	{
 		switch( e.getButton() )

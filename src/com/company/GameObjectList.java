@@ -3,39 +3,50 @@ package com.company;
 import java.awt.*;
 import java.util.LinkedList;
 
+/**
+ * List containing {@link GameObject} objects
+ */
 public class GameObjectList
 {
 	private LinkedList< GameObject > list = new LinkedList<>();
-	private LinkedList< GameObject > addlist = new LinkedList<>();
-	private LinkedList< GameObject > removelist = new LinkedList<>();
+	private LinkedList< GameObject > addList = new LinkedList<>();
+	private LinkedList< GameObject > removeList = new LinkedList<>();
 
 	private int locked = 0;
 
+	/**
+	 * Forwards the tick to every {@link GameObject} in the list
+	 */
 	public void tick()
 	{
 		locked++;
-		for( GameObject o : list )
-		{
-			o.tick();
-		}
+		list.forEach( GameObject::tick );
 		locked--;
 		assert (locked >= 0);
 		clean();
 	}
 
+	/**
+	 * Applies the operation stored in the temp lists on the list
+	 */
 	private void clean()
 	{
-		while( addlist.size() > 0 )
+		while( addList.size() > 0 )
 		{
-			list.add( addlist.poll() );
+			list.add( addList.poll() );
 		}
 
-		while( removelist.size() > 0 )
+		while( removeList.size() > 0 )
 		{
-			list.remove( removelist.poll() );
+			list.remove( removeList.poll() );
 		}
 	}
 
+	/**
+	 * Forwards the render instruction to every {@link GameObject} in the list
+	 *
+	 * @param g {@link Graphics} object to be painted on
+	 */
 	public void render( Graphics g )
 	{
 		locked++;
@@ -48,24 +59,37 @@ public class GameObjectList
 		clean();
 	}
 
+	/**
+	 * Adds a {@link GameObject} to the List
+	 *
+	 * @param o GameObject to be added
+	 */
 	public void add( GameObject o )
 	{
 		if( locked <= 0 )
 			list.add( o );
 		else
-			addlist.add( o );
+			addList.add( o );
 
 		o.setHandler( this );
 	}
 
+	/**
+	 * Removes a {@link GameObject} from the List
+	 *
+	 * @param o GameObject to be removed
+	 */
 	public void remove( GameObject o )
 	{
 		if( locked <= 0 )
 			list.remove( o );
 		else
-			removelist.add( o );
+			removeList.add( o );
 	}
 
+	/**
+	 * Empties the list
+	 */
 	public void clear()
 	{
 		list.clear();

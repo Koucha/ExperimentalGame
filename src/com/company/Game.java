@@ -4,9 +4,15 @@ import com.company.input.InputBridge;
 import com.company.input.KeyInput;
 import com.company.input.MouseInput;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
+/**
+ * Main class
+ * <p>
+ * backbone of the game, contains the game loop
+ */
 public class Game extends Canvas implements Runnable
 {
 	public static final int WIDTH = 1200, HEIGHT = WIDTH * 9 / 12;
@@ -21,7 +27,7 @@ public class Game extends Canvas implements Runnable
 
 	public Game()
 	{
-		new Window( WIDTH, HEIGHT, "Tha Game", this );
+		createWindow( WIDTH, HEIGHT, "Tha Game" );
 
 		inputBridge = new InputBridge();
 
@@ -39,6 +45,30 @@ public class Game extends Canvas implements Runnable
 		start();
 	}
 
+	/**
+	 * Opens a Window with Game as its canvas
+	 *
+	 * @param width  width of the window content
+	 * @param height height of the window content
+	 * @param title  title of the window
+	 */
+	public void createWindow( int width, int height, String title )
+	{
+		JFrame frame = new JFrame( title );
+		frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+
+		frame.setResizable( false );
+		frame.getContentPane().setPreferredSize( new Dimension( width, height ) );
+		frame.pack();
+
+		frame.setLocationRelativeTo( null );
+		frame.add( this );
+		frame.setVisible( true );
+	}
+
+	/**
+	 * Starts the thread with the game loop
+	 */
 	public synchronized void start()
 	{
 		thread = new Thread( this );
@@ -51,6 +81,15 @@ public class Game extends Canvas implements Runnable
 		new Game();
 	}
 
+	/**
+	 * Clamps a variable to an interval
+	 *
+	 * @param var variable to be clamped
+	 * @param min lower interval border
+	 * @param max upper interval border
+	 * @return the clamped value of var
+	 */
+	@SuppressWarnings( "Duplicates" )
 	public static int clampInt( int var, int min, int max )
 	{
 		if( var < min )
@@ -65,6 +104,15 @@ public class Game extends Canvas implements Runnable
 		}
 	}
 
+	/**
+	 * Clamps a variable to an interval
+	 *
+	 * @param var variable to be clamped
+	 * @param min lower interval border
+	 * @param max upper interval border
+	 * @return the clamped value of var
+	 */
+	@SuppressWarnings( "Duplicates" )
 	public static float clamp( float var, float min, float max )
 	{
 		if( var < min )
@@ -117,18 +165,18 @@ public class Game extends Canvas implements Runnable
 		stop();
 	}
 
-	public synchronized void stop()
+	/**
+	 * Does all the calculations inside the game loop
+	 */
+	private void tick()
 	{
-		try
-		{
-			thread.join();
-			running = false;
-		} catch( Exception e )
-		{
-			e.printStackTrace();
-		}
+		list.tick();
+		// hud.tick(); // not really needed
 	}
 
+	/**
+	 * Does all the rendering inside the game loop
+	 */
 	private void render()
 	{
 		BufferStrategy bs = this.getBufferStrategy();
@@ -152,12 +200,24 @@ public class Game extends Canvas implements Runnable
 		bs.show();
 	}
 
-	private void tick()
+	/**
+	 * Stops the game loop thread (or tries to?)
+	 */
+	public synchronized void stop()
 	{
-		list.tick();
-		// hud.tick(); // not really needed
+		try
+		{
+			thread.join();
+			running = false;
+		} catch( Exception e )
+		{
+			e.printStackTrace();
+		}
 	}
 
+	/**
+	 * @return true if the game is currently inside the menu
+	 */
 	public boolean isInMenu()
 	{
 		return inMenu;
