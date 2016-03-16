@@ -172,7 +172,7 @@ public class Character implements GameObject
 		if( action.useSkill && action.skillNr == 2 && counter2 == 0 )
 		{
 			counter2 = 600000;
-			handler.add( new EffectRay( posx - 25 * (float) Math.sin( angle ), posy + 25 * (float) Math.cos( angle ), angle, 10, 1, 1, 6000, Color.blue ) );
+			handler.add( new EffectRay( posx - 25 * (float) Math.sin( angle ), posy + 25 * (float) Math.cos( angle ), angle, 10, 1, vel * 2, 6000, Color.blue ) );
 		}
 	}
 

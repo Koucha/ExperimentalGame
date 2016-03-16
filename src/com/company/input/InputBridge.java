@@ -17,7 +17,7 @@ public class InputBridge
 	{
 		try
 		{
-			inputMap.findLink( evt.code ).call( evt );
+			inputMap.call( evt );
 		} catch( InputMap.NoLinkFoundException e )
 		{
 			// return without doing anything, because the key is not linked to anything

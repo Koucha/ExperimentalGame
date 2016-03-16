@@ -1,12 +1,12 @@
 package com.company.input;
 
 import java.util.LinkedList;
-import java.util.NoSuchElementException;
 
 public class InputMap
 {
 	private LinkedList< Link > linkList = new LinkedList<>();
-	private Key[] keyList;
+	private Key[] keyList = new Key[20];
+	private int keyListFill = 0;
 
 	public Iterable< Link > getLinkIterable()
 	{
@@ -15,29 +15,61 @@ public class InputMap
 
 	public void addLink( String name, int key, Callback cb )
 	{
-		linkList.add( new Link( name, key, cb ) );
+		addLink( key, new Link( name, cb ) );
 	}
 
-	public void initKeyList()
+	private void addLink( int key, Link link )
 	{
-		keyList = new Key[linkList.size()];
-
-		int i = 0;
-		for( Link link : linkList )
+		try
 		{
-			link.key.putInArrayAt( i, keyList );
-			i++;
+			findKey( key ).addLink( link );
+		} catch( NoLinkFoundException e )
+		{
+			addKey( new Key( key ) ).addLink( link );
+		}
+	}
+
+	private Key addKey( Key key )
+	{
+		int pos = keyListFill;
+		if( keyListFill < keyList.length )
+		{
+			while( pos > 0 && keyList[pos - 1].getKey() > key.getKey() )
+			{
+				keyList[pos - 1].putInArrayAt( pos, keyList );
+				pos--;
+			}
+
+			key.putInArrayAt( pos, keyList );
+		} else
+		{
+			Key[] newKeyList = new Key[keyList.length + 10];
+
+			boolean inserted = false;
+			for( int i = 0, j = 0; i < keyListFill; i++, j++ )
+			{
+				if( !inserted && keyList[i].getKey() > key.getKey() )
+				{
+					key.putInArrayAt( j, newKeyList );
+					j++;
+					inserted = true;
+				}
+
+				keyList[i].putInArrayAt( j, newKeyList );
+			}
 		}
 
-		sortKeys();
+		keyListFill++;
+
+		return key;
 	}
 
-	public void sortKeys()
+	private void sortKeys()
 	{
-		if( keyList.length < 2 )
+		if( keyListFill < 2 )
 			return;
 
-		bufferedMergeSort( keyList.clone(), keyList, 0, keyList.length );
+		bufferedMergeSort( keyList.clone(), keyList, 0, keyListFill );
 	}
 
 	private void bufferedMergeSort( Key[] source, Key[] destination, final int start, final int end )
@@ -51,10 +83,10 @@ public class InputMap
 		}
 
 		int i = start, j = middle;
-		// && ( i < middle || j < end )
+
 		for( int k = start; k < end; k++ )
 		{
-			if( i < middle && ( j >= end || source[i].getKey() < source[j].getKey() ) )
+			if( i < middle && (j >= end || source[i].getKey() < source[j].getKey()) )
 			{
 				source[i].putInArrayAt( k, destination );
 				i++;
@@ -66,12 +98,12 @@ public class InputMap
 		}
 	}
 
-	public void bubbleKey( Key key, boolean up )
+	private void bubbleKey( Key key, boolean up )
 	{
 		int i = key.index;
 		if( up )
 		{
-			while( i + 1 < keyList.length && key.getKey() > keyList[i + 1].getKey() )
+			while( i + 1 < keyListFill && key.getKey() > keyList[i + 1].getKey() )
 			{
 				keyList[i + 1].putInArrayAt( i, keyList );
 				i = i + 1;
@@ -87,16 +119,21 @@ public class InputMap
 		key.putInArrayAt( i, keyList );
 	}
 
-	public Link findLink( int key ) throws NoLinkFoundException
+	private Key findKey( int key ) throws NoLinkFoundException
 	{
-		int start = 0, middle, end = keyList.length;
+		if( keyListFill < 1 )
+			throw new NoLinkFoundException();
+
+		int start = 0, middle, end = keyListFill;
 
 		while( start < end )
 		{
 			middle = (start + end) / 2;
 
 			if( keyList[middle].getKey() == key )
-				return keyList[middle].getLink();
+			{
+				return keyList[middle];
+			}
 
 			if( keyList[middle].getKey() > key )
 			{
@@ -108,9 +145,16 @@ public class InputMap
 		}
 
 		if( keyList[start].getKey() == key )
-			return keyList[start].getLink();
+		{
+			return keyList[start];
+		}
 
 		throw new NoLinkFoundException();
+	}
+
+	public void call( InputEvent evt ) throws NoLinkFoundException
+	{
+		findKey( evt.code ).call( evt );
 	}
 
 	public interface Callback
@@ -124,11 +168,11 @@ public class InputMap
 		private Callback cb;
 		private Key key;
 
-		public Link( String name, int key, Callback cb )
+		public Link( String name, Callback cb )
 		{
 			this.name = name;
 			this.cb = cb;
-			this.key = new Key( key, this );
+			this.key = null;
 		}
 
 		public String getName()
@@ -141,9 +185,14 @@ public class InputMap
 			this.name = name;
 		}
 
-		public Key getKey()
+		public int getKey()
 		{
-			return key;
+			return key.getKey();
+		}
+
+		void setKey( Key key )
+		{
+			this.key = key;
 		}
 
 		public void call( InputEvent evt )
@@ -152,16 +201,32 @@ public class InputMap
 		}
 	}
 
-	public class Key
+	protected class Key
 	{
 		private int key;
-		private Link link;
+		private Linker linker;
 		private int index;
-
-		public Key( int key, Link link )
+		public Key( int key )
 		{
 			this.key = key;
-			this.link = link;
+			this.linker = null;
+		}
+
+		public void addLink( Link link )
+		{
+			link.setKey( this );
+
+			if( linker == null )
+			{
+				linker = new Linker( link );
+			}
+
+			Linker lk = linker;
+			while( lk.next != null )
+			{
+				lk = lk.next;
+			}
+			lk.next = new Linker( link );
 		}
 
 		public int getKey()
@@ -169,16 +234,40 @@ public class InputMap
 			return key;
 		}
 
-		public void setKey( int key )
+		public void setKey( int key, Link linkToBeChanged )
 		{
-			boolean up = key > this.key;
-			this.key = key;
-			bubbleKey( this, up );
+			if( linker.next == null )
+			{
+				boolean up = key > this.key;
+				this.key = key;
+				bubbleKey( this, up );
+			} else
+			{
+				if( linker.link == linkToBeChanged )
+				{
+					linker = linker.next;
+				} else
+				{
+					Linker tempLinker = linker;
+					while( tempLinker.next.link != linkToBeChanged )
+					{
+						tempLinker = tempLinker.next;
+					}
+					tempLinker.next = tempLinker.next.next;
+				}
+
+				InputMap.this.addLink( key, linkToBeChanged );
+			}
 		}
 
-		public Link getLink()
+		public void call( InputEvent evt )
 		{
-			return link;
+			Linker lk = linker;
+			while( lk != null )
+			{
+				lk.link.call( evt );
+				lk = lk.next;
+			}
 		}
 
 		public void putInArrayAt( int i, Key[] array )
@@ -186,7 +275,21 @@ public class InputMap
 			array[i] = this;
 			index = i;
 		}
+
+		private class Linker
+		{
+			public Link link;
+			public Linker next;
+
+			public Linker( Link link )
+			{
+				this.link = link;
+				next = null;
+			}
+		}
 	}
 
-	public class NoLinkFoundException extends Exception {}
+	public class NoLinkFoundException extends Exception
+	{
+	}
 }

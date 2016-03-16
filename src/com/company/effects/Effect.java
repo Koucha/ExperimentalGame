@@ -13,7 +13,7 @@ public abstract class Effect implements GameObject
 		handler = list;
 	}
 
-	protected void terminate()
+	protected void endEffect()
 	{
 		handler.remove( this );
 	}

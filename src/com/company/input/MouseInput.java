@@ -65,6 +65,6 @@ public class MouseInput extends MouseAdapter
 	@Override
 	public void mouseMoved( MouseEvent e )
 	{
-		inputBridge.doMouseMovement( e.getX() ,e.getY() );
+		inputBridge.doMouseMovement( e.getX(), e.getY() );
 	}
 }

@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter
 {
-	InputBridge inputBridge;
+	private InputBridge inputBridge;
 
 	public KeyInput( InputBridge inputBridge )
 	{
@@ -13,7 +13,7 @@ public class KeyInput extends KeyAdapter
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e)
+	public void keyTyped( KeyEvent e )
 	{
 		// not used
 	}

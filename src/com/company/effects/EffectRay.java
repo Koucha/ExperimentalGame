@@ -1,8 +1,6 @@
 package com.company.effects;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
 
 public class EffectRay extends Effect
 {
@@ -32,11 +30,13 @@ public class EffectRay extends Effect
 	{
 		lifeCycles--;
 
-		length += vel;
+		length++;
+		posx -= vel * Math.sin( angle );
+		posy += vel * Math.cos( angle );
 
 		if( lifeCycles < 0 )
 		{
-			terminate();
+			endEffect();
 		}
 	}
 
@@ -48,7 +48,7 @@ public class EffectRay extends Effect
 		Stroke backup = g2.getStroke();
 		g2.setStroke( new BasicStroke( width ) );
 		g2.setColor( color );
-		g2.drawLine( (int)posx, (int)posy, (int)(posx - length * Math.sin( angle )), (int)(posy + length * Math.cos( angle )) );
+		g2.drawLine( (int) posx, (int) posy, (int) (posx - length * Math.sin( angle )), (int) (posy + length * Math.cos( angle )) );
 		g2.setStroke( backup );
 	}
 }

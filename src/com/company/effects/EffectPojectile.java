@@ -3,8 +3,6 @@ package com.company.effects;
 import com.company.Game;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
 
 public class EffectPojectile extends Effect
 {
@@ -35,7 +33,7 @@ public class EffectPojectile extends Effect
 
 		if( posx + length < 0 || posy + length < 0 || posx - length > Game.WIDTH || posy - length > Game.HEIGHT )
 		{
-			terminate();
+			endEffect();
 		}
 	}
 
@@ -47,7 +45,7 @@ public class EffectPojectile extends Effect
 		Stroke backup = g2.getStroke();
 		g2.setStroke( new BasicStroke( width ) );
 		g2.setColor( color );
-		g2.drawLine( (int)posx, (int)posy, (int)(posx - length * Math.sin( angle )), (int)(posy + length * Math.cos( angle )) );
+		g2.drawLine( (int) posx, (int) posy, (int) (posx - length * Math.sin( angle )), (int) (posy + length * Math.cos( angle )) );
 		g2.setStroke( backup );
 	}
 }

@@ -33,8 +33,6 @@ public class Game extends Canvas implements Runnable
 
 		hud = new HUD( player );
 
-		inputBridge.getInputMap().initKeyList();
-
 		addKeyListener( new KeyInput( inputBridge ) );
 		addMouseListener( new MouseInput( inputBridge ) );
 

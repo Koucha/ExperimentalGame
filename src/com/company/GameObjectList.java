@@ -5,9 +5,9 @@ import java.util.LinkedList;
 
 public class GameObjectList
 {
-	LinkedList< GameObject > list = new LinkedList<>();
-	LinkedList< GameObject > addlist = new LinkedList<>();
-	LinkedList< GameObject > removelist = new LinkedList<>();
+	private LinkedList< GameObject > list = new LinkedList<>();
+	private LinkedList< GameObject > addlist = new LinkedList<>();
+	private LinkedList< GameObject > removelist = new LinkedList<>();
 
 	private int locked = 0;
 
