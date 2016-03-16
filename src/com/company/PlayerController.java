@@ -48,11 +48,6 @@ public class PlayerController implements Controller
 		}
 	}
 
-	private boolean testMask( Selector bit )
-	{
-		return (bitmask & bit.value()) != 0;
-	}
-
 	@Override
 	public Action getAction()
 	{
@@ -87,6 +82,11 @@ public class PlayerController implements Controller
 		}
 
 		return action;
+	}
+
+	private boolean testMask( Selector bit )
+	{
+		return (bitmask & bit.value()) != 0;
 	}
 
 	private enum Selector

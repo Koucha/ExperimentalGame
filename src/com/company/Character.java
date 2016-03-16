@@ -43,10 +43,23 @@ public class Character implements GameObject
 		this.controller = controller;
 	}
 
-	@Override
-	public void setHandler( GameObjectList list )
+	public float setDefense( int defense )
 	{
-		handler = list;
+		this.defense = defense;
+		defenseMultiplier = 1f / scaleFactor( defense );
+		return defenseMultiplier;
+	}
+
+	private float scaleFactor( int a )
+	{
+		return a / 10f;
+	}
+
+	public float setAttack( int attack )
+	{
+		this.attack = attack;
+		attackMultiplier = scaleFactor( attack );
+		return attackMultiplier;
 	}
 
 	public float getPosx()
@@ -74,23 +87,9 @@ public class Character implements GameObject
 		return hp;
 	}
 
-	public float setDefense( int defense )
-	{
-		this.defense = defense;
-		defenseMultiplier = 1f / scaleFactor( defense );
-		return defenseMultiplier;
-	}
-
 	public int getDefense()
 	{
 		return defense;
-	}
-
-	public float setAttack( int attack )
-	{
-		this.attack = attack;
-		attackMultiplier = scaleFactor( attack );
-		return attackMultiplier;
 	}
 
 	public int getAttack()
@@ -101,11 +100,6 @@ public class Character implements GameObject
 	public int getOutputDamage( Skill skill )
 	{
 		return (int) ((BASE_DAMAGE + skill.getBaseDamagePlus()) * skill.getDamageMultiplier() * attackMultiplier);
-	}
-
-	public int getEffectiveDamage( int inputDamage )
-	{
-		return (int) (inputDamage * defenseMultiplier);
 	}
 
 	public int doDamage( int inputDamage )
@@ -124,6 +118,11 @@ public class Character implements GameObject
 		}
 	}
 
+	public int getEffectiveDamage( int inputDamage )
+	{
+		return (int) (inputDamage * defenseMultiplier);
+	}
+
 	public int skillCooldown( int i )
 	{
 		if( i == 1 )
@@ -135,11 +134,6 @@ public class Character implements GameObject
 			return counter2;
 		}
 		return -1;
-	}
-
-	private float scaleFactor( int a )
-	{
-		return a / 10f;
 	}
 
 	@Override
@@ -195,5 +189,11 @@ public class Character implements GameObject
 		t2.translate( posx, posy );
 		path.transform( t2 );
 		g2.fill( path );
+	}
+
+	@Override
+	public void setHandler( GameObjectList list )
+	{
+		handler = list;
 	}
 }

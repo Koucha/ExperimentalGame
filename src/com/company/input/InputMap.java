@@ -64,6 +64,39 @@ public class InputMap
 		return key;
 	}
 
+	private Key findKey( int key ) throws NoLinkFoundException
+	{
+		if( keyListFill < 1 )
+			throw new NoLinkFoundException();
+
+		int start = 0, middle, end = keyListFill;
+
+		while( start < end )
+		{
+			middle = (start + end) / 2;
+
+			if( keyList[middle].getKey() == key )
+			{
+				return keyList[middle];
+			}
+
+			if( keyList[middle].getKey() > key )
+			{
+				end = middle;
+			} else
+			{
+				start = middle + 1;
+			}
+		}
+
+		if( keyList[start].getKey() == key )
+		{
+			return keyList[start];
+		}
+
+		throw new NoLinkFoundException();
+	}
+
 	private void sortKeys()
 	{
 		if( keyListFill < 2 )
@@ -117,39 +150,6 @@ public class InputMap
 			}
 		}
 		key.putInArrayAt( i, keyList );
-	}
-
-	private Key findKey( int key ) throws NoLinkFoundException
-	{
-		if( keyListFill < 1 )
-			throw new NoLinkFoundException();
-
-		int start = 0, middle, end = keyListFill;
-
-		while( start < end )
-		{
-			middle = (start + end) / 2;
-
-			if( keyList[middle].getKey() == key )
-			{
-				return keyList[middle];
-			}
-
-			if( keyList[middle].getKey() > key )
-			{
-				end = middle;
-			} else
-			{
-				start = middle + 1;
-			}
-		}
-
-		if( keyList[start].getKey() == key )
-		{
-			return keyList[start];
-		}
-
-		throw new NoLinkFoundException();
 	}
 
 	public void call( InputEvent evt ) throws NoLinkFoundException
@@ -206,6 +206,7 @@ public class InputMap
 		private int key;
 		private Linker linker;
 		private int index;
+
 		public Key( int key )
 		{
 			this.key = key;

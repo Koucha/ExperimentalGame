@@ -39,6 +39,13 @@ public class Game extends Canvas implements Runnable
 		start();
 	}
 
+	public synchronized void start()
+	{
+		thread = new Thread( this );
+		thread.start();
+		running = true;
+	}
+
 	public static void main( String[] args )
 	{
 		new Game();
@@ -69,25 +76,6 @@ public class Game extends Canvas implements Runnable
 		} else
 		{
 			return var;
-		}
-	}
-
-	public synchronized void start()
-	{
-		thread = new Thread( this );
-		thread.start();
-		running = true;
-	}
-
-	public synchronized void stop()
-	{
-		try
-		{
-			thread.join();
-			running = false;
-		} catch( Exception e )
-		{
-			e.printStackTrace();
 		}
 	}
 
@@ -127,6 +115,18 @@ public class Game extends Canvas implements Runnable
 		}
 
 		stop();
+	}
+
+	public synchronized void stop()
+	{
+		try
+		{
+			thread.join();
+			running = false;
+		} catch( Exception e )
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private void render()

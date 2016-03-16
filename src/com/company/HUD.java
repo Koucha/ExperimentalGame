@@ -16,12 +16,6 @@ public class HUD implements GameObject
 	}
 
 	@Override
-	public void setHandler( GameObjectList list )
-	{
-		handler = list;
-	}
-
-	@Override
 	public void tick()
 	{
 		//nothing
@@ -67,5 +61,11 @@ public class HUD implements GameObject
 		g.drawRect( 10 + HPBAR_WIDTH + 10, 10, HPBAR_HEIGHT - 1, HPBAR_HEIGHT - 1 );
 		g.drawRect( 10 + HPBAR_WIDTH + 10 + HPBAR_HEIGHT + 10, 10, HPBAR_HEIGHT - 1, HPBAR_HEIGHT - 1 );
 
+	}
+
+	@Override
+	public void setHandler( GameObjectList list )
+	{
+		handler = list;
 	}
 }

@@ -34,6 +34,12 @@ public class MouseInput extends MouseAdapter
 		inputBridge.doKeyEvent( new InputEvent( parseButton( e ), parseButtonName( e ), KeyEventType.pressed ) );
 	}
 
+	@Override
+	public void mouseMoved( MouseEvent e )
+	{
+		inputBridge.doMouseMovement( e.getX(), e.getY() );
+	}
+
 	private int parseButton( MouseEvent e )
 	{
 		switch( e.getButton() )
@@ -60,11 +66,5 @@ public class MouseInput extends MouseAdapter
 				return "Mouse 3";
 		}
 		return "";
-	}
-
-	@Override
-	public void mouseMoved( MouseEvent e )
-	{
-		inputBridge.doMouseMovement( e.getX(), e.getY() );
 	}
 }

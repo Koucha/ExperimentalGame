@@ -23,6 +23,19 @@ public class GameObjectList
 		clean();
 	}
 
+	private void clean()
+	{
+		while( addlist.size() > 0 )
+		{
+			list.add( addlist.poll() );
+		}
+
+		while( removelist.size() > 0 )
+		{
+			list.remove( removelist.poll() );
+		}
+	}
+
 	public void render( Graphics g )
 	{
 		locked++;
@@ -51,19 +64,6 @@ public class GameObjectList
 			list.remove( o );
 		else
 			removelist.add( o );
-	}
-
-	private void clean()
-	{
-		while( addlist.size() > 0 )
-		{
-			list.add( addlist.poll() );
-		}
-
-		while( removelist.size() > 0 )
-		{
-			list.remove( removelist.poll() );
-		}
 	}
 
 	public void clear()
