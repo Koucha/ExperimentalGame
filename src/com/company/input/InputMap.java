@@ -223,7 +223,7 @@ public class InputMap
 	 * Callback interface to be implemented
 	 * <p>
 	 * for example through lambda-expressions:
-	 * (evt) -&gt; { ... }
+	 * {@code (evt) -> { ... }}
 	 */
 	public interface Callback
 	{
