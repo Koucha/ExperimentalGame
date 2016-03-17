@@ -2,8 +2,6 @@
 
 Simple game skeleton to be developed into a complex Game
 
-Not much to write yet xD
-
 
 
 ### Setup
@@ -18,4 +16,9 @@ If you aren't using it, only the java files in `src/` are needed.
 
 can be viewed at http://koucha.github.io/ExperimentalGame/
 
-It's not guaranteed to always be up to date. But the docs shouldn't change much anyways.
+It's not guaranteed to always be up to date.
+But the docs shouldn't change much anyways.
+
+These docs are intended to help grasp the structure and inner workings of this project.
+Therefore they list even private members.
+Also, since that's the case, the documentation might contain minor infos about the implementation.
