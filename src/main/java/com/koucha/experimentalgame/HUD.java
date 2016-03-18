@@ -26,7 +26,7 @@ public class HUD implements GameObject
 	}
 
 	@Override
-	public void tick()
+	public void update()
 	{
 		//nothing
 	}

@@ -42,7 +42,7 @@ public class EffectProjectile extends Effect
 	}
 
 	@Override
-	public void tick()
+	public void update()
 	{
 		posX -= vel * Math.sin( angle );
 		posY += vel * Math.cos( angle );

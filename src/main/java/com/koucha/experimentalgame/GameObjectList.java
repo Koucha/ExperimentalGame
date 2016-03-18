@@ -15,12 +15,12 @@ public class GameObjectList
 	private int locked = 0;
 
 	/**
-	 * Forwards the tick to every {@link GameObject} in the list
+	 * Forwards the update to every {@link GameObject} in the list
 	 */
-	public void tick()
+	public void update()
 	{
 		locked++;
-		list.forEach( GameObject::tick );
+		list.forEach( GameObject::update );
 		locked--;
 		assert (locked >= 0);
 		clean();

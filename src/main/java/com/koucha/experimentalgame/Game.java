@@ -146,7 +146,7 @@ public class Game extends Canvas implements Runnable
 			lastTime = now;
 			while( delta >= 1 )
 			{
-				tick();
+				update();
 				delta--;
 			}
 			if( running )
@@ -168,10 +168,10 @@ public class Game extends Canvas implements Runnable
 	/**
 	 * Does all the calculations inside the game loop
 	 */
-	private void tick()
+	private void update()
 	{
-		list.tick();
-		// hud.tick(); // not really needed
+		list.update();
+		// hud.update(); // not really needed
 	}
 
 	/**

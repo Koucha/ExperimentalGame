@@ -43,7 +43,7 @@ public class EffectRay extends Effect
 	}
 
 	@Override
-	public void tick()
+	public void update()
 	{
 		lifeCycles--;
 

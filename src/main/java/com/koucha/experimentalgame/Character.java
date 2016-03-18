@@ -206,7 +206,7 @@ public class Character implements GameObject
 	}
 
 	@Override
-	public void tick()
+	public void update()
 	{
 		// TODO
 		if( counter1 > 0 )

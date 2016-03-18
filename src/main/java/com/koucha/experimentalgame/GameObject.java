@@ -10,7 +10,7 @@ public interface GameObject
 	/**
 	 * Is called with a set frequency from the game loop
 	 */
-	void tick();
+	void update();
 
 	/**
 	 * Is called whenever the Screen content is calculated anew
