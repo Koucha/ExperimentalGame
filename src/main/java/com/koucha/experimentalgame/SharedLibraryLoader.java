@@ -24,7 +24,7 @@ import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-/** Loads shared libraries from JAR files. Call {@link SharedLibraryLoader#load() to load the
+/** Loads shared libraries from JAR files. Call {@link SharedLibraryLoader#load()} to load the
  * required LWJGL 3 native shared libraries.
  * @author mzechner
  * @author Nathan Sweet */
