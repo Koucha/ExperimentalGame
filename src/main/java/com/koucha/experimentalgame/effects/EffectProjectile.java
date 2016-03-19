@@ -1,6 +1,7 @@
 package com.koucha.experimentalgame.effects;
 
-import com.koucha.experimentalgame.Game;
+import com.koucha.experimentalgame.BackBone;
+import com.koucha.experimentalgame.rendering.Renderer;
 
 import java.awt.*;
 
@@ -47,7 +48,7 @@ public class EffectProjectile extends Effect
 		posX -= vel * Math.sin( angle );
 		posY += vel * Math.cos( angle );
 
-		if( posX + length < 0 || posY + length < 0 || posX - length > Game.WIDTH || posY - length > Game.HEIGHT )
+		if( posX + length < 0 || posY + length < 0 || posX - length > BackBone.INITIAL_WIDTH || posY - length > BackBone.INITIAL_HEIGHT )
 		{
 			endEffect();
 		}
@@ -56,9 +57,9 @@ public class EffectProjectile extends Effect
 
 	@SuppressWarnings( "Duplicates" )
 	@Override
-	public void render( Graphics g )
+	public void render( Renderer renderer )
 	{
-		Graphics2D g2 = (Graphics2D) g;
+		Graphics2D g2 = (Graphics2D) renderer;
 
 		Stroke backup = g2.getStroke();
 		g2.setStroke( new BasicStroke( width ) );

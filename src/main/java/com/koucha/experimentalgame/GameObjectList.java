@@ -1,5 +1,7 @@
 package com.koucha.experimentalgame;
 
+import com.koucha.experimentalgame.rendering.Renderer;
+
 import java.awt.*;
 import java.util.LinkedList;
 
@@ -45,14 +47,14 @@ public class GameObjectList
 	/**
 	 * Forwards the render instruction to every {@link GameObject} in the list
 	 *
-	 * @param g {@link Graphics} object to be painted on
+	 * @param renderer {@link Graphics} object to be painted on
 	 */
-	public void render( Graphics g )
+	public void render( Renderer renderer )
 	{
 		locked++;
 		for( GameObject o : list )
 		{
-			o.render( g );
+			o.render( renderer );
 		}
 		locked--;
 		assert (locked >= 0);

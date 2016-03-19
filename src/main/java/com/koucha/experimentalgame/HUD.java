@@ -1,5 +1,7 @@
 package com.koucha.experimentalgame;
 
+import com.koucha.experimentalgame.rendering.Renderer;
+
 import java.awt.*;
 
 /**
@@ -32,46 +34,46 @@ public class HUD implements GameObject
 	}
 
 	@Override
-	public void render( Graphics g )
+	public void render( Renderer renderer )
 	{
 		int hp = player.getHp();
 
 		hp = (hp * HP_BAR_WIDTH) / Character.BASE_HP;
 
-		g.setColor( new Color( 0, 200, 0, 128 ) );
-		g.fillRect( 10, 10, hp, HP_BAR_HEIGHT );
-		g.setColor( new Color( 160, 100, 100, 128 ) );
-		g.fillRect( 10 + hp, 10, HP_BAR_WIDTH - hp, HP_BAR_HEIGHT );
-		g.setColor( new Color( 200, 200, 200, 128 ) );
-		g.drawRect( 10, 10, HP_BAR_WIDTH - 1, HP_BAR_HEIGHT - 1 );
+		renderer.setColor( new Color( 0, 200, 0, 128 ) );
+		renderer.fillRect( 10, 10, hp, HP_BAR_HEIGHT );
+		renderer.setColor( new Color( 160, 100, 100, 128 ) );
+		renderer.fillRect( 10 + hp, 10, HP_BAR_WIDTH - hp, HP_BAR_HEIGHT );
+		renderer.setColor( new Color( 200, 200, 200, 128 ) );
+		renderer.drawRect( 10, 10, HP_BAR_WIDTH - 1, HP_BAR_HEIGHT - 1 );
 
 		int cd = player.skillCooldown( 1 );
 		if( cd == 0 )
 		{
-			g.setColor( new Color( 0, 200, 0, 128 ) );
+			renderer.setColor( new Color( 0, 200, 0, 128 ) );
 		} else
 		{
-			g.setColor( new Color( 160, 100, 100, 128 ) );
+			renderer.setColor( new Color( 160, 100, 100, 128 ) );
 		}
 		//noinspection SuspiciousNameCombination
-		g.fillRect( 10 + HP_BAR_WIDTH + 10, 10, HP_BAR_HEIGHT, HP_BAR_HEIGHT );
-		g.drawString( "" + (cd / 60000), 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT / 2 - 3, 10 + HP_BAR_HEIGHT / 2 + 5 );
+		renderer.fillRect( 10 + HP_BAR_WIDTH + 10, 10, HP_BAR_HEIGHT, HP_BAR_HEIGHT );
+		renderer.drawString( "" + (cd / 60000), 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT / 2 - 3, 10 + HP_BAR_HEIGHT / 2 + 5 );
 
 		cd = player.skillCooldown( 2 );
 		if( cd == 0 )
 		{
-			g.setColor( new Color( 0, 200, 0, 128 ) );
+			renderer.setColor( new Color( 0, 200, 0, 128 ) );
 		} else
 		{
-			g.setColor( new Color( 160, 100, 100, 128 ) );
+			renderer.setColor( new Color( 160, 100, 100, 128 ) );
 		}
 		//noinspection SuspiciousNameCombination
-		g.fillRect( 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT + 10, 10, HP_BAR_HEIGHT, HP_BAR_HEIGHT );
-		g.drawString( "" + (cd / 60000), 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT + 10 + HP_BAR_HEIGHT / 2 - 3, 10 + HP_BAR_HEIGHT / 2 + 5 );
+		renderer.fillRect( 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT + 10, 10, HP_BAR_HEIGHT, HP_BAR_HEIGHT );
+		renderer.drawString( "" + (cd / 60000), 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT + 10 + HP_BAR_HEIGHT / 2 - 3, 10 + HP_BAR_HEIGHT / 2 + 5 );
 
-		g.setColor( new Color( 200, 200, 200, 128 ) );
-		g.drawRect( 10 + HP_BAR_WIDTH + 10, 10, HP_BAR_HEIGHT - 1, HP_BAR_HEIGHT - 1 );
-		g.drawRect( 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT + 10, 10, HP_BAR_HEIGHT - 1, HP_BAR_HEIGHT - 1 );
+		renderer.setColor( new Color( 200, 200, 200, 128 ) );
+		renderer.drawRect( 10 + HP_BAR_WIDTH + 10, 10, HP_BAR_HEIGHT - 1, HP_BAR_HEIGHT - 1 );
+		renderer.drawRect( 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT + 10, 10, HP_BAR_HEIGHT - 1, HP_BAR_HEIGHT - 1 );
 
 	}
 

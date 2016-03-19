@@ -2,6 +2,7 @@ package com.koucha.experimentalgame;
 
 import com.koucha.experimentalgame.effects.EffectProjectile;
 import com.koucha.experimentalgame.effects.EffectRay;
+import com.koucha.experimentalgame.rendering.Renderer;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -42,8 +43,8 @@ public class Character implements GameObject
 		setDefense( BASE_DEFENSE );
 		setAttack( BASE_ATTACK );
 
-		posX = Game.WIDTH / 2;
-		posY = Game.HEIGHT / 2;
+		posX = BackBone.INITIAL_WIDTH / 2;
+		posY = BackBone.INITIAL_HEIGHT / 2;
 		angle = (float) Math.PI;
 
 		counter1 = 0;
@@ -223,8 +224,8 @@ public class Character implements GameObject
 		posX -= vel * Math.sin( angle );
 		posY += vel * Math.cos( angle );
 
-		posX = Game.clamp( posX, 15, Game.WIDTH - 15 );
-		posY = Game.clamp( posY, 15, Game.HEIGHT - 15 );
+		posX = Util.clamp( posX, 15f, BackBone.INITIAL_WIDTH - 15f );
+		posY = Util.clamp( posY, 15f, BackBone.INITIAL_HEIGHT - 15f );
 
 		if( action.useSkill && action.skillNr == 1 && counter1 == 0 )
 		{
@@ -240,10 +241,10 @@ public class Character implements GameObject
 	}
 
 	@Override
-	public void render( Graphics g )
+	public void render( Renderer renderer )
 	{
 		// TODO
-		Graphics2D g2 = (Graphics2D) g;
+		Graphics2D g2 = (Graphics2D) renderer;
 
 		g2.setColor( Color.white );
 		Rectangle r1 = new Rectangle( -5, 10, 10, 5 );

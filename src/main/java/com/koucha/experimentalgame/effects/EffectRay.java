@@ -1,5 +1,7 @@
 package com.koucha.experimentalgame.effects;
 
+import com.koucha.experimentalgame.rendering.Renderer;
+
 import java.awt.*;
 
 /**
@@ -59,9 +61,9 @@ public class EffectRay extends Effect
 
 	@SuppressWarnings( "Duplicates" )
 	@Override
-	public void render( Graphics g )
+	public void render( Renderer renderer )
 	{
-		Graphics2D g2 = (Graphics2D) g;
+		Graphics2D g2 = (Graphics2D) renderer;
 
 		Stroke backup = g2.getStroke();
 		g2.setStroke( new BasicStroke( width ) );

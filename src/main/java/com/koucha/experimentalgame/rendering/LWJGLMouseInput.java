@@ -1,4 +1,8 @@
-package com.koucha.experimentalgame.input;
+package com.koucha.experimentalgame.rendering;
+
+import com.koucha.experimentalgame.input.InputBridge;
+import com.koucha.experimentalgame.input.InputEvent;
+import com.koucha.experimentalgame.input.KeyEventType;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -6,7 +10,7 @@ import java.awt.event.MouseEvent;
 /**
  * Mouse listener that forwards mouse button events and the mouse position to an {@link InputBridge}
  */
-public class MouseInput extends MouseAdapter
+public class LWJGLMouseInput extends MouseAdapter
 {
 	private InputBridge inputBridge;
 
@@ -15,9 +19,9 @@ public class MouseInput extends MouseAdapter
 	 *
 	 * @param inputBridge {@link InputBridge} the mouse input should be forwarded to
 	 */
-	public MouseInput( InputBridge inputBridge )
+	public LWJGLMouseInput()
 	{
-		this.inputBridge = inputBridge;
+		inputBridge = null;
 	}
 
 	@Override
@@ -35,7 +39,7 @@ public class MouseInput extends MouseAdapter
 	@Override
 	public void mouseReleased( MouseEvent e )
 	{
-		inputBridge.doKeyEvent( new InputEvent( parseButton( e ), parseButtonName( e ), KeyEventType.pressed ) );
+		inputBridge.doKeyEvent( new InputEvent( parseButton( e ), parseButtonName( e ), KeyEventType.released ) );
 	}
 
 	@Override
@@ -76,5 +80,10 @@ public class MouseInput extends MouseAdapter
 				return "Mouse 3";
 		}
 		return "";
+	}
+
+	public void setInputBridge( InputBridge inputBridge )
+	{
+		this.inputBridge = inputBridge;
 	}
 }

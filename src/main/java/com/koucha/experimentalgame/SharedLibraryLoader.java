@@ -24,10 +24,13 @@ import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-/** Loads shared libraries from JAR files. Call {@link SharedLibraryLoader#load()} to load the
+/**
+ * Loads shared libraries from JAR files. Call {@link SharedLibraryLoader#load()} to load the
  * required LWJGL 3 native shared libraries.
+ *
  * @author mzechner
- * @author Nathan Sweet */
+ * @author Nathan Sweet
+ */
 public class SharedLibraryLoader
 {
 	static private final HashSet< String > loadedLibraries = new HashSet< String >();
@@ -81,20 +84,27 @@ public class SharedLibraryLoader
 	{
 	}
 
-	/** Fetches the natives from the given natives jar file. Used for testing a shared lib on the fly.
-	 * @param nativesJar */
+	/**
+	 * Fetches the natives from the given natives jar file. Used for testing a shared lib on the fly.
+	 *
+	 * @param nativesJar
+	 */
 	public SharedLibraryLoader( String nativesJar )
 	{
 		this.nativesJar = nativesJar;
 	}
 
-	/** Extracts the LWJGL native libraries from the classpath and sets the "org.lwjgl.librarypath" system property. */
+	/**
+	 * Extracts the LWJGL native libraries from the classpath and sets the "org.lwjgl.librarypath" system property.
+	 */
 	static public synchronized void load()
 	{
 		load( false );
 	}
 
-	/** Extracts the LWJGL native libraries from the classpath and sets the "org.lwjgl.librarypath" system property. */
+	/**
+	 * Extracts the LWJGL native libraries from the classpath and sets the "org.lwjgl.librarypath" system property.
+	 */
 	static public synchronized void load( boolean disableOpenAL )
 	{
 		if( !load ) return;
@@ -126,11 +136,14 @@ public class SharedLibraryLoader
 		load = false;
 	}
 
-	/** Extracts the specified file into the temp directory if it does not already exist or the CRC does not match. If file
+	/**
+	 * Extracts the specified file into the temp directory if it does not already exist or the CRC does not match. If file
 	 * extraction fails and the file exists at java.library.path, that file is returned.
+	 *
 	 * @param sourcePath The file to extract from the classpath or JAR.
-	 * @param dirName The name of the subdirectory where the file will be extracted. If null, the file's CRC will be used.
-	 * @return The extracted file. */
+	 * @param dirName    The name of the subdirectory where the file will be extracted. If null, the file's CRC will be used.
+	 * @return The extracted file.
+	 */
 	public File extractFile( String sourcePath, String dirName ) throws IOException
 	{
 		try
@@ -149,7 +162,9 @@ public class SharedLibraryLoader
 		}
 	}
 
-	/** Returns a CRC of the remaining bytes in the stream. */
+	/**
+	 * Returns a CRC of the remaining bytes in the stream.
+	 */
 	public String crc( InputStream input )
 	{
 		if( input == null ) throw new IllegalArgumentException( "input cannot be null." );
@@ -212,7 +227,9 @@ public class SharedLibraryLoader
 		}
 	}
 
-	/** Returns a path to a file that can be written. Tries multiple locations and verifies writing succeeds. */
+	/**
+	 * Returns a path to a file that can be written. Tries multiple locations and verifies writing succeeds.
+	 */
 	private File getExtractedFile( String dirName, String fileName )
 	{
 		// Temp directory with username in path.
@@ -283,7 +300,9 @@ public class SharedLibraryLoader
 		return extractedFile;
 	}
 
-	/** Returns true if the parent directories of the file can be created and the file can be written. */
+	/**
+	 * Returns true if the parent directories of the file can be created and the file can be written.
+	 */
 	private boolean canWrite( File file )
 	{
 		File parent = file.getParentFile();
@@ -330,8 +349,11 @@ public class SharedLibraryLoader
 		return false;
 	}
 
-	/** Loads a shared library for the platform the application is running on.
-	 * @param libraryName The platform independent library name. If not contain a prefix (eg lib) or suffix (eg .dll). */
+	/**
+	 * Loads a shared library for the platform the application is running on.
+	 *
+	 * @param libraryName The platform independent library name. If not contain a prefix (eg lib) or suffix (eg .dll).
+	 */
 	public synchronized void load( String libraryName )
 	{
 		// in case of iOS, things have been linked statically to the executable, bail out.
@@ -354,7 +376,9 @@ public class SharedLibraryLoader
 		loadedLibraries.add( libraryName );
 	}
 
-	/** Maps a platform independent library name to a platform dependent name. */
+	/**
+	 * Maps a platform independent library name to a platform dependent name.
+	 */
 	public String mapLibraryName( String libraryName )
 	{
 		if( isWindows ) return libraryName + (is64Bit ? "64.dll" : ".dll");
@@ -363,8 +387,10 @@ public class SharedLibraryLoader
 		return libraryName;
 	}
 
-	/** Extracts the source file and calls System.load. Attemps to extract and load from multiple locations. Throws runtime
-	 * exception if all fail. */
+	/**
+	 * Extracts the source file and calls System.load. Attemps to extract and load from multiple locations. Throws runtime
+	 * exception if all fail.
+	 */
 	private void loadFile( String sourcePath )
 	{
 		String sourceCrc = crc( readFile( sourcePath ) );
@@ -405,7 +431,9 @@ public class SharedLibraryLoader
 		throw new RuntimeException( ex );
 	}
 
-	/** @return null if the file was extracted and loaded. */
+	/**
+	 * @return null if the file was extracted and loaded.
+	 */
 	private Throwable loadFile( String sourcePath, String sourceCrc, File extractedFile )
 	{
 		try

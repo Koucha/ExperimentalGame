@@ -1,4 +1,8 @@
-package com.koucha.experimentalgame.input;
+package com.koucha.experimentalgame.rendering;
+
+import com.koucha.experimentalgame.input.InputBridge;
+import com.koucha.experimentalgame.input.InputEvent;
+import com.koucha.experimentalgame.input.KeyEventType;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -6,7 +10,7 @@ import java.awt.event.KeyEvent;
 /**
  * Key listener that forwards key events to an {@link InputBridge}
  */
-public class KeyInput extends KeyAdapter
+public class LWJGLKeyInput extends KeyAdapter
 {
 	private InputBridge inputBridge;
 
@@ -15,9 +19,9 @@ public class KeyInput extends KeyAdapter
 	 *
 	 * @param inputBridge {@link InputBridge} the key input should be forwarded to
 	 */
-	public KeyInput( InputBridge inputBridge )
+	public LWJGLKeyInput()
 	{
-		this.inputBridge = inputBridge;
+		inputBridge = null;
 	}
 
 	@Override
@@ -53,5 +57,10 @@ public class KeyInput extends KeyAdapter
 		*/
 
 		inputBridge.doKeyEvent( new InputEvent( code, KeyEvent.getKeyText( code ), KeyEventType.released ) );
+	}
+
+	public void setInputBridge( InputBridge inputBridge )
+	{
+		this.inputBridge = inputBridge;
 	}
 }

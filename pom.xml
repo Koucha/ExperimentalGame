@@ -40,20 +40,6 @@
         <lwjgl.version>3.0.0a</lwjgl.version>
     </properties>
 
-    <!--
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    -->
-
     <dependencies>
         <!-- JUnit -->
         <dependency>

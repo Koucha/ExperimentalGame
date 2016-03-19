@@ -1,5 +1,7 @@
 package com.koucha.experimentalgame;
 
+import com.koucha.experimentalgame.rendering.Renderer;
+
 import java.awt.*;
 
 /**
@@ -17,9 +19,9 @@ public interface GameObject
 	 * <p>
 	 * The rendering of the GameObject happens in this method
 	 *
-	 * @param g {@link Graphics} object to be painted on
+	 * @param renderer {@link Graphics} object to be painted on
 	 */
-	void render( Graphics g );
+	void render( Renderer renderer );
 
 	/**
 	 * Sets the Handler of the GameObject. Usually that's the list containing it.
