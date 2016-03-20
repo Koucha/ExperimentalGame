@@ -1,6 +1,8 @@
 package com.koucha.experimentalgame;
 
+import com.koucha.experimentalgame.rendering.Rectangle;
 import com.koucha.experimentalgame.rendering.Renderer;
+import com.koucha.experimentalgame.rendering.Text;
 
 import java.awt.*;
 
@@ -40,40 +42,40 @@ public class HUD implements GameObject
 
 		hp = (hp * HP_BAR_WIDTH) / Character.BASE_HP;
 
-		renderer.setColor( new Color( 0, 200, 0, 128 ) );
-		renderer.fillRect( 10, 10, hp, HP_BAR_HEIGHT );
-		renderer.setColor( new Color( 160, 100, 100, 128 ) );
-		renderer.fillRect( 10 + hp, 10, HP_BAR_WIDTH - hp, HP_BAR_HEIGHT );
-		renderer.setColor( new Color( 200, 200, 200, 128 ) );
-		renderer.drawRect( 10, 10, HP_BAR_WIDTH - 1, HP_BAR_HEIGHT - 1 );
+		renderer.render( new Rectangle( 10, 10, 0, hp, HP_BAR_HEIGHT, new Color( 0, 200, 0, 128 ) ) );
+		renderer.render( new Rectangle( 10 + hp, 10, 0, HP_BAR_WIDTH - hp, HP_BAR_HEIGHT, new Color( 160, 100, 100, 128 ) ) );
+		renderer.render( new Rectangle( 10, 10, 0, HP_BAR_WIDTH - 1, HP_BAR_HEIGHT - 1, new Color( 200, 200, 200, 128 ), false ) );
 
 		int cd = player.skillCooldown( 1 );
+		Color color;
 		if( cd == 0 )
 		{
-			renderer.setColor( new Color( 0, 200, 0, 128 ) );
+			color = new Color( 0, 200, 0, 128 );
 		} else
 		{
-			renderer.setColor( new Color( 160, 100, 100, 128 ) );
+			color = new Color( 160, 100, 100, 128 );
 		}
 		//noinspection SuspiciousNameCombination
-		renderer.fillRect( 10 + HP_BAR_WIDTH + 10, 10, HP_BAR_HEIGHT, HP_BAR_HEIGHT );
-		renderer.drawString( "" + (cd / 60000), 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT / 2 - 3, 10 + HP_BAR_HEIGHT / 2 + 5 );
+		renderer.render( new Rectangle( 10 + HP_BAR_WIDTH + 10, 10, 0, HP_BAR_HEIGHT, HP_BAR_HEIGHT, color ) );
+
+		color = new Color( 200, 200, 200, 128 );
+		renderer.render( new Text( "" + (cd / 60000), 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT / 2 - 3, 10 + HP_BAR_HEIGHT / 2 + 5, color ) );
 
 		cd = player.skillCooldown( 2 );
 		if( cd == 0 )
 		{
-			renderer.setColor( new Color( 0, 200, 0, 128 ) );
+			color = new Color( 0, 200, 0, 128 );
 		} else
 		{
-			renderer.setColor( new Color( 160, 100, 100, 128 ) );
+			color = new Color( 160, 100, 100, 128 );
 		}
 		//noinspection SuspiciousNameCombination
-		renderer.fillRect( 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT + 10, 10, HP_BAR_HEIGHT, HP_BAR_HEIGHT );
-		renderer.drawString( "" + (cd / 60000), 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT + 10 + HP_BAR_HEIGHT / 2 - 3, 10 + HP_BAR_HEIGHT / 2 + 5 );
+		renderer.render( new Rectangle( 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT + 10, 10f, 0, HP_BAR_HEIGHT, HP_BAR_HEIGHT, color ) );
 
-		renderer.setColor( new Color( 200, 200, 200, 128 ) );
-		renderer.drawRect( 10 + HP_BAR_WIDTH + 10, 10, HP_BAR_HEIGHT - 1, HP_BAR_HEIGHT - 1 );
-		renderer.drawRect( 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT + 10, 10, HP_BAR_HEIGHT - 1, HP_BAR_HEIGHT - 1 );
+		color = new Color( 200, 200, 200, 128 );
+		renderer.render( new Text( "" + (cd / 60000), 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT + 10 + HP_BAR_HEIGHT / 2 - 3, 10 + HP_BAR_HEIGHT / 2 + 5, color ) );
+		renderer.render( new Rectangle( 10 + HP_BAR_WIDTH + 10, 10, 0, HP_BAR_HEIGHT - 1, HP_BAR_HEIGHT - 1, color, false ) );
+		renderer.render( new Rectangle( 10 + HP_BAR_WIDTH + 10 + HP_BAR_HEIGHT + 10, 10, 0, HP_BAR_HEIGHT - 1, HP_BAR_HEIGHT - 1, color, false ) );
 
 	}
 

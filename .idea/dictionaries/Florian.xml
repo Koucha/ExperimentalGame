@@ -2,11 +2,13 @@
   <dictionary name="Florian">
     <words>
       <w>aren</w>
+      <w>blockquote</w>
       <w>cooldown</w>
       <w>github</w>
       <w>glfw</w>
       <w>googlecode</w>
       <w>infos</w>
+      <w>interoperation</w>
       <w>jnlp</w>
       <w>koucha</w>
       <w>libgdx</w>
@@ -18,6 +20,7 @@
       <w>mergesort</w>
       <w>nativedependencies</w>
       <w>renderable</w>
+      <w>renderers</w>
       <w>shouldn</w>
       <w>trollface</w>
       <w>unpacknatives</w>

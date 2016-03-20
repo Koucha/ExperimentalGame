@@ -14,11 +14,6 @@ public class LWJGLKeyInput extends KeyAdapter
 {
 	private InputBridge inputBridge;
 
-	/**
-	 * Constructor
-	 *
-	 * @param inputBridge {@link InputBridge} the key input should be forwarded to
-	 */
 	public LWJGLKeyInput()
 	{
 		inputBridge = null;

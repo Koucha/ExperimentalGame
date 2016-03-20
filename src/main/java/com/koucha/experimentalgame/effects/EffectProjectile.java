@@ -1,6 +1,7 @@
 package com.koucha.experimentalgame.effects;
 
 import com.koucha.experimentalgame.BackBone;
+import com.koucha.experimentalgame.rendering.Line;
 import com.koucha.experimentalgame.rendering.Renderer;
 
 import java.awt.*;
@@ -59,12 +60,6 @@ public class EffectProjectile extends Effect
 	@Override
 	public void render( Renderer renderer )
 	{
-		Graphics2D g2 = (Graphics2D) renderer;
-
-		Stroke backup = g2.getStroke();
-		g2.setStroke( new BasicStroke( width ) );
-		g2.setColor( color );
-		g2.drawLine( (int) posX, (int) posY, (int) (posX - length * Math.sin( angle )), (int) (posY + length * Math.cos( angle )) );
-		g2.setStroke( backup );
+		renderer.render( new Line( posX, posY, posX - length * (float) Math.sin( angle ), posY + length * (float) Math.cos( angle ), width, color ) );
 	}
 }

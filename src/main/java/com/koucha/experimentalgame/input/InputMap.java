@@ -15,7 +15,7 @@ public class InputMap
 	 * Use to iterate over all {@link Link} objects in the map
 	 * <p>
 	 * Ex.:
-	 * for(Link link : getLinkIterable()) { ... }
+	 * {@code for(Link link : getLinkIterable()) { ... }}
 	 *
 	 * @return Iterable for iterating over all Link objects
 	 */

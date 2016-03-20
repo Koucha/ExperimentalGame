@@ -26,7 +26,7 @@ public class Util
 			a = c;
 		}
 
-		if( a != null && var.compareTo( a ) < 0 )
+		if( var.compareTo( a ) < 0 )
 		{
 			return a;
 		} else if( var.compareTo( b ) > 0 )

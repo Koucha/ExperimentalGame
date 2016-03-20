@@ -5,8 +5,6 @@ import com.koucha.experimentalgame.effects.EffectRay;
 import com.koucha.experimentalgame.rendering.Renderer;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
 
 /**
  * Character. Monster, Player etc.
@@ -244,21 +242,8 @@ public class Character implements GameObject
 	public void render( Renderer renderer )
 	{
 		// TODO
-		Graphics2D g2 = (Graphics2D) renderer;
 
-		g2.setColor( Color.white );
-		Rectangle r1 = new Rectangle( -5, 10, 10, 5 );
-		Rectangle r2 = new Rectangle( -15, -15, 30, 25 );
-		Path2D.Double path = new Path2D.Double();
-		path.append( r1, false );
-		path.append( r2, false );
-		AffineTransform t = new AffineTransform();
-		t.rotate( angle );
-		path.transform( t );
-		AffineTransform t2 = new AffineTransform();
-		t2.translate( posX, posY );
-		path.transform( t2 );
-		g2.fill( path );
+		renderer.render( new com.koucha.experimentalgame.rendering.Rectangle( posX, posY, angle, 10, 10, Color.white ) );
 	}
 
 	@Override

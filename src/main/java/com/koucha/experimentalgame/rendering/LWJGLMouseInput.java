@@ -14,11 +14,6 @@ public class LWJGLMouseInput extends MouseAdapter
 {
 	private InputBridge inputBridge;
 
-	/**
-	 * Constructor
-	 *
-	 * @param inputBridge {@link InputBridge} the mouse input should be forwarded to
-	 */
 	public LWJGLMouseInput()
 	{
 		inputBridge = null;
