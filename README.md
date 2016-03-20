@@ -20,7 +20,7 @@ Maven is used for managing dependencies and the build process
 
 `oldMaster` - former main branch 'protected', holds the project from before it was moved to maven
 
-`gh-pages` - holds the JavaDoc pages, not protected but modifying pushed commits are discouraged because unnecessary
+`gh-pages` - holds the JavaDoc pages (of the working branch), not protected but modifying pushed commits are discouraged because unnecessary
 
 
 ## JavaDoc
