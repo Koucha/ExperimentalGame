@@ -207,7 +207,9 @@ public class Character implements GameObject
 	@Override
 	public void update()
 	{
-		// TODO
+		// TODO debug
+		doDamage( 1 );
+
 		if( counter1 > 0 )
 			counter1--;
 

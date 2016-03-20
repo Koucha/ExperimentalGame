@@ -26,6 +26,7 @@ public class Rectangle implements Renderable
 	 * Fill color
 	 */
 	private Color color;
+	private boolean filled;
 
 	/**
 	 * Creates a filled Rectangle
@@ -61,6 +62,7 @@ public class Rectangle implements Renderable
 		this.width = width;
 		this.height = height;
 		this.color = color;
+		this.filled = filled;
 	}
 
 	public float getPosX()
@@ -121,5 +123,15 @@ public class Rectangle implements Renderable
 	public void setColor( Color color )
 	{
 		this.color = color;
+	}
+
+	public boolean isFilled()
+	{
+		return filled;
+	}
+
+	public void setFilled( boolean filled )
+	{
+		this.filled = filled;
 	}
 }

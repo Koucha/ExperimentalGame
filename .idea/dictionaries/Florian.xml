@@ -10,6 +10,7 @@
       <w>infos</w>
       <w>interoperation</w>
       <w>jnlp</w>
+      <w>joml</w>
       <w>koucha</w>
       <w>libgdx</w>
       <w>liblwjgl</w>
@@ -20,6 +21,7 @@
       <w>mergesort</w>
       <w>nativedependencies</w>
       <w>renderable</w>
+      <w>renderables</w>
       <w>renderers</w>
       <w>shouldn</w>
       <w>trollface</w>

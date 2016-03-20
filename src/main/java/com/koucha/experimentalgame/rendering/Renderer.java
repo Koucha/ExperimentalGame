@@ -89,4 +89,8 @@ public interface Renderer
 	 * @return true if vertical synchronization is enabled
 	 */
 	boolean vSyncEnabled();
+
+	int getWindowHeight();
+
+	int getWindowWidth();
 }

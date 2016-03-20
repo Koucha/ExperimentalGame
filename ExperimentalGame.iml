@@ -13,12 +13,14 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="ExperimentalGame_JavaDoc" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.10" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.lwjgl:lwjgl:3.0.0a" level="project" />
     <orderEntry type="library" name="Maven: org.lwjgl:lwjgl-platform:natives-windows:3.0.0a" level="project" />
     <orderEntry type="library" name="Maven: org.lwjgl:lwjgl-platform:natives-osx:3.0.0a" level="project" />
     <orderEntry type="library" name="Maven: org.lwjgl:lwjgl-platform:natives-linux:3.0.0a" level="project" />
-    <orderEntry type="library" name="ExperimentalGame_JavaDoc" level="project" />
+    <orderEntry type="library" name="Maven: org.joml:joml:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: slick.util:slick-util:1.0" level="project" />
   </component>
 </module>

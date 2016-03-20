@@ -1,7 +1,7 @@
 package com.koucha.experimentalgame;
 
 import com.koucha.experimentalgame.input.InputBridge;
-import com.koucha.experimentalgame.rendering.LWJGLRenderer;
+import com.koucha.experimentalgame.rendering.lwjgl.LWJGLRenderer;
 import com.koucha.experimentalgame.rendering.Renderer;
 
 /**
@@ -124,7 +124,7 @@ public class BackBone
 			if( nowTimeNS - timerNS > 1000000000 )
 			{
 				// todo DEBUG
-				//System.out.println( "FPS: " + framesPerSecond + "; Limited FPS " + ((limitFPS) ? ("on") : ("off")) );
+				System.out.println( "FPS: " + framesPerSecond + "; Limited FPS " + ((limitFPS) ? ("on") : ("off")) );
 
 				timerNS += 1000000000;
 				framesPerSecond = 0;

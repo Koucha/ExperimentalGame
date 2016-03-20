@@ -1,12 +1,15 @@
-package com.koucha.experimentalgame.rendering;
+package com.koucha.experimentalgame.rendering.lwjgl;
 
 import com.koucha.experimentalgame.input.InputBridge;
+import com.koucha.experimentalgame.rendering.*;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GLContext;
 
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.errorCallbackPrint;
 import static org.lwjgl.glfw.GLFW.*;
@@ -31,7 +34,19 @@ public class LWJGLRenderer implements Renderer
 	@Override
 	public void render( Renderable renderable )
 	{
-		// todo
+		if( renderable instanceof com.koucha.experimentalgame.rendering.Line )
+		{
+			ShapeRenderer.render( (Line) renderable );
+		} else if( renderable instanceof Rectangle )
+		{
+			ShapeRenderer.render( (Rectangle) renderable );
+		} else if( renderable instanceof Text )
+		{
+			ShapeRenderer.render( (Text) renderable );
+		} else
+		{
+			// nothing
+		}
 	}
 
 	@Override
@@ -131,8 +146,27 @@ public class LWJGLRenderer implements Renderer
 		// bindings available for use.
 		GLContext.createFromCurrent();
 
+		/* Get width and height of framebuffer */
+		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
+		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
+		glfwGetFramebufferSize(window, widthBuffer, heightBuffer);
+		int width = widthBuffer.get();
+		int height = heightBuffer.get();
+
+		glMatrixMode( GL_PROJECTION );
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho( 0, width, 0, height, -1, 1 );
+
+		glMatrixMode(GL_MODELVIEW);
+		glViewport( 0, 0, width, height );
+
 		// Set the clear color
-		glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+		glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
+
+        /* Enable blending */
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	@Override
@@ -149,5 +183,25 @@ public class LWJGLRenderer implements Renderer
 	public boolean vSyncEnabled()
 	{
 		return true;
+	}
+
+	@Override
+	public int getWindowHeight()
+	{
+		/* Get width and height of framebuffer */
+		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
+		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
+		glfwGetFramebufferSize(window, widthBuffer, heightBuffer);
+		return heightBuffer.get();
+	}
+
+	@Override
+	public int getWindowWidth()
+	{
+		/* Get width and height of framebuffer */
+		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
+		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
+		glfwGetFramebufferSize(window, widthBuffer, heightBuffer);
+		return widthBuffer.get();
 	}
 }

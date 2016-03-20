@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: slick.util:slick-util:1.0">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/slick/util/slick-util/1.0/slick-util-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/slick/util/slick-util/1.0/slick-util-1.0-javadoc.jar!/" />
+      <root url="http://slick.ninjacave.com/javadoc/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/slick/util/slick-util/1.0/slick-util-1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

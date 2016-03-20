@@ -1,4 +1,4 @@
-package com.koucha.experimentalgame.rendering;
+package com.koucha.experimentalgame.rendering.lwjgl;
 
 import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.input.InputEvent;
@@ -10,11 +10,11 @@ import java.awt.event.MouseEvent;
 /**
  * Mouse listener that forwards mouse button events and the mouse position to an {@link InputBridge}
  */
-public class LWJGLMouseInput extends MouseAdapter
+class MouseInput extends MouseAdapter
 {
 	private InputBridge inputBridge;
 
-	public LWJGLMouseInput()
+	public MouseInput()
 	{
 		inputBridge = null;
 	}

@@ -1,4 +1,4 @@
-package com.koucha.experimentalgame.rendering;
+package com.koucha.experimentalgame.rendering.lwjgl;
 
 import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.input.InputEvent;
@@ -10,11 +10,11 @@ import java.awt.event.KeyEvent;
 /**
  * Key listener that forwards key events to an {@link InputBridge}
  */
-public class LWJGLKeyInput extends KeyAdapter
+class KeyInput extends KeyAdapter
 {
 	private InputBridge inputBridge;
 
-	public LWJGLKeyInput()
+	public KeyInput()
 	{
 		inputBridge = null;
 	}
