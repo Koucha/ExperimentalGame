@@ -2,3 +2,4 @@ com.koucha.experimentalgame
 com.koucha.experimentalgame.effects
 com.koucha.experimentalgame.input
 com.koucha.experimentalgame.rendering
+com.koucha.experimentalgame.rendering.lwjgl
