@@ -1,20 +1,29 @@
 package com.koucha.experimentalgame.rendering.lwjgl;
 
 import com.koucha.experimentalgame.input.InputBridge;
+import com.koucha.experimentalgame.input.InputEvent;
+import com.koucha.experimentalgame.input.KeyEventType;
 import com.koucha.experimentalgame.rendering.*;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.LWJGLUtil;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GLContext;
 
+import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.lwjgl.glfw.Callbacks.errorCallbackPrint;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
+
+import org.lwjgl.glfw.*;
+import java.lang.reflect.Field;
 
 /**
  * Implements {@link Renderer} using LWJGL with OpenGL
@@ -72,11 +81,30 @@ public class LWJGLRenderer implements Renderer
 		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
 		glfwSetKeyCallback( window, keyCallback = new GLFWKeyCallback()
 		{
+			private final Map<Integer, String> KEY_CODES = apiClassTokens( ( field, value ) -> field.getName().startsWith("GLFW_KEY_"), null, GLFW.class);
 			@Override
 			public void invoke( long window, int key, int scanCode, int action, int mods )
 			{
-				if( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-					glfwSetWindowShouldClose( window, GL_TRUE ); // We will detect this in our rendering loop
+				if( key == GLFW_KEY_ESCAPE )
+				{
+					if(action == GLFW_RELEASE)
+					{
+						glfwSetWindowShouldClose( window, GL_TRUE ); // We will detect this in our rendering loop
+					}
+				} else
+				{
+					// System.out.println( "Key: " + KEY_CODES.get( key ) + " Key Code:" + scanCode );
+					if( action == GLFW_PRESS )
+					{
+						inputBridge.doKeyEvent( new InputEvent( key, KEY_CODES.get( key ), KeyEventType.pressed ) );
+					} else if( action == GLFW_RELEASE )
+					{
+						inputBridge.doKeyEvent( new InputEvent( key, KEY_CODES.get( key ), KeyEventType.released ) );
+					} else if( action == GLFW_REPEAT )
+					{
+						inputBridge.doKeyEvent( new InputEvent( key, KEY_CODES.get( key ), KeyEventType.typed ) );
+					}
+				}
 			}
 		} );
 
@@ -210,5 +238,48 @@ public class LWJGLRenderer implements Renderer
 		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
 		glfwGetFramebufferSize(window, widthBuffer, heightBuffer);
 		return widthBuffer.get();
+	}
+
+	/**
+	 * Returns a map of public static final integer fields in the specified classes, to their String representations. An optional filter can be specified to
+	 * only include specific fields. The target map may be null, in which case a new map is allocated and returned.
+	 *
+	 * <p>This method is useful when debugging to quickly identify values returned from an API.</p>
+	 *
+	 * @param filter       the filter to use (optional)
+	 * @param target       the target map (optional)
+	 * @param tokenClasses the classes to get tokens from
+	 *
+	 * @return the token map
+	 */
+	public static Map<Integer, String> apiClassTokens( LWJGLUtil.TokenFilter filter, Map<Integer, String> target, Class<?>... tokenClasses)
+	{
+		if ( target == null )
+			target = new HashMap(64);
+
+		int TOKEN_MODIFIERS = Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL;
+
+		for ( Class<?> tokenClass : tokenClasses ) {
+			if ( tokenClass == null )
+				continue;
+
+			for ( Field field : tokenClass.getDeclaredFields() ) {
+				// Get only <public static final int> fields.
+				if ( (field.getModifiers() & TOKEN_MODIFIERS) == TOKEN_MODIFIERS && field.getType() == int.class ) {
+					try {
+						int value = field.getInt(null);
+						if ( filter != null && !filter.accept(field, value) )
+							continue;
+
+						String name = target.get(value);
+						target.put(value, name == null ? field.getName().substring( 9 ) : name + "|" + field.getName());
+					} catch (IllegalAccessException e) {
+						// Ignore
+					}
+				}
+			}
+		}
+
+		return target;
 	}
 }

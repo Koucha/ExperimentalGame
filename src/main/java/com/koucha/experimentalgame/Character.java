@@ -218,8 +218,8 @@ public class Character implements GameObject
 
 		Action action = controller.getAction();
 
-		float vel = action.vel / 200f;
-		angle += action.angle / 200f / 60;
+		float vel = action.vel;
+		angle += action.angle / 60;
 
 		posX -= vel * Math.sin( angle );
 		posY += vel * Math.cos( angle );
@@ -229,14 +229,14 @@ public class Character implements GameObject
 
 		if( action.useSkill && action.skillNr == 1 && counter1 == 0 )
 		{
-			counter1 = 30000;
-			handler.add( new EffectProjectile( posX - 15 * (float) Math.sin( angle ), posY + 15 * (float) Math.cos( angle ), angle, 10, 1, 1 / 50f, Color.blue ) );
+			counter1 = 60;
+			handler.add( new EffectProjectile( posX - 15 * (float) Math.sin( angle ), posY + 15 * (float) Math.cos( angle ), angle, 10, 1, 4, Color.blue ) );
 		}
 
 		if( action.useSkill && action.skillNr == 2 && counter2 == 0 )
 		{
-			counter2 = 600000;
-			handler.add( new EffectRay( posX - 25 * (float) Math.sin( angle ), posY + 25 * (float) Math.cos( angle ), angle, 10, 1, vel * 2, 6000, Color.blue ) );
+			counter2 = 120;
+			handler.add( new EffectRay( posX - 25 * (float) Math.sin( angle ), posY + 25 * (float) Math.cos( angle ), angle, 10, 1, 2, 40, Color.blue ) );
 		}
 	}
 

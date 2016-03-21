@@ -50,7 +50,7 @@ public class EffectRay extends Effect
 	{
 		lifeCycles--;
 
-		length++;
+		length += 100;
 		posX -= vel * Math.sin( angle );
 		posY += vel * Math.cos( angle );
 
