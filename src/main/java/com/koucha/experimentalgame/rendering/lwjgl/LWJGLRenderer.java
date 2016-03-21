@@ -25,28 +25,35 @@ public class LWJGLRenderer implements Renderer
 	private GLFWErrorCallback errorCallback;
 	private GLFWKeyCallback keyCallback;
 
+	private ShapeRenderer shapeRenderer;
+
 	// The window handle
 	private long window;
 
 
 	private InputBridge inputBridge = null;
 
+	public LWJGLRenderer()
+	{
+		shapeRenderer = new ShapeRenderer();
+	}
+
 	@Override
 	public void render( Renderable renderable )
 	{
 		if( renderable instanceof com.koucha.experimentalgame.rendering.Line )
 		{
-			ShapeRenderer.render( (Line) renderable );
+			shapeRenderer.render( (Line) renderable );
 		} else if( renderable instanceof Rectangle )
 		{
-			ShapeRenderer.render( (Rectangle) renderable );
+			shapeRenderer.render( (Rectangle) renderable );
 		} else if( renderable instanceof Text )
 		{
-			ShapeRenderer.render( (Text) renderable );
-		} else
+			shapeRenderer.render( (Text) renderable );
+		} /*else
 		{
 			// nothing
-		}
+		}*/
 	}
 
 	@Override

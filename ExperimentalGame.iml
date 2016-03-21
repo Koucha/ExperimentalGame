@@ -21,6 +21,5 @@
     <orderEntry type="library" name="Maven: org.lwjgl:lwjgl-platform:natives-osx:3.0.0a" level="project" />
     <orderEntry type="library" name="Maven: org.lwjgl:lwjgl-platform:natives-linux:3.0.0a" level="project" />
     <orderEntry type="library" name="Maven: org.joml:joml:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: slick.util:slick-util:1.0" level="project" />
   </component>
 </module>

@@ -1,10 +1,10 @@
 package com.koucha.experimentalgame.rendering.lwjgl;
 
 import com.koucha.experimentalgame.rendering.Line;
-import com.koucha.experimentalgame.rendering.Text;
 import com.koucha.experimentalgame.rendering.Rectangle;
+import com.koucha.experimentalgame.rendering.Text;
 
-import java.awt.Color;
+import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -13,7 +13,13 @@ import static org.lwjgl.opengl.GL11.*;
  */
 class ShapeRenderer
 {
-	public static void render( Line line )
+
+	ShapeRenderer()
+	{
+		// nothing
+	}
+
+	public void render( Line line )
 	{
 		Color color = line.getColor();
 		glColor4f( color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, color.getAlpha()/255f );
@@ -24,7 +30,7 @@ class ShapeRenderer
 		glEnd();
 	}
 
-	public static void render( Rectangle rectangle )
+	public void render( Rectangle rectangle )
 	{
 		Color color = rectangle.getColor();
 		glColor4f( color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, color.getAlpha()/255f );
@@ -50,8 +56,8 @@ class ShapeRenderer
 		}
 	}
 
-	public static void render( Text text )
+	public void render( Text text )
 	{
-		// todo
+		//todo
 	}
 }
