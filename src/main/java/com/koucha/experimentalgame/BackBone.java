@@ -39,7 +39,7 @@ public class BackBone
 		list = new GameObjectList();
 
 		PlayerController pc = new PlayerController( inputBridge.getInputMap() );
-		Character player = new Character( pc );
+		Entity player = new Entity( pc );
 		list.add( player );
 
 		hud = new HUD( player );
@@ -124,7 +124,7 @@ public class BackBone
 			if( nowTimeNS - timerNS > 1000000000 )
 			{
 				// todo DEBUG
-				System.out.println( "FPS: " + framesPerSecond + "; Limited FPS " + ((limitFPS) ? ("on") : ("off")) );
+				//System.out.println( "FPS: " + framesPerSecond + "; Limited FPS " + ((limitFPS) ? ("on") : ("off")) );
 
 				timerNS += 1000000000;
 				framesPerSecond = 0;

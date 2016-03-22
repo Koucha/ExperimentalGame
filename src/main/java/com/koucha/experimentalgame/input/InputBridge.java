@@ -8,6 +8,8 @@ public class InputBridge
 {
 	private int mouseX;
 	private int mouseY;
+	private StringBuffer textBuffer;
+	private boolean acceptText;
 
 	/**
 	 * This {@link InputMap} maps callbacks to key codes and is needed for dynamic forwarding of InputEvents
@@ -16,9 +18,11 @@ public class InputBridge
 
 	public InputBridge()
 	{
-		this.inputMap = new InputMap();
+		inputMap = new InputMap();
+		textBuffer = new StringBuffer(100);
 		mouseX = 0;
 		mouseY = 0;
+		acceptText = false;
 	}
 
 	/**
@@ -68,6 +72,14 @@ public class InputBridge
 		return mouseY;
 	}
 
+	/** get the Text collected by the InputBridge */
+	public String getText()
+	{
+		String text = textBuffer.toString();
+		textBuffer.delete( 0, textBuffer.length() );
+		return text;
+	}
+
 	/**
 	 * Gives full access to {@link #inputMap}
 	 * <p>
@@ -78,5 +90,32 @@ public class InputBridge
 	public InputMap getInputMap()
 	{
 		return inputMap;
+	}
+
+	/** send Text to the InputBridge */
+	public void addText( String lastPressed )
+	{
+		if(acceptText)
+		{
+			textBuffer.append( lastPressed );
+		}
+	}
+
+	/** test if ther's Text to be read with {@link #getText()} */
+	public boolean hasText()
+	{
+		return textBuffer.length() > 0;
+	}
+
+	/** set the InputBridge to accumulate Text from input */
+	public void acceptText()
+	{
+		acceptText = true;
+	}
+
+	/** set the InputBridge to ignore Text from input (Key Events will still work) */
+	public void rejectText()
+	{
+		acceptText = false;
 	}
 }

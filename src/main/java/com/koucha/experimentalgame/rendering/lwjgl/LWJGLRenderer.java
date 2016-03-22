@@ -5,7 +5,6 @@ import com.koucha.experimentalgame.input.InputEvent;
 import com.koucha.experimentalgame.input.KeyEventType;
 import com.koucha.experimentalgame.rendering.*;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.LWJGLUtil;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWvidmode;
@@ -32,15 +31,15 @@ public class LWJGLRenderer implements Renderer
 {
 	// We need to strongly reference callback instances.
 	private GLFWErrorCallback errorCallback;
-	private GLFWKeyCallback keyCallback;
 
 	private ShapeRenderer shapeRenderer;
 
 	// The window handle
-	private long window;
+	private long window = NULL;
 
 
 	private InputBridge inputBridge = null;
+	private KeyInput keyInput;
 
 	public LWJGLRenderer()
 	{
@@ -78,35 +77,10 @@ public class LWJGLRenderer implements Renderer
 		if( window == NULL )
 			throw new RuntimeException( "Failed to create the GLFW window" );
 
-		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
-		glfwSetKeyCallback( window, keyCallback = new GLFWKeyCallback()
+		if(inputBridge != null)
 		{
-			private final Map<Integer, String> KEY_CODES = apiClassTokens( ( field, value ) -> field.getName().startsWith("GLFW_KEY_"), null, GLFW.class);
-			@Override
-			public void invoke( long window, int key, int scanCode, int action, int mods )
-			{
-				if( key == GLFW_KEY_ESCAPE )
-				{
-					if(action == GLFW_RELEASE)
-					{
-						glfwSetWindowShouldClose( window, GL_TRUE ); // We will detect this in our rendering loop
-					}
-				} else
-				{
-					// System.out.println( "Key: " + KEY_CODES.get( key ) + " Key Code:" + scanCode );
-					if( action == GLFW_PRESS )
-					{
-						inputBridge.doKeyEvent( new InputEvent( key, KEY_CODES.get( key ), KeyEventType.pressed ) );
-					} else if( action == GLFW_RELEASE )
-					{
-						inputBridge.doKeyEvent( new InputEvent( key, KEY_CODES.get( key ), KeyEventType.released ) );
-					} else if( action == GLFW_REPEAT )
-					{
-						inputBridge.doKeyEvent( new InputEvent( key, KEY_CODES.get( key ), KeyEventType.typed ) );
-					}
-				}
-			}
-		} );
+			keyInput = new KeyInput( window, inputBridge );
+		}
 
 		// Get the resolution of the primary monitor
 		ByteBuffer vidMode = glfwGetVideoMode( glfwGetPrimaryMonitor() );
@@ -131,6 +105,10 @@ public class LWJGLRenderer implements Renderer
 	public void setInputBridge( InputBridge inputBridge )
 	{
 		this.inputBridge = inputBridge;
+		if(window != NULL)
+		{
+			keyInput = new KeyInput( window, inputBridge );
+		}
 	}
 
 	@Override
@@ -241,41 +219,38 @@ public class LWJGLRenderer implements Renderer
 	}
 
 	/**
-	 * Returns a map of public static final integer fields in the specified classes, to their String representations. An optional filter can be specified to
-	 * only include specific fields. The target map may be null, in which case a new map is allocated and returned.
+	 * generate a Map of all static final int fields of {@link GLFW} that begin with "GLFW_" + type + "_"
 	 *
-	 * <p>This method is useful when debugging to quickly identify values returned from an API.</p>
-	 *
-	 * @param filter       the filter to use (optional)
-	 * @param target       the target map (optional)
-	 * @param tokenClasses the classes to get tokens from
-	 *
-	 * @return the token map
+	 * @param type	defines what members to map
+	 * @return		the specified members mapped by their values
 	 */
-	public static Map<Integer, String> apiClassTokens( LWJGLUtil.TokenFilter filter, Map<Integer, String> target, Class<?>... tokenClasses)
+	public static Map<Integer, String> getGLFWTokens( String type )
 	{
-		if ( target == null )
-			target = new HashMap(64);
+		HashMap<Integer, String> target = new HashMap<>( 64 );
 
-		int TOKEN_MODIFIERS = Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL;
+		final int TOKEN_MODIFIERS = Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL;
 
-		for ( Class<?> tokenClass : tokenClasses ) {
-			if ( tokenClass == null )
-				continue;
+		final String startsWith = "GLFW_" + type + "_";
+		final int offset = startsWith.length();
 
-			for ( Field field : tokenClass.getDeclaredFields() ) {
-				// Get only <public static final int> fields.
-				if ( (field.getModifiers() & TOKEN_MODIFIERS) == TOKEN_MODIFIERS && field.getType() == int.class ) {
-					try {
-						int value = field.getInt(null);
-						if ( filter != null && !filter.accept(field, value) )
-							continue;
+		for ( Field field : GLFW.class.getDeclaredFields() )
+		{
+			// Get only <public static final int> fields.
+			if ( (field.getModifiers() & TOKEN_MODIFIERS) == TOKEN_MODIFIERS && field.getType() == int.class )
+			{
+				try
+				{
+					int value = field.getInt(null);
+					if ( !( field.getName().startsWith(startsWith) ) )
+						continue;
 
-						String name = target.get(value);
-						target.put(value, name == null ? field.getName().substring( 9 ) : name + "|" + field.getName());
-					} catch (IllegalAccessException e) {
-						// Ignore
-					}
+					String name = target.get(value);
+					target.put( value, name == null ?
+							field.getName().substring( offset ).replace( '_', ' ' ) :
+							name + "|" + field.getName().substring( offset ).replace( '_', ' ' ) );
+				} catch (IllegalAccessException e)
+				{
+					// Ignore
 				}
 			}
 		}

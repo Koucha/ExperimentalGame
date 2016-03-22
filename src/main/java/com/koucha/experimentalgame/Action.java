@@ -1,7 +1,7 @@
 package com.koucha.experimentalgame;
 
 /**
- * Instruction sent from a {@link Controller} to a {@link Character}
+ * Instruction sent from a {@link Controller} to a {@link Entity}
  */
 public class Action
 {

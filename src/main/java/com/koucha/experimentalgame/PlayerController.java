@@ -5,7 +5,7 @@ import com.koucha.experimentalgame.input.InputMap;
 import com.sun.glass.events.KeyEvent;
 
 /**
- * Receives mouse and keyboard input and generates instructions for the player {@link Character}
+ * Receives mouse and keyboard input and generates instructions for the player {@link Entity}
  */
 public class PlayerController implements Controller
 {

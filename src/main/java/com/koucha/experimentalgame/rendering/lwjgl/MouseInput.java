@@ -6,23 +6,23 @@ import com.koucha.experimentalgame.input.KeyEventType;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Map;
 
 /**
  * Mouse listener that forwards mouse button events and the mouse position to an {@link InputBridge}
  */
-class MouseInput extends MouseAdapter
+class MouseInput
 {
+	/**
+	 * Mouse buttons mapped by their codes, ex: {@code <0, "1|LEFT">}
+	 */
+	private final Map<Integer, String> MOUSE_CODES = LWJGLRenderer.getGLFWTokens( "MOUSE_BUTTON" );
+
 	private InputBridge inputBridge;
 
 	public MouseInput()
 	{
 		inputBridge = null;
-	}
-
-	@Override
-	public void mouseClicked( MouseEvent e )
-	{
-		// not used
 	}
 
 	@Override

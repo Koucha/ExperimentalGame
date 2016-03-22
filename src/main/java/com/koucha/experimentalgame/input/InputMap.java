@@ -67,7 +67,7 @@ public class InputMap
 		if( keyListFill < 1 )
 			throw new NoLinkFoundException();
 
-		int start = 0, middle, end = keyListFill;
+		int start = 0, middle, end = keyListFill - 1;
 
 		while( start < end )
 		{

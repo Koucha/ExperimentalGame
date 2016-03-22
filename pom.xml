@@ -13,6 +13,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <compiler.version>3.5.1</compiler.version>
         <natives.version>0.0.6</natives.version>
         <lwjgl.version>3.0.0a</lwjgl.version>
         <joml.version>1.7.1</joml.version>
@@ -88,6 +89,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler.version}</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>

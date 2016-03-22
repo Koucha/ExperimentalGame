@@ -1,7 +1,7 @@
 package com.koucha.experimentalgame;
 
 /**
- * Represents a skill that can be used by {@link Character}s
+ * Represents a skill that can be used by {@link Entity}s
  */
 public class Skill
 {

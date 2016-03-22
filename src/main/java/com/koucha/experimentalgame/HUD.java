@@ -16,7 +16,7 @@ public class HUD implements GameObject
 	public static final int HP_BAR_WIDTH = 200;
 	public static final int HP_BAR_HEIGHT = 15;
 
-	private Character player;
+	private Entity player;
 	private GameObjectList handler;
 
 	/**
@@ -24,7 +24,7 @@ public class HUD implements GameObject
 	 *
 	 * @param player infos of this player will be displayed
 	 */
-	public HUD( Character player )
+	public HUD( Entity player )
 	{
 		this.player = player;
 	}
@@ -43,7 +43,7 @@ public class HUD implements GameObject
 
 		int hp = player.getHp();
 
-		hp = (hp * HP_BAR_WIDTH) / Character.BASE_HP;
+		hp = (hp * HP_BAR_WIDTH) / Entity.BASE_HP;
 
 		renderer.render( new Rectangle( posX + (hp)/2f, posY, 0, hp, HP_BAR_HEIGHT, new Color( 0, 200, 0, 128 ) ) );
 		renderer.render( new Rectangle( posX + (hp + HP_BAR_WIDTH)/2f, posY, 0, HP_BAR_WIDTH - hp, HP_BAR_HEIGHT, new Color( 160, 100, 100, 128 ) ) );

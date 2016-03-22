@@ -7,9 +7,9 @@ import com.koucha.experimentalgame.rendering.Renderer;
 import java.awt.*;
 
 /**
- * Character. Monster, Player etc.
+ * Entity. Monster, Player etc.
  */
-public class Character implements GameObject
+public class Entity implements GameObject
 {
 	public static final int BASE_DAMAGE = 10;
 	public static final int BASE_HP = 1000;
@@ -35,7 +35,7 @@ public class Character implements GameObject
 	 *
 	 * @param controller the character gets his instructions from this controller
 	 */
-	public Character( Controller controller )
+	public Entity( Controller controller )
 	{
 		hp = BASE_HP;
 		setDefense( BASE_DEFENSE );
