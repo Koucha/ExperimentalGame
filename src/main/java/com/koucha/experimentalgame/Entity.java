@@ -155,39 +155,6 @@ public class Entity implements GameObject
 	}
 
 	/**
-	 * Decreases the health depending on the incoming damage
-	 *
-	 * @param inputDamage incoming damage
-	 * @return final damage deducted from health (after defense factors are applied)
-	 */
-	public int doDamage( int inputDamage )
-	{
-		int damage = getEffectiveDamage( inputDamage );
-
-		if( hp > damage )
-		{
-			hp = hp - damage;
-			return damage;
-		} else
-		{
-			damage = hp;
-			hp = 0;
-			return damage;
-		}
-	}
-
-	/**
-	 * Calculates the final damage the character takes from the incoming damage
-	 *
-	 * @param inputDamage incoming damage
-	 * @return final damage (after defense factors are applied)
-	 */
-	public int getEffectiveDamage( int inputDamage )
-	{
-		return (int) (inputDamage * defenseMultiplier);
-	}
-
-	/**
 	 * @param i number of the skill
 	 * @return its cooldown in 1/60000 seconds
 	 */
@@ -222,7 +189,7 @@ public class Entity implements GameObject
 		angle += action.angle / 60;
 
 		posX -= vel * Math.sin( angle );
-		posY += vel * Math.cos( angle );
+		posY -= vel * Math.cos( angle );
 
 		posX = Util.clamp( posX, 15f, BackBone.INITIAL_WIDTH - 15f );
 		posY = Util.clamp( posY, 15f, BackBone.INITIAL_HEIGHT - 15f );
@@ -238,6 +205,39 @@ public class Entity implements GameObject
 			counter2 = 120;
 			handler.add( new EffectRay( posX - 25 * (float) Math.sin( angle ), posY + 25 * (float) Math.cos( angle ), angle, 10, 1, 2, 40, Color.blue ) );
 		}
+	}
+
+	/**
+	 * Decreases the health depending on the incoming damage
+	 *
+	 * @param inputDamage incoming damage
+	 * @return final damage deducted from health (after defense factors are applied)
+	 */
+	public int doDamage( int inputDamage )
+	{
+		int damage = getEffectiveDamage( inputDamage );
+
+		if( hp > damage )
+		{
+			hp = hp - damage;
+			return damage;
+		} else
+		{
+			damage = hp;
+			hp = 0;
+			return damage;
+		}
+	}
+
+	/**
+	 * Calculates the final damage the character takes from the incoming damage
+	 *
+	 * @param inputDamage incoming damage
+	 * @return final damage (after defense factors are applied)
+	 */
+	public int getEffectiveDamage( int inputDamage )
+	{
+		return (int) (inputDamage * defenseMultiplier);
 	}
 
 	@Override

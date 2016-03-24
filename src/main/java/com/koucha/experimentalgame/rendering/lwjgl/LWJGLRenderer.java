@@ -1,15 +1,15 @@
 package com.koucha.experimentalgame.rendering.lwjgl;
 
 import com.koucha.experimentalgame.input.InputBridge;
-import com.koucha.experimentalgame.input.InputEvent;
-import com.koucha.experimentalgame.input.KeyEventType;
+import com.koucha.experimentalgame.input.lwjgl.JoystickInput;
 import com.koucha.experimentalgame.rendering.*;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GLContext;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -20,9 +20,6 @@ import static org.lwjgl.glfw.Callbacks.errorCallbackPrint;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
-
-import org.lwjgl.glfw.*;
-import java.lang.reflect.Field;
 
 /**
  * Implements {@link Renderer} using LWJGL with OpenGL
@@ -39,11 +36,56 @@ public class LWJGLRenderer implements Renderer
 
 
 	private InputBridge inputBridge = null;
+
+	// Hard links needed to protect from garbage collection (used by JNI code)
+	@SuppressWarnings( {"FieldCanBeLocal", "unused"} )
 	private KeyInput keyInput;
+	@SuppressWarnings( {"FieldCanBeLocal", "unused"} )
+	private MouseInput mouseInput;
 
 	public LWJGLRenderer()
 	{
 		shapeRenderer = new ShapeRenderer();
+	}
+
+	/**
+	 * generate a Map of all static final int fields of {@link GLFW} that begin with {@code "GLFW_" + type + "_"}
+	 *
+	 * @param type defines what members to map
+	 * @return the specified members mapped by their values
+	 */
+	static Map< Integer, String > getGLFWTokens( String type )
+	{
+		HashMap< Integer, String > target = new HashMap<>( 64 );
+
+		final int TOKEN_MODIFIERS = Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL;
+
+		final String startsWith = "GLFW_" + type + "_";
+		final int offset = startsWith.length();
+
+		for( Field field : GLFW.class.getDeclaredFields() )
+		{
+			// Get only <public static final int> fields.
+			if( (field.getModifiers() & TOKEN_MODIFIERS) == TOKEN_MODIFIERS && field.getType() == int.class )
+			{
+				try
+				{
+					int value = field.getInt( null );
+					if( !(field.getName().startsWith( startsWith )) )
+						continue;
+
+					String name = target.get( value );
+					target.put( value, name == null ?
+							field.getName().substring( offset ).replace( '_', ' ' ) :
+							name + "|" + field.getName().substring( offset ).replace( '_', ' ' ) );
+				} catch( IllegalAccessException e )
+				{
+					// Ignore
+				}
+			}
+		}
+
+		return target;
 	}
 
 	@Override
@@ -77,10 +119,7 @@ public class LWJGLRenderer implements Renderer
 		if( window == NULL )
 			throw new RuntimeException( "Failed to create the GLFW window" );
 
-		if(inputBridge != null)
-		{
-			keyInput = new KeyInput( window, inputBridge );
-		}
+		setUpInputManagers();
 
 		// Get the resolution of the primary monitor
 		ByteBuffer vidMode = glfwGetVideoMode( glfwGetPrimaryMonitor() );
@@ -105,10 +144,7 @@ public class LWJGLRenderer implements Renderer
 	public void setInputBridge( InputBridge inputBridge )
 	{
 		this.inputBridge = inputBridge;
-		if(window != NULL)
-		{
-			keyInput = new KeyInput( window, inputBridge );
-		}
+		setUpInputManagers();
 	}
 
 	@Override
@@ -219,42 +255,18 @@ public class LWJGLRenderer implements Renderer
 	}
 
 	/**
-	 * generate a Map of all static final int fields of {@link GLFW} that begin with "GLFW_" + type + "_"
+	 * Initializes the input managers, if a window and a inputBridge are present
 	 *
-	 * @param type	defines what members to map
-	 * @return		the specified members mapped by their values
+	 * Input managers: {@link KeyInput}, {@link MouseInput} and {@link JoystickInput}
 	 */
-	public static Map<Integer, String> getGLFWTokens( String type )
+	private void setUpInputManagers()
 	{
-		HashMap<Integer, String> target = new HashMap<>( 64 );
-
-		final int TOKEN_MODIFIERS = Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL;
-
-		final String startsWith = "GLFW_" + type + "_";
-		final int offset = startsWith.length();
-
-		for ( Field field : GLFW.class.getDeclaredFields() )
+		if( window != NULL && inputBridge != null )
 		{
-			// Get only <public static final int> fields.
-			if ( (field.getModifiers() & TOKEN_MODIFIERS) == TOKEN_MODIFIERS && field.getType() == int.class )
-			{
-				try
-				{
-					int value = field.getInt(null);
-					if ( !( field.getName().startsWith(startsWith) ) )
-						continue;
-
-					String name = target.get(value);
-					target.put( value, name == null ?
-							field.getName().substring( offset ).replace( '_', ' ' ) :
-							name + "|" + field.getName().substring( offset ).replace( '_', ' ' ) );
-				} catch (IllegalAccessException e)
-				{
-					// Ignore
-				}
-			}
+			if( keyInput == null )
+				keyInput = new KeyInput( window, inputBridge );
+			if( mouseInput == null )
+				mouseInput = new MouseInput( window, inputBridge );
 		}
-
-		return target;
 	}
 }

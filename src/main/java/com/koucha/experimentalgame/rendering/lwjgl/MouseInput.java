@@ -3,10 +3,13 @@ package com.koucha.experimentalgame.rendering.lwjgl;
 import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.input.InputEvent;
 import com.koucha.experimentalgame.input.KeyEventType;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
+import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Map;
+
+import static org.lwjgl.glfw.GLFW.*;
+
 
 /**
  * Mouse listener that forwards mouse button events and the mouse position to an {@link InputBridge}
@@ -20,65 +23,44 @@ class MouseInput
 
 	private InputBridge inputBridge;
 
-	public MouseInput()
-	{
-		inputBridge = null;
-	}
+	// Hard links needed to protect from garbage collection (used by JNI code)
+	@SuppressWarnings( {"FieldCanBeLocal", "unused"} )
+	private GLFWMouseButtonCallback buttonCallback;
+	@SuppressWarnings( {"FieldCanBeLocal", "unused"} )
+	private GLFWCursorPosCallback positionCallback;
 
-	@Override
-	public void mousePressed( MouseEvent e )
-	{
-		inputBridge.doKeyEvent( new InputEvent( parseButton( e ), parseButtonName( e ), KeyEventType.pressed ) );
-	}
-
-	@Override
-	public void mouseReleased( MouseEvent e )
-	{
-		inputBridge.doKeyEvent( new InputEvent( parseButton( e ), parseButtonName( e ), KeyEventType.released ) );
-	}
-
-	@Override
-	public void mouseMoved( MouseEvent e )
-	{
-		inputBridge.doMouseMovement( e.getX(), e.getY() );
-	}
-
-	/**
-	 * Generates codes for the mouse buttons in harmony with the keyboard key codes
-	 *
-	 * @param e mouse button event
-	 * @return code of the button pressed
-	 */
-	private int parseButton( MouseEvent e )
-	{
-		switch( e.getButton() )
-		{
-			case MouseEvent.BUTTON1:
-				return -1;
-			case MouseEvent.BUTTON2:
-				return -2;
-			case MouseEvent.BUTTON3:
-				return -3;
-		}
-		return 0;
-	}
-
-	private String parseButtonName( MouseEvent e )
-	{
-		switch( e.getButton() )
-		{
-			case MouseEvent.BUTTON1:
-				return "Mouse 1";
-			case MouseEvent.BUTTON2:
-				return "Mouse 2";
-			case MouseEvent.BUTTON3:
-				return "Mouse 3";
-		}
-		return "";
-	}
-
-	public void setInputBridge( InputBridge inputBridge )
+	MouseInput( long window, InputBridge inputBridge )
 	{
 		this.inputBridge = inputBridge;
+
+		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
+		glfwSetMouseButtonCallback( window, buttonCallback = new GLFWMouseButtonCallback()    //class not interface, no lambda for me :-/
+		{
+			@Override
+			public void invoke( long window, int button, int action, int mods )
+			{
+				mouseButtonCallbackInvoke( button, action );
+			}
+		} );
+
+		glfwSetCursorPosCallback( window, positionCallback = new GLFWCursorPosCallback()    //class not interface, no lambda for me :-/
+		{
+			@Override
+			public void invoke( long window, double xPos, double yPos )
+			{
+				inputBridge.doMouseMovement( (int) xPos, (int) yPos );
+			}
+		} );
+	}
+
+	private void mouseButtonCallbackInvoke( int button, int action )
+	{
+		if( action == GLFW_PRESS )
+		{
+			inputBridge.doKeyEvent( new InputEvent( GLFW_MOUSE_BUTTON_1 - button - 1, MOUSE_CODES.get( button ), KeyEventType.pressed ) );
+		} else if( action == GLFW_RELEASE )
+		{
+			inputBridge.doKeyEvent( new InputEvent( GLFW_MOUSE_BUTTON_1 - button - 1, MOUSE_CODES.get( button ), KeyEventType.released ) );
+		}
 	}
 }

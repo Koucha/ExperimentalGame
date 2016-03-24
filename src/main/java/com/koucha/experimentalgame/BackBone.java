@@ -1,8 +1,9 @@
 package com.koucha.experimentalgame;
 
 import com.koucha.experimentalgame.input.InputBridge;
-import com.koucha.experimentalgame.rendering.lwjgl.LWJGLRenderer;
+import com.koucha.experimentalgame.input.InputEvent;
 import com.koucha.experimentalgame.rendering.Renderer;
+import com.koucha.experimentalgame.rendering.lwjgl.LWJGLRenderer;
 
 /**
  * Contains the game loop
@@ -35,6 +36,7 @@ public class BackBone
 		renderer.createWindow( INITIAL_WIDTH, INITIAL_HEIGHT, "Tha Game" );
 
 		inputBridge = new InputBridge();
+		inputBridge.getInputMap().addLink( "Quit", 0x100, ( InputEvent evt ) -> running = false );
 
 		list = new GameObjectList();
 

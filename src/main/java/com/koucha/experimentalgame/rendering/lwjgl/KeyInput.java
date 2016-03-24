@@ -9,8 +9,6 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
-import static org.lwjgl.opengl.GL11.GL_TRUE;
 
 /**
  * Key listener that forwards key events to an {@link InputBridge}
@@ -23,11 +21,16 @@ class KeyInput
 	private final Map<Integer, String> KEY_CODES = LWJGLRenderer.getGLFWTokens( "KEY" );
 
 	private InputBridge inputBridge;
+
+	// Hard links needed to protect from garbage collection (used by JNI code)
+	@SuppressWarnings( {"FieldCanBeLocal", "unused"} )
 	private GLFWKeyCallback keyCallback;
+	@SuppressWarnings( {"FieldCanBeLocal", "unused"} )
 	private GLFWCharModsCallback charModsCallback;
+
 	private String lastPressed;
 
-	public KeyInput(long window, InputBridge inputBridge)
+	KeyInput( long window, InputBridge inputBridge )
 	{
 		this.inputBridge = inputBridge;
 
@@ -37,7 +40,7 @@ class KeyInput
 			@Override
 			public void invoke( long window, int key, int scanCode, int action, int mods )
 			{
-				keyCallbackInvoke( window, key, action );
+				keyCallbackInvoke( key, action );
 			}
 		} );
 
@@ -51,31 +54,22 @@ class KeyInput
 			}
 		} );
 	}
+
 	/**
 	 * Is invoked by the {@link GLFWKeyCallback}
 	 *
-	 * @param window	identifier of the GLFW window sending the event
 	 * @param key 		GLFW code of the key that generated the event
 	 * @param action	GLFW code of the action (pressed, released etc.)
 	 */
-	private void keyCallbackInvoke( long window, int key, int action )
+	private void keyCallbackInvoke( int key, int action )
 	{
-		if( key == GLFW_KEY_ESCAPE )
+		if( action == GLFW_PRESS )
 		{
-			if(action == GLFW_RELEASE)
-			{
-				glfwSetWindowShouldClose( window, GL_TRUE ); // We will detect this in our rendering loop
-			}
-		} else
+			inputBridge.doKeyEvent( new InputEvent( key, KEY_CODES.get( key ), KeyEventType.pressed ) );
+		} else if( action == GLFW_RELEASE )
 		{
-			if( action == GLFW_PRESS )
-			{
-				inputBridge.doKeyEvent( new InputEvent( key, KEY_CODES.get( key ), KeyEventType.pressed ) );
-			} else if( action == GLFW_RELEASE )
-			{
-				String name = KEY_CODES.get( key );
-				inputBridge.doKeyEvent( new InputEvent( key, (name.length() == 1)?(lastPressed):(name), KeyEventType.released ) );
-			}
+			String name = KEY_CODES.get( key );
+			inputBridge.doKeyEvent( new InputEvent( key, (name.length() == 1) ? (lastPressed) : (name), KeyEventType.released ) );
 		}
 	}
 }

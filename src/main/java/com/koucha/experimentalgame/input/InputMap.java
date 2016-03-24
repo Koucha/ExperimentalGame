@@ -216,6 +216,7 @@ public class InputMap
 	 */
 	public void call( InputEvent evt ) throws NoLinkFoundException
 	{
+		System.out.println( "DEBUG: " + evt.code );
 		findKey( evt.code ).call( evt );
 	}
 
@@ -336,14 +337,15 @@ public class InputMap
 			if( linker == null )
 			{
 				linker = new Linker( link );
-			}
-
-			Linker lk = linker;
-			while( lk.next != null )
+			} else
 			{
-				lk = lk.next;
+				Linker lk = linker;
+				while( lk.next != null )
+				{
+					lk = lk.next;
+				}
+				lk.next = new Linker( link );
 			}
-			lk.next = new Linker( link );
 		}
 
 		/**
