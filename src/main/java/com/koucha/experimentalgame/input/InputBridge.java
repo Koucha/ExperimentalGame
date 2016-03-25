@@ -101,7 +101,7 @@ public class InputBridge
 		}
 	}
 
-	/** test if ther's Text to be read with {@link #getText()} */
+	/** test if there's Text to be read with {@link #getText()} */
 	public boolean hasText()
 	{
 		return textBuffer.length() > 0;

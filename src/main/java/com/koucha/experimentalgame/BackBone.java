@@ -3,7 +3,7 @@ package com.koucha.experimentalgame;
 import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.input.InputEvent;
 import com.koucha.experimentalgame.rendering.Renderer;
-import com.koucha.experimentalgame.rendering.lwjgl.LWJGLRenderer;
+import com.koucha.experimentalgame.rendering.lwjgl.GLFWRenderer;
 
 /**
  * Contains the game loop
@@ -20,6 +20,7 @@ public class BackBone
 	private GameObjectList list;
 	private HUD hud;
 	private InputBridge inputBridge;
+	@SuppressWarnings( "FieldCanBeLocal" )
 	private long limitedNanosecondsPerFrame = 1000000000 / 60;
 	private boolean limitFPS = false;
 	private int framesPerSecond;
@@ -29,7 +30,7 @@ public class BackBone
 	 */
 	private BackBone()
 	{
-		renderer = new LWJGLRenderer();
+		renderer = new GLFWRenderer();
 
 		renderer.init();
 
@@ -37,6 +38,7 @@ public class BackBone
 
 		inputBridge = new InputBridge();
 		inputBridge.getInputMap().addLink( "Quit", 0x100, ( InputEvent evt ) -> running = false );
+
 
 		list = new GameObjectList();
 

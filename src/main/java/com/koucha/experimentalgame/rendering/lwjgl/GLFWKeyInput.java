@@ -13,12 +13,12 @@ import static org.lwjgl.glfw.GLFW.*;
 /**
  * Key listener that forwards key events to an {@link InputBridge}
  */
-class KeyInput
+class GLFWKeyInput
 {
 	/**
 	 * Keys mapped by their codes, ex: {@code <32, "SPACE">}
 	 */
-	private final Map<Integer, String> KEY_CODES = LWJGLRenderer.getGLFWTokens( "KEY" );
+	private final Map< Integer, String > KEY_CODES = GLFWRenderer.getGLFWTokens( "KEY" );
 
 	private InputBridge inputBridge;
 
@@ -30,7 +30,7 @@ class KeyInput
 
 	private String lastPressed;
 
-	KeyInput( long window, InputBridge inputBridge )
+	GLFWKeyInput( long window, InputBridge inputBridge )
 	{
 		this.inputBridge = inputBridge;
 

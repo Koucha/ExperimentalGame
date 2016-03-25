@@ -216,7 +216,6 @@ public class InputMap
 	 */
 	public void call( InputEvent evt ) throws NoLinkFoundException
 	{
-		System.out.println( "DEBUG: " + evt.code );
 		findKey( evt.code ).call( evt );
 	}
 

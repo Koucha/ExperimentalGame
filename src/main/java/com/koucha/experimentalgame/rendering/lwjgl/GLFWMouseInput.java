@@ -14,12 +14,12 @@ import static org.lwjgl.glfw.GLFW.*;
 /**
  * Mouse listener that forwards mouse button events and the mouse position to an {@link InputBridge}
  */
-class MouseInput
+class GLFWMouseInput
 {
 	/**
 	 * Mouse buttons mapped by their codes, ex: {@code <0, "1|LEFT">}
 	 */
-	private final Map<Integer, String> MOUSE_CODES = LWJGLRenderer.getGLFWTokens( "MOUSE_BUTTON" );
+	private final Map< Integer, String > MOUSE_CODES = GLFWRenderer.getGLFWTokens( "MOUSE_BUTTON" );
 
 	private InputBridge inputBridge;
 
@@ -29,7 +29,7 @@ class MouseInput
 	@SuppressWarnings( {"FieldCanBeLocal", "unused"} )
 	private GLFWCursorPosCallback positionCallback;
 
-	MouseInput( long window, InputBridge inputBridge )
+	GLFWMouseInput( long window, InputBridge inputBridge )
 	{
 		this.inputBridge = inputBridge;
 

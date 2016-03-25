@@ -1,7 +1,6 @@
 package com.koucha.experimentalgame.rendering.lwjgl;
 
 import com.koucha.experimentalgame.input.InputBridge;
-import com.koucha.experimentalgame.input.lwjgl.JoystickInput;
 import com.koucha.experimentalgame.rendering.*;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
@@ -24,7 +23,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 /**
  * Implements {@link Renderer} using LWJGL with OpenGL
  */
-public class LWJGLRenderer implements Renderer
+public class GLFWRenderer implements Renderer
 {
 	// We need to strongly reference callback instances.
 	private GLFWErrorCallback errorCallback;
@@ -39,11 +38,11 @@ public class LWJGLRenderer implements Renderer
 
 	// Hard links needed to protect from garbage collection (used by JNI code)
 	@SuppressWarnings( {"FieldCanBeLocal", "unused"} )
-	private KeyInput keyInput;
+	private GLFWKeyInput keyInput;
 	@SuppressWarnings( {"FieldCanBeLocal", "unused"} )
-	private MouseInput mouseInput;
+	private GLFWMouseInput mouseInput;
 
-	public LWJGLRenderer()
+	public GLFWRenderer()
 	{
 		shapeRenderer = new ShapeRenderer();
 	}
@@ -257,16 +256,16 @@ public class LWJGLRenderer implements Renderer
 	/**
 	 * Initializes the input managers, if a window and a inputBridge are present
 	 *
-	 * Input managers: {@link KeyInput}, {@link MouseInput} and {@link JoystickInput}
+	 * Input managers: {@link GLFWKeyInput} and {@link GLFWMouseInput}
 	 */
 	private void setUpInputManagers()
 	{
 		if( window != NULL && inputBridge != null )
 		{
 			if( keyInput == null )
-				keyInput = new KeyInput( window, inputBridge );
+				keyInput = new GLFWKeyInput( window, inputBridge );
 			if( mouseInput == null )
-				mouseInput = new MouseInput( window, inputBridge );
+				mouseInput = new GLFWMouseInput( window, inputBridge );
 		}
 	}
 }
