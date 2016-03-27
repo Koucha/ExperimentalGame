@@ -1,5 +1,7 @@
 package com.koucha.experimentalgame;
 
+import com.koucha.experimentalgame.entity.Entity;
+
 /**
  * Represents a skill that can be used by {@link Entity}s
  */

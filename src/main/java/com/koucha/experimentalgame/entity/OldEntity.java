@@ -1,15 +1,17 @@
-package com.koucha.experimentalgame;
+package com.koucha.experimentalgame.entity;
 
+import com.koucha.experimentalgame.*;
 import com.koucha.experimentalgame.effects.EffectProjectile;
 import com.koucha.experimentalgame.effects.EffectRay;
+import com.koucha.experimentalgame.rendering.Color;
 import com.koucha.experimentalgame.rendering.Renderer;
 
-import java.awt.*;
 
 /**
  * Entity. Monster, Player etc.
  */
-public class Entity implements GameObject
+@Deprecated
+public class OldEntity implements GameObject
 {
 	public static final int BASE_DAMAGE = 10;
 	public static final int BASE_HP = 1000;
@@ -35,7 +37,7 @@ public class Entity implements GameObject
 	 *
 	 * @param controller the character gets his instructions from this controller
 	 */
-	public Entity( Controller controller )
+	public OldEntity( Controller controller )
 	{
 		hp = BASE_HP;
 		setDefense( BASE_DEFENSE );
@@ -197,13 +199,13 @@ public class Entity implements GameObject
 		if( action.useSkill && action.skillNr == 1 && counter1 == 0 )
 		{
 			counter1 = 60;
-			handler.add( new EffectProjectile( posX - 15 * (float) Math.sin( angle ), posY + 15 * (float) Math.cos( angle ), angle, 10, 1, 4, Color.blue ) );
+			handler.add( new EffectProjectile( posX - 15 * (float) Math.sin( angle ), posY + 15 * (float) Math.cos( angle ), angle, 10, 1, 4, new Color( 0, 0, 255 ) ) );
 		}
 
 		if( action.useSkill && action.skillNr == 2 && counter2 == 0 )
 		{
 			counter2 = 120;
-			handler.add( new EffectRay( posX - 25 * (float) Math.sin( angle ), posY + 25 * (float) Math.cos( angle ), angle, 10, 1, 2, 40, Color.blue ) );
+			handler.add( new EffectRay( posX - 25 * (float) Math.sin( angle ), posY + 25 * (float) Math.cos( angle ), angle, 10, 1, 2, 40, new Color( 0, 0, 255 ) ) );
 		}
 	}
 
@@ -245,7 +247,7 @@ public class Entity implements GameObject
 	{
 		// TODO
 
-		renderer.render( new com.koucha.experimentalgame.rendering.Rectangle( posX, posY, angle, 10, 10, Color.white ) );
+		renderer.render( new com.koucha.experimentalgame.rendering.Rectangle( posX, posY, angle, 10, 10, new Color( 255, 255, 255 ) ) );
 	}
 
 	@Override

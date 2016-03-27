@@ -1,4 +1,4 @@
-package com.koucha.experimentalgame.rendering.lwjgl;
+package com.koucha.experimentalgame.lwjgl;
 
 import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.input.InputEvent;

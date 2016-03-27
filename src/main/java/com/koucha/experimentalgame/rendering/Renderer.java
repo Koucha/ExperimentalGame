@@ -1,5 +1,6 @@
 package com.koucha.experimentalgame.rendering;
 
+import com.koucha.experimentalgame.entity.Mesh;
 import com.koucha.experimentalgame.input.InputBridge;
 
 /**
@@ -29,7 +30,7 @@ public interface Renderer
 	 *
 	 * @param renderable is rendered
 	 */
-	void render( Renderable renderable );
+	void render( Mesh renderable );
 
 	void createWindow( int width, int height, String title );
 
@@ -93,4 +94,9 @@ public interface Renderer
 	int getWindowHeight();
 
 	int getWindowWidth();
+
+	/**
+	 * Sets the renderer up to draw 2D Gui elements (orthographic projection)
+	 */
+	void initializeGUIRenderIteration();
 }

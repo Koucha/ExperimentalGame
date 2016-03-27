@@ -1,11 +1,11 @@
 package com.koucha.experimentalgame.rendering;
 
-import java.awt.*;
+import com.koucha.experimentalgame.entity.Mesh;
 
 /**
  * Represents a Rectangle that can be rendered
  */
-public class Rectangle implements Renderable
+public class Rectangle implements Mesh
 {
 	/**
 	 * Position of the center of the rotated rectangle
@@ -133,5 +133,11 @@ public class Rectangle implements Renderable
 	public void setFilled( boolean filled )
 	{
 		this.filled = filled;
+	}
+
+	@Override
+	public void render( Renderer renderer )
+	{
+
 	}
 }

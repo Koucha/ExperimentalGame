@@ -3,6 +3,7 @@ package com.koucha.experimentalgame;
 /**
  * Utility class containing only static methods of code parts that are repeatedly used in various context
  */
+@SuppressWarnings( "unused" )
 public class Util
 {
 	/**
@@ -10,13 +11,13 @@ public class Util
 	 * <p>
 	 * The order of a and b does not matter, but var may not be null
 	 *
-	 * @param var variable to be clamped (not null)
+	 * @param var variable to be clamped
 	 * @param a   first boundary
 	 * @param b   second boundary
 	 * @param <T> Type of the variables
 	 * @return clamped result
 	 */
-	static < T extends Number & Comparable< T > > T clamp( T var, T a, T b )
+	public static < T extends Number & Comparable< T > > T clamp( T var, T a, T b )
 	{
 		// ensure a is the smaller boundary
 		if( a.compareTo( b ) > 0 )
@@ -37,4 +38,44 @@ public class Util
 			return var;
 		}
 	}
+
+	/**
+	 * Clamps the variable var to a value between minus infinity and top
+	 *
+	 * @param var variable to be clamped
+	 * @param top top boundary
+	 * @param <T> Type of the variables
+	 * @return clamped result
+	 */
+	public static < T extends Number & Comparable< T > > T clampTop( T var, T top )
+	{
+		// ensure a is the smaller boundary
+		if( var.compareTo( top ) > 0 )
+		{
+			return top;
+		}
+
+		return var;
+	}
+
+	/**
+	 * Clamps the variable var to a value between bottom and infinity
+	 *
+	 * @param var    variable to be clamped
+	 * @param bottom lower boundary
+	 * @param <T>    Type of the variables
+	 * @return clamped result
+	 */
+	public static < T extends Number & Comparable< T > > T clampBottom( T var, T bottom )
+	{
+		// ensure a is the smaller boundary
+		if( var.compareTo( bottom ) < 0 )
+		{
+			return bottom;
+		}
+
+		return var;
+	}
+
+
 }

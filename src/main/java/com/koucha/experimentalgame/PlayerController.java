@@ -1,5 +1,6 @@
 package com.koucha.experimentalgame;
 
+import com.koucha.experimentalgame.entity.Entity;
 import com.koucha.experimentalgame.input.InputEvent;
 import com.koucha.experimentalgame.input.InputMap;
 import com.sun.glass.events.KeyEvent;

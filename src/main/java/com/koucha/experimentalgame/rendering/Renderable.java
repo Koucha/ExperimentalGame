@@ -5,5 +5,10 @@ package com.koucha.experimentalgame.rendering;
  */
 public interface Renderable
 {
-	// todo
+	/**
+	 * forwards the render data of this object to the {@link Renderer}
+	 *
+	 * @param renderer renderer to render the data of this object
+	 */
+	void render( Renderer renderer );
 }

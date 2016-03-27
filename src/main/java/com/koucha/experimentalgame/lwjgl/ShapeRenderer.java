@@ -1,10 +1,10 @@
-package com.koucha.experimentalgame.rendering.lwjgl;
+package com.koucha.experimentalgame.lwjgl;
 
+import com.koucha.experimentalgame.rendering.Color;
 import com.koucha.experimentalgame.rendering.Line;
 import com.koucha.experimentalgame.rendering.Rectangle;
 import com.koucha.experimentalgame.rendering.Text;
 
-import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -22,7 +22,7 @@ class ShapeRenderer
 	public void render( Line line )
 	{
 		Color color = line.getColor();
-		glColor4f( color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, color.getAlpha()/255f );
+		glColor4f( color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() );
 		glLineWidth( line.getWidth() );
 		glBegin( GL_LINES );
 		glVertex2f( line.getStartX(), line.getStartY() );
@@ -33,7 +33,7 @@ class ShapeRenderer
 	public void render( Rectangle rectangle )
 	{
 		Color color = rectangle.getColor();
-		glColor4f( color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, color.getAlpha()/255f );
+		glColor4f( color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() );
 
 		if( rectangle.isFilled() )
 		{

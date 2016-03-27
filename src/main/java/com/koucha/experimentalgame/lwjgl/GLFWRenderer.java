@@ -1,7 +1,11 @@
-package com.koucha.experimentalgame.rendering.lwjgl;
+package com.koucha.experimentalgame.lwjgl;
 
+import com.koucha.experimentalgame.entity.Mesh;
 import com.koucha.experimentalgame.input.InputBridge;
-import com.koucha.experimentalgame.rendering.*;
+import com.koucha.experimentalgame.rendering.Line;
+import com.koucha.experimentalgame.rendering.Rectangle;
+import com.koucha.experimentalgame.rendering.Renderer;
+import com.koucha.experimentalgame.rendering.Text;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -23,7 +27,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 /**
  * Implements {@link Renderer} using LWJGL with OpenGL
  */
-public class GLFWRenderer implements Renderer
+class GLFWRenderer implements Renderer
 {
 	// We need to strongly reference callback instances.
 	private GLFWErrorCallback errorCallback;
@@ -42,7 +46,7 @@ public class GLFWRenderer implements Renderer
 	@SuppressWarnings( {"FieldCanBeLocal", "unused"} )
 	private GLFWMouseInput mouseInput;
 
-	public GLFWRenderer()
+	GLFWRenderer()
 	{
 		shapeRenderer = new ShapeRenderer();
 	}
@@ -88,9 +92,9 @@ public class GLFWRenderer implements Renderer
 	}
 
 	@Override
-	public void render( Renderable renderable )
+	public void render( Mesh renderable )
 	{
-		if( renderable instanceof com.koucha.experimentalgame.rendering.Line )
+		if( renderable instanceof Line )
 		{
 			shapeRenderer.render( (Line) renderable );
 		} else if( renderable instanceof Rectangle )
@@ -158,6 +162,12 @@ public class GLFWRenderer implements Renderer
 	public void initializeRenderIteration()
 	{
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // clear the framebuffer
+	}
+
+	@Override
+	public void initializeGUIRenderIteration()
+	{
+
 	}
 
 	@Override

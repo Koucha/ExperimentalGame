@@ -1,15 +1,19 @@
 package com.koucha.experimentalgame;
 
+import com.koucha.experimentalgame.entity.Entity;
 import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.input.InputEvent;
+import com.koucha.experimentalgame.lwjgl.GLFWGraphicsHub;
 import com.koucha.experimentalgame.rendering.Renderer;
-import com.koucha.experimentalgame.rendering.lwjgl.GLFWRenderer;
 
 /**
  * Contains the game loop
  */
 public class BackBone
 {
+	// Specify which graphics implementation should be used
+	public static final GraphicsHub GRAPHICS_HUB = new GLFWGraphicsHub();
+
 	public static final int INITIAL_WIDTH = 1200, INITIAL_HEIGHT = INITIAL_WIDTH * 9 / 12;
 
 	public static final int INITIAL_UPDATES_PER_SECOND = 120;
@@ -30,7 +34,7 @@ public class BackBone
 	 */
 	private BackBone()
 	{
-		renderer = new GLFWRenderer();
+		renderer = GRAPHICS_HUB.createRenderer();
 
 		renderer.init();
 
@@ -43,7 +47,7 @@ public class BackBone
 		list = new GameObjectList();
 
 		PlayerController pc = new PlayerController( inputBridge.getInputMap() );
-		Entity player = new Entity( pc );
+		Entity player = new Entity( null, null );
 		list.add( player );
 
 		hud = new HUD( player );
@@ -164,6 +168,8 @@ public class BackBone
 		renderer.initializeRenderIteration();
 
 		list.render( renderer );
+
+		renderer.initializeGUIRenderIteration();
 
 		hud.render( renderer );
 

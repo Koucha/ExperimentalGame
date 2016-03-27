@@ -1,28 +1,12 @@
 package com.koucha.experimentalgame;
 
-import com.koucha.experimentalgame.rendering.Renderer;
-
-import java.awt.*;
+import com.koucha.experimentalgame.rendering.Renderable;
 
 /**
  * GameObjects can be added to a {@link GameObjectList} and will then be processed once per iteration of the game loop
  */
-public interface GameObject
+public interface GameObject extends Updatable, Renderable
 {
-	/**
-	 * Is called with a set frequency from the game loop
-	 */
-	void update();
-
-	/**
-	 * Is called whenever the Screen content is calculated anew
-	 * <p>
-	 * The rendering of the GameObject happens in this method
-	 *
-	 * @param renderer {@link Graphics} object to be painted on
-	 */
-	void render( Renderer renderer );
-
 	/**
 	 * Sets the Handler of the GameObject. Usually that's the list containing it.
 	 *

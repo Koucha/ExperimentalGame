@@ -1,5 +1,7 @@
 package com.koucha.experimentalgame;
 
+import com.koucha.experimentalgame.entity.Entity;
+
 /**
  * Instruction sent from a {@link Controller} to a {@link Entity}
  */

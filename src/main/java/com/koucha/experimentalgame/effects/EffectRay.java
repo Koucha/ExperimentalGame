@@ -1,9 +1,9 @@
 package com.koucha.experimentalgame.effects;
 
+import com.koucha.experimentalgame.rendering.Color;
 import com.koucha.experimentalgame.rendering.Line;
 import com.koucha.experimentalgame.rendering.Renderer;
 
-import java.awt.*;
 
 /**
  * Fast Ray
