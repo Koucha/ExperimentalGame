@@ -1,5 +1,6 @@
 com.koucha.experimentalgame
 com.koucha.experimentalgame.effects
+com.koucha.experimentalgame.entity
 com.koucha.experimentalgame.input
+com.koucha.experimentalgame.lwjgl
 com.koucha.experimentalgame.rendering
-com.koucha.experimentalgame.rendering.lwjgl
