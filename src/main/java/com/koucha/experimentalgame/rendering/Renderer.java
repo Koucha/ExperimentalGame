@@ -101,6 +101,10 @@ public interface Renderer
 	 */
 	void initializeGUIRenderIteration();
 
-	/** set the camera used to render 3D scenes */
+	/**
+	 * set the camera used to render 3D scenes
+	 *
+	 * @param camera use this camera for perspective calculations
+	 */
 	void setCamera( Camera camera );
 }

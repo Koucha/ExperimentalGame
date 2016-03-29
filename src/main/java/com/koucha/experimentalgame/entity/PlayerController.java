@@ -22,7 +22,9 @@ public class PlayerController implements Controller
 	/**
 	 * Constructor
 	 *
-	 * @param inputMap links between keys and actions are saved into this map
+	 * @param inputBridge take input from this bridge
+	 * @param position position that can be altered by this controller
+	 * @param camera camera that can be moved by this controller
 	 */
 	public PlayerController( InputBridge inputBridge, Position position, Camera camera )
 	{
