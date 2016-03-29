@@ -1,5 +1,7 @@
 package com.koucha.experimentalgame.rendering;
 
+import java.nio.FloatBuffer;
+
 public class Color
 {
 	private float r;
@@ -204,5 +206,44 @@ public class Color
 	public void setAlpha( float a )
 	{
 		this.a = a;
+	}
+
+	/**
+	 * Store this color into the supplied {@link FloatBuffer} at the current
+	 * buffer {@link FloatBuffer#position() position}.
+	 * <p>
+	 * This method will not increment the position of the given FloatBuffer.
+	 * <p>
+	 * In order to specify the offset into the FloatBuffer at which
+	 * the color is stored, use {@link #get(int, FloatBuffer)}, taking
+	 * the absolute position as parameter.
+	 *
+	 * @param buffer will receive the values of this color in <tt>r, g, b, a</tt> order
+	 * @return the passed in buffer
+	 * @see #get(int, FloatBuffer)
+	 * @see #get(int, FloatBuffer)
+	 */
+	public FloatBuffer get( FloatBuffer buffer )
+	{
+		return get( buffer.position(), buffer );
+	}
+
+	/**
+	 * Store this color into the supplied {@link FloatBuffer} at the current
+	 * buffer {@link FloatBuffer#position() position}.
+	 * <p>
+	 * This method will not increment the position of the given FloatBuffer.
+	 *
+	 * @param index  the absolute position into the FloatBuffer
+	 * @param buffer will receive the values of this color in <tt>r, g, b, a</tt> order
+	 * @return the passed in buffer
+	 */
+	public FloatBuffer get( int index, FloatBuffer buffer )
+	{
+		buffer.put( index, r );
+		buffer.put( index + 1, g );
+		buffer.put( index + 2, b );
+		buffer.put( index + 3, a );
+		return buffer;
 	}
 }

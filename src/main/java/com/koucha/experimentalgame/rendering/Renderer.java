@@ -1,5 +1,6 @@
 package com.koucha.experimentalgame.rendering;
 
+import com.koucha.experimentalgame.entity.Camera;
 import com.koucha.experimentalgame.entity.Mesh;
 import com.koucha.experimentalgame.input.InputBridge;
 
@@ -99,4 +100,7 @@ public interface Renderer
 	 * Sets the renderer up to draw 2D Gui elements (orthographic projection)
 	 */
 	void initializeGUIRenderIteration();
+
+	/** set the camera used to render 3D scenes */
+	void setCamera( Camera camera );
 }

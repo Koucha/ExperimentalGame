@@ -1,14 +1,13 @@
 package com.koucha.experimentalgame.lwjgl;
 
+import com.koucha.experimentalgame.entity.Camera;
 import com.koucha.experimentalgame.entity.Mesh;
 import com.koucha.experimentalgame.input.InputBridge;
-import com.koucha.experimentalgame.rendering.Line;
-import com.koucha.experimentalgame.rendering.Rectangle;
-import com.koucha.experimentalgame.rendering.Renderer;
-import com.koucha.experimentalgame.rendering.Text;
+import com.koucha.experimentalgame.rendering.*;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GLContext;
 
@@ -31,24 +30,25 @@ class GLFWRenderer implements Renderer
 {
 	// We need to strongly reference callback instances.
 	private GLFWErrorCallback errorCallback;
+	private GLFWFramebufferSizeCallback framebufferSizeCallback;
 
 	private ShapeRenderer shapeRenderer;
 
 	// The window handle
 	private long window = NULL;
 
+	private Camera camera;
+	private OrthoCam orthoCam;
 
 	private InputBridge inputBridge = null;
 
 	// Hard links needed to protect from garbage collection (used by JNI code)
-	@SuppressWarnings( {"FieldCanBeLocal", "unused"} )
 	private GLFWKeyInput keyInput;
-	@SuppressWarnings( {"FieldCanBeLocal", "unused"} )
 	private GLFWMouseInput mouseInput;
 
 	GLFWRenderer()
 	{
-		shapeRenderer = new ShapeRenderer();
+
 	}
 
 	/**
@@ -103,7 +103,13 @@ class GLFWRenderer implements Renderer
 		} else if( renderable instanceof Text )
 		{
 			shapeRenderer.render( (Text) renderable );
-		} /*else
+		} else if( renderable instanceof Cube )
+		{
+			shapeRenderer.render( (Cube) renderable );
+		} else if( renderable instanceof Playah )
+		{
+			shapeRenderer.render( (Playah) renderable );
+		}/*else
 		{
 			// nothing
 		}*/
@@ -116,11 +122,21 @@ class GLFWRenderer implements Renderer
 		glfwDefaultWindowHints(); // optional, the current window hints are already the default
 		glfwWindowHint( GLFW_VISIBLE, GL_FALSE ); // the window will stay hidden after creation
 		glfwWindowHint( GLFW_RESIZABLE, GL_TRUE ); // the window will be resizable
+		glfwWindowHint( GLFW_SAMPLES, 16 );
 
 		// Create the window
 		window = glfwCreateWindow( initialWidth, initialHeight, s, NULL, NULL );
 		if( window == NULL )
 			throw new RuntimeException( "Failed to create the GLFW window" );
+
+		glfwSetFramebufferSizeCallback( window, (framebufferSizeCallback = new GLFWFramebufferSizeCallback()
+		{
+			@Override
+			public void invoke( long window, int width, int height )
+			{
+				onResize( width, height );
+			}
+		}) );
 
 		setUpInputManagers();
 
@@ -141,6 +157,20 @@ class GLFWRenderer implements Renderer
 
 		// Make the window visible
 		glfwShowWindow( window );
+
+		glfwSetInputMode( window, GLFW_CURSOR, GLFW_CURSOR_DISABLED );
+	}
+
+	private void onResize( int width, int height )
+	{
+		if( camera != null )
+		{
+			camera.setAspectRatio( width / ((float) height) );
+		}
+		if( orthoCam != null )
+		{
+			orthoCam.setFrame( 0, width, height, 0 );
+		}
 	}
 
 	@Override
@@ -162,12 +192,36 @@ class GLFWRenderer implements Renderer
 	public void initializeRenderIteration()
 	{
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // clear the framebuffer
+		shapeRenderer.setPVMatrix( camera.getViewProjectionMatrix() );
 	}
 
 	@Override
-	public void initializeGUIRenderIteration()
+	public void preLoopInitialization()
 	{
+		// This line is critical for LWJGL's interoperation with GLFW's
+		// OpenGL context, or any context that is managed externally.
+		// LWJGL detects the context that is current in the current thread,
+		// creates the ContextCapabilities instance and makes the OpenGL
+		// bindings available for use.
+		GLContext.createFromCurrent();
 
+		System.out.println( glGetString( GL_VERSION ) );
+
+		shapeRenderer = new ShapeRenderer();
+
+		/* Get width and height of framebuffer */
+		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
+		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
+		glfwGetFramebufferSize(window, widthBuffer, heightBuffer);
+		int width = widthBuffer.get();
+		int height = heightBuffer.get();
+
+		orthoCam = new OrthoCam( 0, width, height, 0 );
+
+		// Set the clear color
+		glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
+
+		glEnable( GL_DEPTH_TEST );
 	}
 
 	@Override
@@ -195,52 +249,40 @@ class GLFWRenderer implements Renderer
 	}
 
 	@Override
-	public void preLoopInitialization()
-	{
-		// This line is critical for LWJGL's interoperation with GLFW's
-		// OpenGL context, or any context that is managed externally.
-		// LWJGL detects the context that is current in the current thread,
-		// creates the ContextCapabilities instance and makes the OpenGL
-		// bindings available for use.
-		GLContext.createFromCurrent();
-
-		/* Get width and height of framebuffer */
-		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
-		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
-		glfwGetFramebufferSize(window, widthBuffer, heightBuffer);
-		int width = widthBuffer.get();
-		int height = heightBuffer.get();
-
-		glMatrixMode( GL_PROJECTION );
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho( 0, width, 0, height, -1, 1 );
-
-		glMatrixMode(GL_MODELVIEW);
-		glViewport( 0, 0, width, height );
-
-		// Set the clear color
-		glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
-
-        /* Enable blending */
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
-
-	@Override
 	public void cleanUp()
 	{
+		shapeRenderer.cleanUp();
+
 		/* GLFW has to be terminated or else the application will run in background */
 		glfwTerminate();
 
 		if( errorCallback != null )
 			errorCallback.release();
+		if( framebufferSizeCallback != null )
+			framebufferSizeCallback.release();
+		if( keyInput != null )
+			keyInput.release();
+		if( mouseInput != null )
+			mouseInput.release();
 	}
 
 	@Override
 	public boolean vSyncEnabled()
 	{
 		return true;
+	}
+
+	@Override
+	public void initializeGUIRenderIteration()
+	{
+		glClear( GL_DEPTH_BUFFER_BIT );
+		shapeRenderer.setPVMatrix( orthoCam.getViewProjectionMatrix() );
+	}
+
+	@Override
+	public void setCamera( Camera camera )
+	{
+		this.camera = camera;
 	}
 
 	@Override

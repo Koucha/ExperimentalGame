@@ -1,5 +1,6 @@
 package com.koucha.experimentalgame;
 
+import com.koucha.experimentalgame.entity.Controller;
 import com.koucha.experimentalgame.entity.Entity;
 
 /**
@@ -8,14 +9,14 @@ import com.koucha.experimentalgame.entity.Entity;
 public class Action
 {
 	/**
-	 * velocity
+	 * movement to the right
 	 */
-	public float vel;
+	public float right;
 
 	/**
-	 * angle of the movement direction in radians clockwise from the top
+	 * forward movement
 	 */
-	public float angle;
+	public float forward;
 
 	/**
 	 * indicates if a skill should be used
@@ -29,8 +30,8 @@ public class Action
 
 	public Action()
 	{
-		vel = 0;
-		angle = 0;
+		right = 0;
+		forward = 0;
 		useSkill = false;
 		skillNr = 0;
 	}

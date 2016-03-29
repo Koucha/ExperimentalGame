@@ -55,6 +55,12 @@ class GLFWKeyInput
 		} );
 	}
 
+	public void release()
+	{
+		keyCallback.release();
+		charModsCallback.release();
+	}
+
 	/**
 	 * Is invoked by the {@link GLFWKeyCallback}
 	 *

@@ -72,7 +72,11 @@ public class InputBridge
 		return mouseY;
 	}
 
-	/** get the Text collected by the InputBridge */
+	/**
+	 * get the Text collected by the InputBridge
+	 *
+	 * @return all the text accumulated since last call
+	 */
 	public String getText()
 	{
 		String text = textBuffer.toString();
@@ -92,16 +96,24 @@ public class InputBridge
 		return inputMap;
 	}
 
-	/** send Text to the InputBridge */
-	public void addText( String lastPressed )
+	/**
+	 * send Text to the InputBridge
+	 *
+	 * @param text Text to be sent to the InputBridge
+	 */
+	public void addText( String text )
 	{
-		if(acceptText)
+		if( acceptText )
 		{
-			textBuffer.append( lastPressed );
+			textBuffer.append( text );
 		}
 	}
 
-	/** test if there's Text to be read with {@link #getText()} */
+	/**
+	 * test if there's Text to be read with {@link #getText()}
+	 *
+	 * @return true if there's text to be read
+	 */
 	public boolean hasText()
 	{
 		return textBuffer.length() > 0;

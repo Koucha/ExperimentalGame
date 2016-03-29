@@ -1,6 +1,7 @@
 package com.koucha.experimentalgame.rendering;
 
 import com.koucha.experimentalgame.entity.Mesh;
+import org.joml.Vector3f;
 
 /**
  * Represents a Rectangle that can be rendered
@@ -10,7 +11,7 @@ public class Rectangle implements Mesh
 	/**
 	 * Position of the center of the rotated rectangle
 	 */
-	private float posX, posY;
+	private Vector3f position;
 
 	/**
 	 * Rotation angle in radians clockwise from top
@@ -26,63 +27,33 @@ public class Rectangle implements Mesh
 	 * Fill color
 	 */
 	private Color color;
-	private boolean filled;
 
 	/**
 	 * Creates a filled Rectangle
 	 *
-	 * @param posX x coordinate of the center of the rectangle
-	 * @param posY y coordinate of the center of the rectangle
+	 * @param position coordinate of the center of the rectangle
 	 * @param angle rotation in radians clockwise from top
 	 * @param width x axis aligned size of the rectangle
 	 * @param height y axis aligned size of the rectangle
 	 * @param color paint color
 	 */
-	public Rectangle( float posX, float posY, float angle, float width, float height, Color color )
+	public Rectangle( Vector3f position, float angle, float width, float height, Color color )
 	{
-		this( posX, posY, angle, width, height, color, true );
-	}
-
-	/**
-	 * Constructor
-	 *
-	 * @param posX x coordinate of the center of the rectangle
-	 * @param posY y coordinate of the center of the rectangle
-	 * @param angle rotation in radians clockwise from top
-	 * @param width x axis aligned size of the rectangle
-	 * @param height y axis aligned size of the rectangle
-	 * @param color paint color
-	 * @param filled if true the rectangle will be filled, otherwise only the border is drawn
-	 */
-	public Rectangle( float posX, float posY, float angle, float width, float height, Color color, boolean filled )
-	{
-		this.posX = posX;
-		this.posY = posY;
+		this.position = position;
 		this.angle = angle;
 		this.width = width;
 		this.height = height;
 		this.color = color;
-		this.filled = filled;
 	}
 
-	public float getPosX()
+	public Vector3f getPosition()
 	{
-		return posX;
+		return position;
 	}
 
-	public void setPosX( float posX )
+	public void setPosition( Vector3f position )
 	{
-		this.posX = posX;
-	}
-
-	public float getPosY()
-	{
-		return posY;
-	}
-
-	public void setPosY( float posY )
-	{
-		this.posY = posY;
+		this.position = position;
 	}
 
 	public float getAngle()
@@ -125,19 +96,9 @@ public class Rectangle implements Mesh
 		this.color = color;
 	}
 
-	public boolean isFilled()
-	{
-		return filled;
-	}
-
-	public void setFilled( boolean filled )
-	{
-		this.filled = filled;
-	}
-
 	@Override
 	public void render( Renderer renderer )
 	{
-
+		renderer.render( this );
 	}
 }

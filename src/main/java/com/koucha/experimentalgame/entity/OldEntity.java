@@ -1,10 +1,12 @@
 package com.koucha.experimentalgame.entity;
 
-import com.koucha.experimentalgame.*;
-import com.koucha.experimentalgame.effects.EffectProjectile;
-import com.koucha.experimentalgame.effects.EffectRay;
+import com.koucha.experimentalgame.BackBone;
+import com.koucha.experimentalgame.GameObject;
+import com.koucha.experimentalgame.GameObjectList;
+import com.koucha.experimentalgame.Skill;
 import com.koucha.experimentalgame.rendering.Color;
 import com.koucha.experimentalgame.rendering.Renderer;
+import org.joml.Vector3f;
 
 
 /**
@@ -177,36 +179,36 @@ public class OldEntity implements GameObject
 	public void update()
 	{
 		// TODO debug
-		doDamage( 1 );
-
-		if( counter1 > 0 )
-			counter1--;
-
-		if( counter2 > 0 )
-			counter2--;
-
-		Action action = controller.getAction();
-
-		float vel = action.vel;
-		angle += action.angle / 60;
-
-		posX -= vel * Math.sin( angle );
-		posY -= vel * Math.cos( angle );
-
-		posX = Util.clamp( posX, 15f, BackBone.INITIAL_WIDTH - 15f );
-		posY = Util.clamp( posY, 15f, BackBone.INITIAL_HEIGHT - 15f );
-
-		if( action.useSkill && action.skillNr == 1 && counter1 == 0 )
-		{
-			counter1 = 60;
-			handler.add( new EffectProjectile( posX - 15 * (float) Math.sin( angle ), posY + 15 * (float) Math.cos( angle ), angle, 10, 1, 4, new Color( 0, 0, 255 ) ) );
-		}
-
-		if( action.useSkill && action.skillNr == 2 && counter2 == 0 )
-		{
-			counter2 = 120;
-			handler.add( new EffectRay( posX - 25 * (float) Math.sin( angle ), posY + 25 * (float) Math.cos( angle ), angle, 10, 1, 2, 40, new Color( 0, 0, 255 ) ) );
-		}
+//		doDamage( 1 );
+//
+//		if( counter1 > 0 )
+//			counter1--;
+//
+//		if( counter2 > 0 )
+//			counter2--;
+//
+//		Action action = controller.getAction();
+//
+//		float vel = action.vel;
+//		angle += action.angle / 60;
+//
+//		posX -= vel * Math.sin( angle );
+//		posY -= vel * Math.cos( angle );
+//
+//		posX = Util.clamp( posX, 15f, BackBone.INITIAL_WIDTH - 15f );
+//		posY = Util.clamp( posY, 15f, BackBone.INITIAL_HEIGHT - 15f );
+//
+//		if( action.useSkill && action.skillNr == 1 && counter1 == 0 )
+//		{
+//			counter1 = 60;
+//			handler.add( new EffectProjectile( posX - 15 * (float) Math.sin( angle ), posY + 15 * (float) Math.cos( angle ), angle, 10, 1, 4, new Color( 0, 0, 255 ) ) );
+//		}
+//
+//		if( action.useSkill && action.skillNr == 2 && counter2 == 0 )
+//		{
+//			counter2 = 120;
+//			handler.add( new EffectRay( posX - 25 * (float) Math.sin( angle ), posY + 25 * (float) Math.cos( angle ), angle, 10, 1, 2, 40, new Color( 0, 0, 255 ) ) );
+//		}
 	}
 
 	/**
@@ -247,7 +249,7 @@ public class OldEntity implements GameObject
 	{
 		// TODO
 
-		renderer.render( new com.koucha.experimentalgame.rendering.Rectangle( posX, posY, angle, 10, 10, new Color( 255, 255, 255 ) ) );
+		renderer.render( new com.koucha.experimentalgame.rendering.Rectangle( new Vector3f( posX, posY, 0 ), angle, 10, 10, new Color( 255, 255, 255 ) ) );
 	}
 
 	@Override

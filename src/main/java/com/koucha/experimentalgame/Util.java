@@ -1,11 +1,19 @@
 package com.koucha.experimentalgame;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  * Utility class containing only static methods of code parts that are repeatedly used in various context
  */
 @SuppressWarnings( "unused" )
 public class Util
 {
+	private Util()
+	{
+	}
+
 	/**
 	 * Clamps the variable var to an interval defined by a and b
 	 * <p>
@@ -77,5 +85,24 @@ public class Util
 		return var;
 	}
 
+	public static String loadAsString( String fileName )
+	{
+		StringBuilder buff = new StringBuilder();
+		try
+		{
+			BufferedReader reader = new BufferedReader( new FileReader( fileName ) );
+			String line;
+			while( (line = reader.readLine()) != null )
+			{
+				buff.append( line ).append( "\n" );
+			}
+			reader.close();
+		} catch( IOException e )
+		{
+			e.printStackTrace();
+		}
+
+		return buff.toString();
+	}
 
 }

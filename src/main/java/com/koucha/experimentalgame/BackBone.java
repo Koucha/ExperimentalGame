@@ -1,10 +1,17 @@
 package com.koucha.experimentalgame;
 
+import com.koucha.experimentalgame.entity.Camera;
 import com.koucha.experimentalgame.entity.Entity;
+import com.koucha.experimentalgame.entity.PlayerController;
+import com.koucha.experimentalgame.entity.Position;
 import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.input.InputEvent;
 import com.koucha.experimentalgame.lwjgl.GLFWGraphicsHub;
+import com.koucha.experimentalgame.rendering.Color;
+import com.koucha.experimentalgame.rendering.Cube;
+import com.koucha.experimentalgame.rendering.Playah;
 import com.koucha.experimentalgame.rendering.Renderer;
+import org.joml.Vector3f;
 
 /**
  * Contains the game loop
@@ -46,11 +53,11 @@ public class BackBone
 
 		list = new GameObjectList();
 
-		PlayerController pc = new PlayerController( inputBridge.getInputMap() );
-		Entity player = new Entity( null, null );
-		list.add( player );
+		Position position = new Position();
+		list.add( new Entity( position, new Cube( new Vector3f( 0.1f, 0.1f, 100f ), position, new Color( 0.5f, 0.6f, 0f ) ) ) );
+		list.add( new Entity( position, new Cube( new Vector3f( 100f, 0.1f, 0.1f ), position, new Color( 0.6f, 0.5f, 0f ) ) ) );
 
-		hud = new HUD( player );
+		hud = new HUD( generatePlayer() );
 
 		renderer.setInputBridge( inputBridge );
 
@@ -59,6 +66,19 @@ public class BackBone
 
 		// todo debug
 //		limitFPS = false;
+	}
+
+	private Entity generatePlayer()
+	{
+		Camera camera = new Camera( INITIAL_WIDTH / ((float) INITIAL_HEIGHT) );
+		camera.setOffset( new Vector3f( 0f, 1f, 8f ) );
+		renderer.setCamera( camera );
+		Position position = new Position( new Vector3f( 0f, 0.5f, 0f ) );
+		PlayerController pc = new PlayerController( inputBridge, position, camera );
+		Entity player = new Entity( position, new Playah( new Vector3f( 1f, 1f, 1f ), position, new Color( 0f, 0f, 1f ) ) );
+		player.addComponent( pc );
+		list.add( player );
+		return player;
 	}
 
 	public static void main( String[] args )
