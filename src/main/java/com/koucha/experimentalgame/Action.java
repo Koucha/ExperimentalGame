@@ -1,6 +1,6 @@
 package com.koucha.experimentalgame;
 
-import com.koucha.experimentalgame.entity.Controller;
+import com.koucha.experimentalgame.system.Controller;
 import com.koucha.experimentalgame.entity.Entity;
 
 /**

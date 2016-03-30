@@ -1,6 +1,6 @@
 package com.koucha.experimentalgame.rendering;
 
-import com.koucha.experimentalgame.entity.Mesh;
+import com.koucha.experimentalgame.system.Mesh;
 import org.joml.Vector3f;
 
 /**

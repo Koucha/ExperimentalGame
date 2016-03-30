@@ -1,99 +1,62 @@
 package com.koucha.experimentalgame.entity;
 
-import com.koucha.experimentalgame.GameObject;
-import com.koucha.experimentalgame.GameObjectList;
-import com.koucha.experimentalgame.Updatable;
-import com.koucha.experimentalgame.rendering.Renderer;
-
-import java.util.LinkedList;
-import java.util.List;
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * Entity containing all its components
  */
-public class Entity implements GameObject
+public class Entity
 {
-	private List< Component > components = new LinkedList<>();
-	private List< Updatable > updatables = new LinkedList<>();
+	private long componentMask = 0;
+	private Map< ComponentFlag, Component > componentMap = new EnumMap<>( ComponentFlag.class );
 
-	private Mesh mesh;
-	private Position position;
-
-	private GameObjectList handler;
-
-	public Entity( Position position, Mesh mesh )
+	/**
+	 * Add a Component to the Entity and update the Entity getMask
+	 *
+	 * @param component Component to add
+	 * @return this Entity (for chaining)
+	 */
+	public Entity add( Component component )
 	{
-		this.position = position;
-		this.mesh = mesh;
-	}
-
-	@Override
-	public void update()
-	{
-		updatables.forEach( Updatable::update );
-	}
-
-	@Override
-	public void render( Renderer renderer )
-	{
-		if( mesh != null )
-			mesh.render( renderer );
-	}
-
-	@Override
-	public void setHandler( GameObjectList list )
-	{
-		handler = list;
-	}
-
-	public Entity addComponent( Component component )
-	{
-		component.setHandler( handler );
-		components.add( component );
-
-		if( component instanceof Updatable )
-			updatables.add( (Updatable) component );
-
-		return this;
-	}
-
-	public Entity removeComponent( Component component )
-	{
-		components.remove( component );
-
-		if( component instanceof Updatable )
-			updatables.remove( component );
-
+		componentMap.put( component.getFlag(), component );
+		componentMask |= component.getMask();
 		return this;
 	}
 
 	/**
-	 * get the Component that can be used as instance of the Class cls
+	 * Remove a Component from this Entity
 	 *
-	 * @param cls Class object of the type T
-	 * @param <T> (Super-)Class/Interface the component should implement
-	 * @return the desired Component, or null if none could be found
+	 * @param flag identification of the Component
+	 * @return {@code true} if the Component was removed, {@code false} if ther was no such Component
 	 */
-	public < T extends Component > T getComponent( Class< T > cls )
+	public boolean remove( ComponentFlag flag )
 	{
-		for( Component component : components )
+		if( componentMap.remove( flag ) != null )
 		{
-			if( cls.isInstance( component ) )
-			{
-				//noinspection unchecked
-				return (T) component;
-			}
+			componentMask &= ~(flag.getMask());
+			return true;
 		}
-		return null;
+		return false;
 	}
 
-	public Mesh getMesh()
+	/**
+	 * @param flag identification of the desired Component
+	 * @return the requested Component, or {@code null} if no such Component was found
+	 */
+	public Component get( ComponentFlag flag )
 	{
-		return mesh;
+		return componentMap.get( flag );
 	}
 
-	public Position getPosition()
+	/**
+	 * Test if this Entity has all desired Components
+	 *
+	 * @param mask a combination of the flag bits of all desired Components
+	 * @return {@code true} if this Entity contains all desired Components, {@code false} otherwise
+	 */
+	public boolean accept( int mask )
 	{
-		return position;
+		return (mask & componentMask) == mask;
 	}
 }

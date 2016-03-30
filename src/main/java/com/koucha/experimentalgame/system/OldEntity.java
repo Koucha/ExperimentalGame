@@ -1,4 +1,4 @@
-package com.koucha.experimentalgame.entity;
+package com.koucha.experimentalgame.system;
 
 import com.koucha.experimentalgame.BackBone;
 import com.koucha.experimentalgame.GameObject;

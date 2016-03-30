@@ -1,7 +1,7 @@
 package com.koucha.experimentalgame.lwjgl;
 
-import com.koucha.experimentalgame.entity.Camera;
-import com.koucha.experimentalgame.entity.Mesh;
+import com.koucha.experimentalgame.system.Camera;
+import com.koucha.experimentalgame.system.Mesh;
 import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.rendering.*;
 import org.lwjgl.BufferUtils;

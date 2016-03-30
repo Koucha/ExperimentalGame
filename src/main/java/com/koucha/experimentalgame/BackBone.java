@@ -1,9 +1,9 @@
 package com.koucha.experimentalgame;
 
-import com.koucha.experimentalgame.entity.Camera;
+import com.koucha.experimentalgame.system.Camera;
 import com.koucha.experimentalgame.entity.Entity;
-import com.koucha.experimentalgame.entity.PlayerController;
-import com.koucha.experimentalgame.entity.Position;
+import com.koucha.experimentalgame.system.PlayerController;
+import com.koucha.experimentalgame.system.Position;
 import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.input.InputEvent;
 import com.koucha.experimentalgame.lwjgl.GLFWGraphicsHub;

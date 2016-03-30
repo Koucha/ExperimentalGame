@@ -1,7 +1,7 @@
 package com.koucha.experimentalgame.rendering;
 
-import com.koucha.experimentalgame.entity.Mesh;
-import com.koucha.experimentalgame.entity.Position;
+import com.koucha.experimentalgame.system.Mesh;
+import com.koucha.experimentalgame.system.Position;
 import org.joml.Vector3f;
 
 /**

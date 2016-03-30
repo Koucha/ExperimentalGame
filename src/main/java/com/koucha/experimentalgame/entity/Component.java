@@ -1,16 +1,24 @@
 package com.koucha.experimentalgame.entity;
 
-import com.koucha.experimentalgame.GameObjectList;
-
 /**
  * Component that can be added to an Entity
  */
 public interface Component
 {
 	/**
-	 * Sets the handler of the Component if the Component needs one
+	 * Get the unique flag bit for this Component
 	 *
-	 * @param handler the Component will add generated {@link com.koucha.experimentalgame.GameObject} to this handler
+	 * @return getMask bit
 	 */
-	void setHandler( GameObjectList handler );
+	default long getMask()
+	{
+		return getFlag().getMask();
+	}
+
+	/**
+	 * Get the Components Flag
+	 *
+	 * @return identification of the Component
+	 */
+	ComponentFlag getFlag();
 }

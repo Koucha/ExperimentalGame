@@ -1,6 +1,7 @@
-package com.koucha.experimentalgame.entity;
+package com.koucha.experimentalgame.system;
 
 import com.koucha.experimentalgame.GameObjectList;
+import com.koucha.experimentalgame.entity.Component;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 

@@ -1,7 +1,8 @@
-package com.koucha.experimentalgame.entity;
+package com.koucha.experimentalgame.system;
 
 import com.koucha.experimentalgame.Action;
 import com.koucha.experimentalgame.Util;
+import com.koucha.experimentalgame.entity.Entity;
 import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.input.InputEvent;
 import com.koucha.experimentalgame.input.InputMap;
@@ -170,7 +171,7 @@ public class PlayerController implements Controller
 	}
 
 	/**
-	 * Tests if the bit of the mask specified by the selector is set
+	 * Tests if the bit of the getMask specified by the selector is set
 	 *
 	 * @param bit selector (see {@link Selector}
 	 * @return true if the bit was set, false otherwise
@@ -181,7 +182,7 @@ public class PlayerController implements Controller
 	}
 
 	/**
-	 * Associates actions to flags of a bit mask
+	 * Associates actions to flags of a bit getMask
 	 */
 	private enum Selector
 	{
@@ -206,7 +207,7 @@ public class PlayerController implements Controller
 		}
 
 		/**
-		 * @return flag bit
+		 * @return getMask bit
 		 */
 		public int value()
 		{

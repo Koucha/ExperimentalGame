@@ -1,8 +1,10 @@
-package com.koucha.experimentalgame.entity;
+package com.koucha.experimentalgame.system;
 
 import com.koucha.experimentalgame.Action;
 import com.koucha.experimentalgame.GameObjectList;
 import com.koucha.experimentalgame.Updatable;
+import com.koucha.experimentalgame.entity.Component;
+import com.koucha.experimentalgame.entity.Entity;
 
 /**
  * Controller provide instructions to {@link Entity} objects
