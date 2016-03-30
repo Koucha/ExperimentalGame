@@ -15,9 +15,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <compiler.version>3.5.1</compiler.version>
         <natives.version>0.0.6</natives.version>
-        <lwjgl.version>3.0.0a</lwjgl.version>
+        <lwjgl.version>3.0.0b</lwjgl.version>
         <joml.version>1.7.1</joml.version>
-        <junit.version>4.10</junit.version>
+        <junit.version>4.12</junit.version>
     </properties>
 
     <repositories>
