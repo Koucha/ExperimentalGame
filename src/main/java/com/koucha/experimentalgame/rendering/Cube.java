@@ -1,13 +1,12 @@
 package com.koucha.experimentalgame.rendering;
 
-import com.koucha.experimentalgame.entitySystem.system.Mesh;
-import com.koucha.experimentalgame.entitySystem.system.Position;
+import com.koucha.experimentalgame.entitySystem.component.Mesh;
 import org.joml.Vector3f;
 
 /**
  * Represents a Cube that can be rendered
  */
-public class Cube implements Mesh
+public class Cube extends Mesh
 {
 	private Vector3f size;
 	private Position position;
@@ -18,12 +17,6 @@ public class Cube implements Mesh
 		this.size = size;
 		this.position = position;
 		this.color = color;
-	}
-
-	@Override
-	public void render( Renderer renderer )
-	{
-		renderer.render( this );
 	}
 
 	public Position getPosition()

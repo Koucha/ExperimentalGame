@@ -1,13 +1,12 @@
 package com.koucha.experimentalgame.rendering;
 
-import com.koucha.experimentalgame.entitySystem.system.Mesh;
-import com.koucha.experimentalgame.entitySystem.system.Position;
+import com.koucha.experimentalgame.entitySystem.component.Mesh;
 import org.joml.Vector3f;
 
 /**
  * Represents a Playah that can be rendered
  */
-public class Playah implements Mesh
+public class Playah extends Mesh
 {
 	private Vector3f size;
 	private Position position;
@@ -18,12 +17,6 @@ public class Playah implements Mesh
 		this.size = size;
 		this.position = position;
 		this.color = color;
-	}
-
-	@Override
-	public void render( Renderer renderer )
-	{
-		renderer.render( this );
 	}
 
 	public Position getPosition()

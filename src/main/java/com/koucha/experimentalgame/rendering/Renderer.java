@@ -1,7 +1,6 @@
 package com.koucha.experimentalgame.rendering;
 
-import com.koucha.experimentalgame.entitySystem.system.Camera;
-import com.koucha.experimentalgame.entitySystem.system.Mesh;
+import com.koucha.experimentalgame.entitySystem.component.Mesh;
 import com.koucha.experimentalgame.input.InputBridge;
 import org.joml.Matrix4f;
 

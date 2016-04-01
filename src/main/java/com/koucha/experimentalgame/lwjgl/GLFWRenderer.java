@@ -1,5 +1,6 @@
 package com.koucha.experimentalgame.lwjgl;
 
+import com.koucha.experimentalgame.entitySystem.component.Mesh;
 import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.rendering.*;
 import org.joml.Matrix4f;
@@ -91,25 +92,26 @@ class GLFWRenderer implements Renderer
 	@Override
 	public void render( Mesh renderable )
 	{
-		if( renderable instanceof Line )
-		{
-			shapeRenderer.render( (Line) renderable );
-		} else if( renderable instanceof Rectangle )
-		{
-			shapeRenderer.render( (Rectangle) renderable );
-		} else if( renderable instanceof Text )
-		{
-			shapeRenderer.render( (Text) renderable );
-		} else if( renderable instanceof Cube )
-		{
-			shapeRenderer.render( (Cube) renderable );
-		} else if( renderable instanceof Playah )
-		{
-			shapeRenderer.render( (Playah) renderable );
-		}/*else
-		{
-			// nothing
-		}*/
+		//// TODO: 02.04.2016
+//		if( renderable instanceof Line )
+//		{
+//			shapeRenderer.render( (Line) renderable );
+//		} else if( renderable instanceof Rectangle )
+//		{
+//			shapeRenderer.render( (Rectangle) renderable );
+//		} else if( renderable instanceof Text )
+//		{
+//			shapeRenderer.render( (Text) renderable );
+//		} else if( renderable instanceof Cube )
+//		{
+//			shapeRenderer.render( (Cube) renderable );
+//		} else if( renderable instanceof Playah )
+//		{
+//			shapeRenderer.render( (Playah) renderable );
+//		}/*else
+//		{
+//			// nothing
+//		}*/
 	}
 
 	@Override
@@ -130,6 +132,7 @@ class GLFWRenderer implements Renderer
 		glfwWindowHint( GLFW_GREEN_BITS, vidMode.greenBits() );
 		glfwWindowHint( GLFW_BLUE_BITS, vidMode.blueBits() );
 		glfwWindowHint( GLFW_REFRESH_RATE, vidMode.refreshRate() );
+		//glfwWindowHint( GLFW_DECORATED, GL_FALSE );
 
 		glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 4 );
 		glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 5 );

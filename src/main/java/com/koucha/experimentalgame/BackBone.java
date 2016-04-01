@@ -1,12 +1,11 @@
 package com.koucha.experimentalgame;
 
-import com.koucha.experimentalgame.entitySystem.System;
 import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.input.InputEvent;
 import com.koucha.experimentalgame.lwjgl.GLFWGraphicsHub;
 import com.koucha.experimentalgame.rendering.Renderer;
 
-import java.util.concurrent.Semaphore;
+import java.util.ResourceBundle;
 
 /**
  * Contains the game loop
@@ -16,12 +15,12 @@ public class BackBone
 	// Specify which graphics implementation should be used
 	public static final GraphicsHub GRAPHICS_HUB = new GLFWGraphicsHub();
 
-	public static final int INITIAL_WIDTH = 1200, INITIAL_HEIGHT = INITIAL_WIDTH * 9 / 12;
-
-	public static final float MAX_UPDATES_PER_SECOND = 120;
+	public static final float AVG_UPDATES_PER_SECOND = 100;
 	public static final float MAX_FRAMES_PER_SECOND = 60;
 
 	public static final float SECOND_IN_NANOS = 1000000000;
+
+	public PropertiesLoader propertiesLoader;
 
 	private boolean running = false;
 
@@ -38,9 +37,12 @@ public class BackBone
 	{
 		renderer = GRAPHICS_HUB.createRenderer();
 
+		propertiesLoader = new PropertiesLoader();
+		ResourceBundle bundle = propertiesLoader.loadBundle( "basicUI.mainWindow" );
+
 		renderer.init();
 
-		renderer.createWindow( INITIAL_WIDTH, INITIAL_HEIGHT, "Tha Game" );
+		renderer.createFullscreenWindow( bundle.getString( "title" ) );
 
 		inputBridge = new InputBridge();
 		inputBridge.getInputMap().addLink( "Quit", 0x100, ( InputEvent evt ) -> running = false );
@@ -82,7 +84,7 @@ public class BackBone
 
 		final long deltaRenderTimeNS = ( long )( SECOND_IN_NANOS / MAX_FRAMES_PER_SECOND );
 		final long deltaRender5TimeNS = 5 * deltaRenderTimeNS;
-		final float deltaUpdateTimeNS = SECOND_IN_NANOS / MAX_UPDATES_PER_SECOND;
+		final float deltaUpdateTimeNS = SECOND_IN_NANOS / AVG_UPDATES_PER_SECOND;
 
 		long lastRenderTimeNS = java.lang.System.nanoTime();
 		long lastUpdateTimeNS = lastRenderTimeNS;
@@ -134,6 +136,8 @@ public class BackBone
 				frameCount = 0;
 				updatesPerSecond = updateCount;
 				updateCount = 0;
+
+				java.lang.System.out.println( "FPS: " + framesPerSecond + ", UPS: " + updatesPerSecond );
 			}
 		}
 	}

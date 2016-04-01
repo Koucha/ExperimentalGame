@@ -1,11 +1,12 @@
 package com.koucha.experimentalgame.rendering;
 
-import com.koucha.experimentalgame.entitySystem.system.Mesh;
+
+import com.koucha.experimentalgame.entitySystem.component.Mesh;
 
 /**
  * Represents a Text that can be rendered
  */
-public class Text implements Mesh
+public class Text extends Mesh
 {
 	/**
 	 * Position
@@ -90,11 +91,5 @@ public class Text implements Mesh
 	public void setText( String text )
 	{
 		this.text = text;
-	}
-
-	@Override
-	public void render( Renderer renderer )
-	{
-
 	}
 }

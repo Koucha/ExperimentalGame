@@ -1,11 +1,11 @@
 package com.koucha.experimentalgame.rendering;
 
-import com.koucha.experimentalgame.entitySystem.system.Mesh;
+import com.koucha.experimentalgame.entitySystem.component.Mesh;
 
 /**
  * Represents a Line that can be rendered
  */
-public class Line implements Mesh
+public class Line extends Mesh
 {
 	/**
 	 * Starting point
@@ -102,11 +102,5 @@ public class Line implements Mesh
 	public void setColor( Color color )
 	{
 		this.color = color;
-	}
-
-	@Override
-	public void render( Renderer renderer )
-	{
-
 	}
 }

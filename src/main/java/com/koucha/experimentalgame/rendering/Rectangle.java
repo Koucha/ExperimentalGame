@@ -1,12 +1,12 @@
 package com.koucha.experimentalgame.rendering;
 
-import com.koucha.experimentalgame.entitySystem.system.Mesh;
+import com.koucha.experimentalgame.entitySystem.component.Mesh;
 import org.joml.Vector3f;
 
 /**
  * Represents a Rectangle that can be rendered
  */
-public class Rectangle implements Mesh
+public class Rectangle extends Mesh
 {
 	/**
 	 * Position of the center of the rotated rectangle
@@ -94,11 +94,5 @@ public class Rectangle implements Mesh
 	public void setColor( Color color )
 	{
 		this.color = color;
-	}
-
-	@Override
-	public void render( Renderer renderer )
-	{
-		renderer.render( this );
 	}
 }
