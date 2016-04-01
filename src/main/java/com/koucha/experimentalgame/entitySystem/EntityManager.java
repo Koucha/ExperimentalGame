@@ -17,7 +17,7 @@ public class EntityManager
 	 * <p>
 	 * needed to determine if all Systems have processed an entity change
 	 */
-	private long registeredSystems = 0;
+	private FastBitSet registeredSystems = new FastBitSet();
 
 	/**
 	 * List of the entity changes not yet processed by all Systems
@@ -36,13 +36,13 @@ public class EntityManager
 	 */
 	public void link( System sys )
 	{
-		registeredSystems |= sys.getMask();
+		registeredSystems.add( sys.getMask() );
 		sys.setEntityManager( this );
 	}
 
 	public boolean isSystemLinked( System sys )
 	{
-		return (registeredSystems & sys.getMask()) != 0;
+		return registeredSystems.contains( sys.getMask() );
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class EntityManager
 	 */
 	public void clean()
 	{
-		changeList.removeIf( change -> registeredSystems <= change.systemMask );
+		changeList.removeIf( change -> change.systemMask.contains( registeredSystems ) );
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class EntityManager
 	 */
 	public void checkChangedEntities( SystemFlag flag, ChangeProcessor processor )
 	{
-		long mask = flag.getMask();
+		FastBitSet mask = flag.getMask();
 
 		//noinspection Convert2streamapi
 		for( Change change : changeList )
@@ -122,13 +122,13 @@ public class EntityManager
 	{
 		ChangeType type;
 		Entity entity;
-		long systemMask;
+		FastBitSet systemMask;
 
 		Change( Entity entity, ChangeType type )
 		{
 			this.type = type;
 			this.entity = entity;
-			this.systemMask = 0;
+			this.systemMask = new FastBitSet();
 		}
 
 		/**
@@ -137,12 +137,12 @@ public class EntityManager
 		 *
 		 * @see #checkChangedEntities(SystemFlag, ChangeProcessor)
 		 */
-		boolean isNew( long mask )
+		boolean isNew( FastBitSet mask )
 		{
-			if( (systemMask & mask) != 0 )
+			if( systemMask.contains( mask ) )
 				return false;
 
-			systemMask |= mask;
+			systemMask.add( mask );
 			return true;
 		}
 	}

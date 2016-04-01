@@ -17,7 +17,7 @@ public interface System
 	 *
 	 * @return mask bit
 	 */
-	default long getMask()
+	default FastBitSet getMask()
 	{
 		return getFlag().getMask();
 	}

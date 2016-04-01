@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.text.MessageFormat;
 
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -104,7 +104,7 @@ public class ComponentTest
 		}
 
 		assertNotNull( "Component \"" + component.getClass().getSimpleName() + "\" has no Flag", component.getFlag() );
-		assertNotEquals( "Component \"" + component.getClass().getSimpleName() + "\" has an invalid mask bit", 0, component.getMask());
+		assertFalse( "Component \"" + component.getClass().getSimpleName() + "\" has an invalid mask", component.getMask().isZero());
 	}
 
 	@Test

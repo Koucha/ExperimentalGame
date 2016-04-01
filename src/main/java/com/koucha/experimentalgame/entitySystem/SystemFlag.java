@@ -3,26 +3,27 @@ package com.koucha.experimentalgame.entitySystem;
 /**
  * List of all Systems
  * <p>
- * Each {@link System} implementation has its own unique ComponentFlag containing an id (ordinal) and a flag
- * Different flags combined build a unique long mask:
- * <p>
- * {@code System1.getMask() | System2.getMask() = longMaskS1S2}
+ * Each {@link System} implementation has its own unique ComponentFlag containing an id (ordinal) and a FastBitSet flag
+ *
+ * @see FastBitSet
  */
 public enum SystemFlag
 {
-	System1,
-	System2,
+	RenderSystem;
 
-	// Has to be the last element in the list!
-	AFTER_LAST;
-
-	private long mask;
+	private FastBitSet mask;
 
 	SystemFlag()
 	{
-		mask = 1L;
+		int ord = ordinal();
 
-		mask <<= ordinal();
+		if( ord >= FastBitSet.BIT_COUNT )
+		{
+			mask = null;
+			return;
+		}
+
+		mask = new FastBitSet( ordinal() );
 	}
 
 	/**
@@ -30,7 +31,7 @@ public enum SystemFlag
 	 *
 	 * @return the flag bit
 	 */
-	public long getMask()
+	public FastBitSet getMask()
 	{
 		return mask;
 	}

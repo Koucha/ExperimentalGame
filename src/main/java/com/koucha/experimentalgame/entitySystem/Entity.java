@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class Entity
 {
-	private long componentMask = 0;
+	private FastBitSet componentMask = new FastBitSet();
 	private Map< ComponentFlag, Component > componentMap = new EnumMap<>( ComponentFlag.class );
 	private EntityManager manager;
 
@@ -21,7 +21,7 @@ public class Entity
 	public Entity add( Component component )
 	{
 		componentMap.put( component.getFlag(), component );
-		componentMask |= component.getMask();
+		componentMask.add( component.getMask() );
 
 		if( manager != null )
 			manager.updateAddition( this );
@@ -39,7 +39,7 @@ public class Entity
 	{
 		if( componentMap.remove( flag ) != null )
 		{
-			componentMask &= ~(flag.getMask());
+			componentMask.remove( flag.getMask() );
 
 			if( manager != null )
 				manager.updateDeletion( this );
@@ -80,8 +80,8 @@ public class Entity
 	 * @param mask a combination of the flag bits of all desired Components
 	 * @return {@code true} if this Entity contains all desired Components, {@code false} otherwise
 	 */
-	public boolean accept( int mask )
+	public boolean accept( FastBitSet mask )
 	{
-		return (mask & componentMask) == mask;
+		return componentMask.contains( mask );
 	}
 }

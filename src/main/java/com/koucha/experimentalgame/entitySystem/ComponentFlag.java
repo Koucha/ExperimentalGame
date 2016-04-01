@@ -3,35 +3,27 @@ package com.koucha.experimentalgame.entitySystem;
 /**
  * List of all Components
  * <p>
- * Each {@link Component} implementation has its own unique ComponentFlag containing a id (ordinal) and a flag
- * Different flags combined build a unique long mask:
- * <p>
- * {@code Component1.getMask() | Component2.getMask() = longMaskC1C2}
+ * Each {@link Component} implementation has its own unique ComponentFlag containing a id (ordinal) and a FastBitSet flag
+ *
+ * @see FastBitSet
  */
 public enum ComponentFlag
 {
-	Position,
-	Velocity,
-	AttachedCamera,
+	Position, Velocity, AttachedCamera;
 
-	// Has to be the last element in the list!
-	AFTER_LAST;
-
-	private long mask;
+	private FastBitSet mask;
 
 	ComponentFlag()
 	{
 		int ord = ordinal();
 
-		if(ord >= 64)
+		if( ord >= FastBitSet.BIT_COUNT )
 		{
-			mask = 0L;
+			mask = null;
 			return;
 		}
 
-		mask = 1L;
-
-		mask <<= ord;
+		mask = new FastBitSet( ordinal() );
 	}
 
 	/**
@@ -39,7 +31,7 @@ public enum ComponentFlag
 	 *
 	 * @return the flag bit
 	 */
-	public long getMask()
+	public FastBitSet getMask()
 	{
 		return mask;
 	}
