@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>keyBindings</comment>
+    <entry key="forward">w</entry>
+    <entry key="backward">s</entry>
+    <entry key="left">a</entry>
+    <entry key="right">d</entry>
+</properties>

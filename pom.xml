@@ -15,8 +15,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <compiler.version>3.5.1</compiler.version>
         <natives.version>0.0.6</natives.version>
+
         <lwjgl.version>3.0.0b</lwjgl.version>
         <joml.version>1.7.1</joml.version>
+        <luaj.version>3.0.1</luaj.version>
+
         <junit.version>4.12</junit.version>
         <trajano.commons.version>2.1.0</trajano.commons.version>
         <mockito.version>1.10.19</mockito.version>
@@ -98,6 +101,13 @@
             <groupId>org.joml</groupId>
             <artifactId>joml</artifactId>
             <version>${joml.version}</version>
+        </dependency>
+
+        <!-- Luaj -->
+        <dependency>
+            <groupId>org.luaj</groupId>
+            <artifactId>luaj-jse</artifactId>
+            <version>${luaj.version}</version>
         </dependency>
     </dependencies>
 

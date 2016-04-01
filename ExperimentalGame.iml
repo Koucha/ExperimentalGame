@@ -24,5 +24,6 @@
     <orderEntry type="library" name="Maven: org.lwjgl:lwjgl-platform:natives-osx:3.0.0b" level="project" />
     <orderEntry type="library" name="Maven: org.lwjgl:lwjgl-platform:natives-linux:3.0.0b" level="project" />
     <orderEntry type="library" name="Maven: org.joml:joml:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.luaj:luaj-jse:3.0.1" level="project" />
   </component>
 </module>
