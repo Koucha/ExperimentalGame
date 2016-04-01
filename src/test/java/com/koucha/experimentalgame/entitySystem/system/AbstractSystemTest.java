@@ -6,6 +6,7 @@ import com.koucha.experimentalgame.entitySystem.Entity;
 import com.koucha.experimentalgame.entitySystem.EntityManager;
 import java.util.List;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.stubbing.Answer;
 
@@ -32,6 +33,23 @@ public class AbstractSystemTest
 	private static final boolean DONTTestRemove = false;
 	private static final boolean dontCare = false;
 
+
+	private static Entity entity;
+	private static AbstractSystem sys;
+
+	@BeforeClass
+	public static void setUpMocking() throws Exception
+	{
+		entity = mock( Entity.class );
+
+		sys = spy( AbstractSystem.class );
+
+		//noinspection unchecked
+		sys.entityList = mock(List.class);
+
+		sys.manager = mock(EntityManager.class);
+	}
+
 	@Test
 	public void setManager() throws Exception
 	{
@@ -39,6 +57,7 @@ public class AbstractSystemTest
 		when(manager.isSystemLinked( any() )).thenReturn( false );
 
 		AbstractSystem sys = spy(AbstractSystem.class);
+		when(sys.getFlag()).thenReturn( null );
 
 		sys.setEntityManager( manager );
 
@@ -151,18 +170,12 @@ public class AbstractSystemTest
 
 	private void updateEntityList( ChangeType changeType, boolean isAccepted, boolean isInList, boolean shouldBeAdded, boolean shouldBeRemoved, boolean testAdd, boolean testRemove )
 	{
-		Entity entity = mock( Entity.class );
-
-		AbstractSystem sys = spy( AbstractSystem.class );
-		when(sys.getFlag()).thenReturn( null );
+		//noinspection unchecked
+		reset(sys.entityList);
 
 		when(sys.acceptEntity( entity )).thenReturn( isAccepted );
 
-		//noinspection unchecked
-		sys.entityList = mock(List.class);
 		when(sys.entityList.indexOf( entity )).thenReturn( (isInList)?(0):(-1) );
-
-		sys.manager = mock(EntityManager.class);
 
 		doAnswer( (Answer< Void >) invocation -> {
 			Object[] args = invocation.getArguments();
