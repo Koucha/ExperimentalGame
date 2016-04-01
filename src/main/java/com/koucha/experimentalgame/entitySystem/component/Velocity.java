@@ -7,7 +7,7 @@ import org.joml.Vector3f;
 /**
  * Contains {@link Vector3f} of the velocity
  */
-public class Velocity extends Vector3f implements Component
+public class Velocity implements Component
 {
 	public Vector3f velocity = new Vector3f();
 

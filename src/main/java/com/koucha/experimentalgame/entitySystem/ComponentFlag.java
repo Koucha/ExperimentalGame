@@ -10,15 +10,28 @@ package com.koucha.experimentalgame.entitySystem;
  */
 public enum ComponentFlag
 {
-	Position, Velocity, AttachedCamera;
+	Position,
+	Velocity,
+	AttachedCamera,
+
+	// Has to be the last element in the list!
+	AFTER_LAST;
 
 	private long mask;
 
 	ComponentFlag()
 	{
+		int ord = ordinal();
+
+		if(ord >= 64)
+		{
+			mask = 0L;
+			return;
+		}
+
 		mask = 1L;
 
-		mask <<= ordinal();
+		mask <<= ord;
 	}
 
 	/**

@@ -10,7 +10,11 @@ package com.koucha.experimentalgame.entitySystem;
  */
 public enum SystemFlag
 {
-	System1;
+	System1,
+	System2,
+
+	// Has to be the last element in the list!
+	AFTER_LAST;
 
 	private long mask;
 

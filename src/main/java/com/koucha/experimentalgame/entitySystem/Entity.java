@@ -49,12 +49,23 @@ public class Entity
 		return false;
 	}
 
+	/**
+	 * Set the manager of this Entity
+	 * <p>
+	 * Should not need to be called, because the EntityManager does this automatically when this Entity is added
+	 *
+	 * @param manager EntityManager this Entity should be bound to
+	 *
+	 * @see EntityManager#add(Entity)
+	 */
 	public void setManager( EntityManager manager )
 	{
 		this.manager = manager;
 	}
 
 	/**
+	 * Get a specific Component of this Entity
+	 *
 	 * @param flag identification of the desired Component
 	 * @return the requested Component, or {@code null} if no such Component was found
 	 */

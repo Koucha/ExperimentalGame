@@ -44,12 +44,12 @@
                 <order>KEEP</order>
               </group>
               <group>
-                <type>OVERRIDDEN_METHODS</type>
-                <order>BY_NAME</order>
-              </group>
-              <group>
                 <type>DEPENDENT_METHODS</type>
                 <order>BREADTH_FIRST</order>
+              </group>
+              <group>
+                <type>OVERRIDDEN_METHODS</type>
+                <order>KEEP</order>
               </group>
             </groups>
             <rules>
@@ -274,6 +274,36 @@
                 <rule>
                   <match>
                     <METHOD>true</METHOD>
+                  </match>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <METHOD>true</METHOD>
+                      <PACKAGE_PRIVATE>true</PACKAGE_PRIVATE>
+                    </AND>
+                  </match>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <METHOD>true</METHOD>
+                      <PROTECTED>true</PROTECTED>
+                    </AND>
+                  </match>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
+                    <AND>
+                      <METHOD>true</METHOD>
+                      <PRIVATE>true</PRIVATE>
+                    </AND>
                   </match>
                 </rule>
               </section>

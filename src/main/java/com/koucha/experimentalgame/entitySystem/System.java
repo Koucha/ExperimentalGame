@@ -1,5 +1,8 @@
 package com.koucha.experimentalgame.entitySystem;
 
+/**
+ * Each System implementation processes Entities that have certain Components
+ */
 public interface System
 {
 	/**
@@ -7,7 +10,7 @@ public interface System
 	 *
 	 * @param manager EntityManager managing the Entities this System should process
 	 */
-	void setManager( EntityManager manager );
+	void setEntityManager( EntityManager manager );
 
 	/**
 	 * Get the unique flag bit for this System
