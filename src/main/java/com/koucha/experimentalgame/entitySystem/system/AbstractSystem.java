@@ -36,7 +36,25 @@ public abstract class AbstractSystem implements System
 	/**
 	 * List of all entities this System should be conserned with
 	 */
-	protected List< Entity > entityList = new LinkedList<>();
+	protected List< Entity > entityList;
+
+	/**
+	 * Create System with a LinkedList of its components
+	 */
+	protected AbstractSystem()
+	{
+		entityList = new LinkedList<>();
+	}
+
+	/**
+	 * Create a System with a custom List of components
+	 *
+	 * @param entityList List to be used
+	 */
+	protected AbstractSystem( List< Entity > entityList )
+	{
+		this.entityList = entityList;
+	}
 
 	@Override
 	public void setEntityManager( EntityManager manager )
@@ -51,8 +69,8 @@ public abstract class AbstractSystem implements System
 	 * Apply changes from the EntityManager to this Systems Entity list
 	 *
 	 * @see #processEntityChange(Entity, ChangeType)
-	 * @see EntityManager#checkChangedEntities(SystemFlag, ChangeProcessor)
-	 * @see ChangeProcessor
+	 * @see EntityManager#checkChangedEntities(SystemFlag, EntityManager.ChangeProcessor)
+	 * @see EntityManager.ChangeProcessor
 	 */
 	public void updateEntityList()
 	{
@@ -73,7 +91,7 @@ public abstract class AbstractSystem implements System
 		{
 			case Add:
 			case Addition:
-				if( acceptEntity( entity ) && entityList.indexOf( entity ) == -1 )
+				if( acceptEntity( entity ) && !entityList.contains( entity ) )
 					entityList.add( entity );
 				break;
 			case Deletion:
@@ -92,4 +110,15 @@ public abstract class AbstractSystem implements System
 	 * @return {@code true} if the Entity can be processed, {@code false} otherwise
 	 */
 	protected abstract boolean acceptEntity( Entity entity );
+
+	/**
+	 * Test if that Entity should be removed from the List
+	 *
+	 * @param entity Entity to test
+	 * @return {@code true} if the Entity should be tossed, {@code false} otherwise
+	 */
+	protected boolean rejectEntity( Entity entity )
+	{
+		return !acceptEntity( entity );
+	}
 }

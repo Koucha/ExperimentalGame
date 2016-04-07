@@ -64,9 +64,6 @@ public class BackBone
 		try
 		{
 			backBone.loop();
-		} catch( InterruptedException e )
-		{
-			e.printStackTrace();
 		} finally
 		{
 			backBone.cleanUp();
@@ -76,7 +73,7 @@ public class BackBone
 	/**
 	 * Main loop, all the timing is done in here
 	 */
-	private void loop() throws InterruptedException
+	private void loop()
 	{
 		running = true;
 

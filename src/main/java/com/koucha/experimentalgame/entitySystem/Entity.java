@@ -84,4 +84,15 @@ public class Entity
 	{
 		return componentMask.contains( mask );
 	}
+
+	/**
+	 * Test if this Entity has the desired Component
+	 *
+	 * @param flag ComponentFlag of the desired Component
+	 * @return {@code true} if this Entity contains all desired Components, {@code false} otherwise
+	 */
+	public boolean accept( ComponentFlag flag )
+	{
+		return accept( flag.getMask() );
+	}
 }

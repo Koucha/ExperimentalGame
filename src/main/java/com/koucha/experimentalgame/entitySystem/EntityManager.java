@@ -146,4 +146,15 @@ public class EntityManager
 			return true;
 		}
 	}
+
+	/**
+	 * Light weight dependency injection
+	 *
+	 * @see #checkChangedEntities(SystemFlag, ChangeProcessor)
+	 * @see com.koucha.experimentalgame.entitySystem.system.AbstractSystem#updateEntityList()
+	 */
+	public interface ChangeProcessor
+	{
+		void process( Entity entity, ChangeType type );
+	}
 }

@@ -1,6 +1,6 @@
 package com.koucha.experimentalgame.entitySystem.system;
 
-import com.koucha.experimentalgame.entitySystem.ChangeProcessor;
+import com.koucha.experimentalgame.entitySystem.EntityManager.ChangeProcessor;
 import com.koucha.experimentalgame.entitySystem.ChangeType;
 import com.koucha.experimentalgame.entitySystem.Entity;
 import com.koucha.experimentalgame.entitySystem.EntityManager;
