@@ -34,7 +34,7 @@ public class ComponentTest
 
 	static private void wellDefined( final Component component, boolean isPublic )
 	{
-		final Class<?> clazz = component.getClass();
+		final Class< ? > clazz = component.getClass();
 
 		final int modifiers = clazz.getModifiers();
 		if( isPublic )
@@ -63,7 +63,7 @@ public class ComponentTest
 		{
 			throw new AssertionError( MessageFormat.format( "Class \"{0}\" should not be static.", clazz.getSimpleName() ) );
 		}
-		if(clazz.isEnum())
+		if( clazz.isEnum() )
 		{
 			return;
 		}
@@ -73,7 +73,7 @@ public class ComponentTest
 		if( methods.length != 1 )
 		{
 			StringBuilder methodsString = new StringBuilder();
-			for(Method method : methods)
+			for( Method method : methods )
 			{
 				methodsString.append( method.getName() ).append( "\n" );
 			}
@@ -94,17 +94,35 @@ public class ComponentTest
 			}
 		}
 
-		Class<?>[] innerClazzes = clazz.getDeclaredClasses();
-		for(Class<?> innerClazz : innerClazzes)
+		Class< ? >[] innerClazzes = clazz.getDeclaredClasses();
+		for( Class< ? > innerClazz : innerClazzes )
 		{
-			if(!innerClazz.isEnum())
+			if( !innerClazz.isEnum() )
 			{
 				throw new AssertionError( MessageFormat.format( "Class \"{0}\" has inner Classes/Interfaces.", clazz.getSimpleName(), methods[0].getName() ) );
 			}
 		}
 
 		assertNotNull( "Component \"" + component.getClass().getSimpleName() + "\" has no Flag", component.getFlag() );
-		assertFalse( "Component \"" + component.getClass().getSimpleName() + "\" has an invalid mask", component.getMask().isZero());
+		assertFalse( "Component \"" + component.getClass().getSimpleName() + "\" has an invalid mask", component.getMask().isZero() );
+	}
+
+	@Test
+	public void AABBWellDefined() throws Exception
+	{
+		wellDefined( new AABB() );
+	}
+
+	@Test
+	public void MeshWellDefined() throws Exception
+	{
+		wellDefined( new Mesh() );
+	}
+
+	@Test
+	public void LocalPlayerWellDefined() throws Exception
+	{
+		wellDefined( new LocalPlayer() );
 	}
 
 	@Test

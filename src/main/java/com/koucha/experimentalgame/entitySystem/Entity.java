@@ -55,7 +55,6 @@ public class Entity
 	 * Should not need to be called, because the EntityManager does this automatically when this Entity is added
 	 *
 	 * @param manager EntityManager this Entity should be bound to
-	 *
 	 * @see EntityManager#add(Entity)
 	 */
 	public void setManager( EntityManager manager )
@@ -75,17 +74,6 @@ public class Entity
 	}
 
 	/**
-	 * Test if this Entity has all desired Components
-	 *
-	 * @param mask a combination of the flag bits of all desired Components
-	 * @return {@code true} if this Entity contains all desired Components, {@code false} otherwise
-	 */
-	public boolean accept( FastBitSet mask )
-	{
-		return componentMask.contains( mask );
-	}
-
-	/**
 	 * Test if this Entity has the desired Component
 	 *
 	 * @param flag ComponentFlag of the desired Component
@@ -94,5 +82,16 @@ public class Entity
 	public boolean accept( ComponentFlag flag )
 	{
 		return accept( flag.getMask() );
+	}
+
+	/**
+	 * Test if this Entity has all desired Components
+	 *
+	 * @param mask a combination of the flag bits of all desired Components
+	 * @return {@code true} if this Entity contains all desired Components, {@code false} otherwise
+	 */
+	public boolean accept( FastBitSet mask )
+	{
+		return componentMask.contains( mask );
 	}
 }

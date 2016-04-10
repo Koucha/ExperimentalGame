@@ -15,11 +15,11 @@ public class FastBitSetTest
 		FastBitSet bs = new FastBitSet();
 		Field set = FastBitSet.class.getDeclaredField( "set1" );
 		set.setAccessible( true );
-		
+
 		assertEquals( "Initialized FastBitSet not zero", 0, set.getLong( bs ) );
-		
+
 		bs.setBitTrue( 5 );
-		
+
 		assertEquals( "Set bit isn't matching", 0b100000, set.getLong( bs ) );
 	}
 
@@ -31,7 +31,7 @@ public class FastBitSetTest
 		set.setAccessible( true );
 
 		assertEquals( "Initialized FastBitSet not zero", 0, set.getLong( bs ) );
-		
+
 		set.setLong( bs, 0b100 );
 
 		bs.setBitFalse( 2 + 64 );
@@ -64,7 +64,7 @@ public class FastBitSetTest
 		assertTrue( "isZero doesn't detect zero state", bs.isZero() );
 
 		set.setLong( bs, 0b100 );
-		
+
 		assertFalse( "isZero doesn't detect non zero state", bs.isZero() );
 	}
 

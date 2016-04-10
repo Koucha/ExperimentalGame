@@ -9,19 +9,12 @@ import org.joml.Vector3f;
 public class Playah extends Mesh
 {
 	private Vector3f size;
-	private Position position;
 	private Color color;
 
-	public Playah( Vector3f size, Position position, Color color )
+	public Playah( Vector3f size, Color color )
 	{
 		this.size = size;
-		this.position = position;
 		this.color = color;
-	}
-
-	public Position getPosition()
-	{
-		return position;
 	}
 
 	public Vector3f getSize()

@@ -14,10 +14,10 @@ import org.joml.Matrix4f;
  * {@code
  * try{
  *     renderer.init();
- *
+ * <p>
  *     // create window and do your stuff here,
  *     // exit try block only if program ends
- *
+ * <p>
  * } finally{
  *     renderer.cleanUp();
  * }

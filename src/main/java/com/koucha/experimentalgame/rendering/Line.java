@@ -29,10 +29,10 @@ public class Line extends Mesh
 	 *
 	 * @param startX x coordinate of the beginning of the line
 	 * @param startY y coordinate of the beginning of the line
-	 * @param endX x coordinate of the ending of the line
-	 * @param endY y coordinate of the ending of the line
-	 * @param width width of the line
-	 * @param color line color
+	 * @param endX   x coordinate of the ending of the line
+	 * @param endY   y coordinate of the ending of the line
+	 * @param width  width of the line
+	 * @param color  line color
 	 */
 	public Line( float startX, float startY, float endX, float endY, float width, Color color )
 	{

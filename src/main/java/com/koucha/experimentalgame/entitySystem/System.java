@@ -28,4 +28,9 @@ public interface System
 	 * @return identification flag of the System
 	 */
 	SystemFlag getFlag();
+
+	/**
+	 * Process all Entities this System manipulates
+	 */
+	void processEntities();
 }

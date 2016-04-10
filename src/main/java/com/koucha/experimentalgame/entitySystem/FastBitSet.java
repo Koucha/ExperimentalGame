@@ -1,7 +1,5 @@
 package com.koucha.experimentalgame.entitySystem;
 
-import java.text.Format;
-
 /**
  * Implements a fast BitSet with over 64 flags
  */
@@ -15,17 +13,6 @@ public class FastBitSet
 	private long set4;
 
 	/**
-	 * Constructor; all flags are set to false
-	 */
-	public FastBitSet()
-	{
-		set1 = 0;
-		set2 = 0;
-		set3 = 0;
-		set4 = 0;
-	}
-
-	/**
 	 * Constructor; sets one flag to true
 	 *
 	 * @param i index of the flag to be set to true
@@ -34,6 +21,17 @@ public class FastBitSet
 	{
 		this();
 		setBitTrue( i );
+	}
+
+	/**
+	 * Constructor; all flags are set to false
+	 */
+	public FastBitSet()
+	{
+		set1 = 0;
+		set2 = 0;
+		set3 = 0;
+		set4 = 0;
 	}
 
 	/**
@@ -49,15 +47,15 @@ public class FastBitSet
 		if( i < 64 )
 		{
 			set1 |= 0x01L << i;
-		}else if( i < 128 )
+		} else if( i < 128 )
 		{
-			set2 |= 0x01L << ( i - 64 );
-		}else if( i < 192 )
+			set2 |= 0x01L << (i - 64);
+		} else if( i < 192 )
 		{
-			set3 |= 0x01L << ( i - 128 );
-		}else
+			set3 |= 0x01L << (i - 128);
+		} else
 		{
-			set4 |= 0x01L << ( i - 192 );
+			set4 |= 0x01L << (i - 192);
 		}
 	}
 
@@ -73,16 +71,16 @@ public class FastBitSet
 
 		if( i < 64 )
 		{
-			set1 &= ~( 0x01L << i );
-		}else if( i < 128 )
+			set1 &= ~(0x01L << i);
+		} else if( i < 128 )
 		{
-			set2 &= ~( 0x01L << ( i - 64 ) );
-		}else if( i < 192 )
+			set2 &= ~(0x01L << (i - 64));
+		} else if( i < 192 )
 		{
-			set3 &= ~( 0x01L << ( i - 128 ) );
-		}else
+			set3 &= ~(0x01L << (i - 128));
+		} else
 		{
-			set4 &= ~( 0x01L << ( i - 192 ) );
+			set4 &= ~(0x01L << (i - 192));
 		}
 	}
 
@@ -99,16 +97,16 @@ public class FastBitSet
 
 		if( i < 64 )
 		{
-			return ( set1 & ( 0x01L << i ) ) != 0;
-		}else if( i < 128 )
+			return (set1 & (0x01L << i)) != 0;
+		} else if( i < 128 )
 		{
-			return ( set2 & ( 0x01L << ( i - 64 ) ) ) != 0;
-		}else if( i < 192 )
+			return (set2 & (0x01L << (i - 64))) != 0;
+		} else if( i < 192 )
 		{
-			return ( set3 & ( 0x01L << ( i - 128 ) ) ) != 0;
-		}else
+			return (set3 & (0x01L << (i - 128))) != 0;
+		} else
 		{
-			return ( set4 & ( 0x01L << ( i - 192 ) ) ) != 0;
+			return (set4 & (0x01L << (i - 192))) != 0;
 		}
 	}
 
@@ -150,21 +148,16 @@ public class FastBitSet
 
 	/**
 	 * Test if this all the flags that are true in the subSet are true in this bitset
+	 *
 	 * @param subSet contains all flags to be tested
 	 * @return {@code true} if all flags that are true in subSet are true in this bitset too, {@code false} otherwise
 	 */
 	public boolean contains( FastBitSet subSet )
 	{
-		return  ((set1 & subSet.set1) == subSet.set1) &&
+		return ((set1 & subSet.set1) == subSet.set1) &&
 				((set2 & subSet.set2) == subSet.set2) &&
 				((set3 & subSet.set3) == subSet.set3) &&
 				((set4 & subSet.set4) == subSet.set4);
-	}
-
-	@Override
-	public String toString()
-	{
-		return String.format( "0x%016X%016X%016X%016X", set4, set3, set2, set1 );
 	}
 
 	@Override
@@ -178,9 +171,15 @@ public class FastBitSet
 	{
 		if( obj instanceof FastBitSet )
 		{
-			FastBitSet fbs = (FastBitSet)obj;
-			return ( set1 == fbs.set1 ) && ( set2 == fbs.set2 ) && ( set3 == fbs.set3 ) && ( set4 == fbs.set4 );
+			FastBitSet fbs = (FastBitSet) obj;
+			return (set1 == fbs.set1) && (set2 == fbs.set2) && (set3 == fbs.set3) && (set4 == fbs.set4);
 		}
 		return false;
+	}
+
+	@Override
+	public String toString()
+	{
+		return String.format( "0x%016X%016X%016X%016X", set4, set3, set2, set1 );
 	}
 }

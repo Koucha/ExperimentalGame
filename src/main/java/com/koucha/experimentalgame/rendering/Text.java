@@ -25,9 +25,9 @@ public class Text extends Mesh
 	/**
 	 * Constructor
 	 *
-	 * @param text text to be displayed
-	 * @param posX x coordinate of the position of the Text
-	 * @param posY y coordinate of the position of the Text
+	 * @param text  text to be displayed
+	 * @param posX  x coordinate of the position of the Text
+	 * @param posY  y coordinate of the position of the Text
 	 * @param color text color
 	 */
 	public Text( String text, float posX, float posY, Color color )
@@ -38,9 +38,9 @@ public class Text extends Mesh
 	/**
 	 * Constructor
 	 *
-	 * @param text text to be displayed
-	 * @param posX x coordinate of the position of the Text
-	 * @param posY y coordinate of the position of the Text
+	 * @param text  text to be displayed
+	 * @param posX  x coordinate of the position of the Text
+	 * @param posY  y coordinate of the position of the Text
 	 * @param angle angle of the up direction in radians clockwise from the top
 	 * @param color text color
 	 */

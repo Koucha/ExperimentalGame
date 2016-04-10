@@ -22,8 +22,8 @@ public final class AttachedCameraSubSystem
 	}
 
 	/**
-	 * @param camera AttachedCamera to be changed
-	 * @param topAngle angle between the line of sight and the up vector at the focusPoint (look at point)
+	 * @param camera    AttachedCamera to be changed
+	 * @param topAngle  angle between the line of sight and the up vector at the focusPoint (look at point)
 	 * @param turnAngle signed angle of the rotation around the up vector centered at the focusPoint (look at point)
 	 */
 	public static void setDirection( AttachedCamera camera, float topAngle, float turnAngle )
@@ -77,7 +77,7 @@ public final class AttachedCameraSubSystem
 	 * Calculate the ProjectionCamera matrix of a AttachedCamera
 	 *
 	 * @param camera AttachedCamera to be converted into a matrix
-	 * @param dest the calculated matrix is stored in this object
+	 * @param dest   the calculated matrix is stored in this object
 	 * @return dest with calculated matrix inside
 	 */
 	public static Matrix4f getCameraMatrix( AttachedCamera camera, Matrix4f dest )

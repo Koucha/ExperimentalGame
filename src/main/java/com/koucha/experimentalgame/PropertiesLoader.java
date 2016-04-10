@@ -1,6 +1,9 @@
 package com.koucha.experimentalgame;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -17,7 +20,7 @@ public class PropertiesLoader
 
 	public PropertiesLoader()
 	{
-		File file = new File("./resources/localisation");
+		File file = new File( "./resources/localisation" );
 		URL[] urls = new URL[0];
 		try
 		{
@@ -26,7 +29,7 @@ public class PropertiesLoader
 		{
 			e.printStackTrace();
 		}
-		loader = new URLClassLoader(urls);
+		loader = new URLClassLoader( urls );
 	}
 
 	/**
@@ -50,14 +53,16 @@ public class PropertiesLoader
 
 	public Properties loadPropertiesXML( String name )
 	{
-		try {
-			File file = new File("./resources/properties/" + name + ".xml");
-			FileInputStream fileInput = new FileInputStream(file);
+		try
+		{
+			File file = new File( "./resources/properties/" + name + ".xml" );
+			FileInputStream fileInput = new FileInputStream( file );
 			Properties properties = new Properties();
-			properties.loadFromXML(fileInput);
+			properties.loadFromXML( fileInput );
 			fileInput.close();
 			return properties;
-		} catch (IOException e) {
+		} catch( IOException e )
+		{
 			e.printStackTrace();
 		}
 		return null;
@@ -65,26 +70,30 @@ public class PropertiesLoader
 
 	public void savePropertiesXML( String name, Properties properties )
 	{
-		try {
-			File file = new File("./resources/properties/" + name + ".xml");
-			FileOutputStream fileOut = new FileOutputStream(file);
-			properties.storeToXML(fileOut, name);
+		try
+		{
+			File file = new File( "./resources/properties/" + name + ".xml" );
+			FileOutputStream fileOut = new FileOutputStream( file );
+			properties.storeToXML( fileOut, name );
 			fileOut.close();
-		} catch (IOException e) {
+		} catch( IOException e )
+		{
 			e.printStackTrace();
 		}
 	}
 
 	public Properties loadProperties( String name )
 	{
-		try {
-			File file = new File("./resources/properties/" + name + ".properties");
-			FileInputStream fileInput = new FileInputStream(file);
+		try
+		{
+			File file = new File( "./resources/properties/" + name + ".properties" );
+			FileInputStream fileInput = new FileInputStream( file );
 			Properties properties = new Properties();
-			properties.load(fileInput);
+			properties.load( fileInput );
 			fileInput.close();
 			return properties;
-		} catch (IOException e) {
+		} catch( IOException e )
+		{
 			e.printStackTrace();
 		}
 		return null;
@@ -92,12 +101,14 @@ public class PropertiesLoader
 
 	public void saveProperties( String name, Properties properties )
 	{
-		try {
-			File file = new File("./resources/properties/" + name + ".properties");
-			FileOutputStream fileOut = new FileOutputStream(file);
-			properties.store(fileOut, name);
+		try
+		{
+			File file = new File( "./resources/properties/" + name + ".properties" );
+			FileOutputStream fileOut = new FileOutputStream( file );
+			properties.store( fileOut, name );
 			fileOut.close();
-		} catch (IOException e) {
+		} catch( IOException e )
+		{
 			e.printStackTrace();
 		}
 	}

@@ -25,15 +25,6 @@ public class ProjectionCamera
 		pVMatrix.invert( inversePVMatrix );
 	}
 
-
-	private void updateMatrix()
-	{
-		pVMatrix.set( cameraMatrix );
-		projectionMatrix.mul( pVMatrix, pVMatrix );
-		pVMatrix.invert( inversePVMatrix );
-		cameraMatrix.invert( inverseCameraMatrix );
-	}
-
 	public Matrix4f getViewProjectionMatrix()
 	{
 		return pVMatrix;
@@ -49,15 +40,23 @@ public class ProjectionCamera
 		return cameraMatrix;
 	}
 
-	public Matrix4f getInverseCameraMatrix()
-	{
-		return inverseCameraMatrix;
-	}
-
 	public void setCameraMatrix( Matrix4f cameraMatrix )
 	{
 		this.cameraMatrix.set( cameraMatrix );
 		updateMatrix();
+	}
+
+	private void updateMatrix()
+	{
+		pVMatrix.set( cameraMatrix );
+		projectionMatrix.mul( pVMatrix, pVMatrix );
+		pVMatrix.invert( inversePVMatrix );
+		cameraMatrix.invert( inverseCameraMatrix );
+	}
+
+	public Matrix4f getInverseCameraMatrix()
+	{
+		return inverseCameraMatrix;
 	}
 
 	public void setAspectRatio( float aspectRatio )

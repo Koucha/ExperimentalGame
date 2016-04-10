@@ -98,9 +98,8 @@ public class EntityManager
 	 * Iterate over the change list.
 	 * If a change wasen't processed by the specified System, process it with the given processor
 	 *
-	 * @param flag SystemFlag identifiyng the System
+	 * @param flag      SystemFlag identifiyng the System
 	 * @param processor is used to process the new changes
-	 *
 	 * @see ChangeProcessor
 	 * @see com.koucha.experimentalgame.entitySystem.system.AbstractSystem#updateEntityList()
 	 */
@@ -116,6 +115,17 @@ public class EntityManager
 				processor.process( change.entity, change.type );
 			}
 		}
+	}
+
+	/**
+	 * Light weight dependency injection
+	 *
+	 * @see #checkChangedEntities(SystemFlag, ChangeProcessor)
+	 * @see com.koucha.experimentalgame.entitySystem.system.AbstractSystem#updateEntityList()
+	 */
+	public interface ChangeProcessor
+	{
+		void process( Entity entity, ChangeType type );
 	}
 
 	private class Change
@@ -134,7 +144,6 @@ public class EntityManager
 		/**
 		 * @param mask mask of the System to be tested
 		 * @return false if that System already processed this change, true otherwise
-		 *
 		 * @see #checkChangedEntities(SystemFlag, ChangeProcessor)
 		 */
 		boolean isNew( FastBitSet mask )
@@ -145,16 +154,5 @@ public class EntityManager
 			systemMask.add( mask );
 			return true;
 		}
-	}
-
-	/**
-	 * Light weight dependency injection
-	 *
-	 * @see #checkChangedEntities(SystemFlag, ChangeProcessor)
-	 * @see com.koucha.experimentalgame.entitySystem.system.AbstractSystem#updateEntityList()
-	 */
-	public interface ChangeProcessor
-	{
-		void process( Entity entity, ChangeType type );
 	}
 }

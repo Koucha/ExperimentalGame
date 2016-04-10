@@ -9,7 +9,7 @@ package com.koucha.experimentalgame.entitySystem;
  */
 public enum ComponentFlag
 {
-	Position, Velocity, AttachedCamera, Mesh, AABB;
+	Position, Velocity, AttachedCamera, Mesh, AABB, LocalPlayer;
 
 	private FastBitSet mask;
 

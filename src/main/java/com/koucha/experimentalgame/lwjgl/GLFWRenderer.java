@@ -93,25 +93,25 @@ class GLFWRenderer implements Renderer
 	public void render( Mesh renderable )
 	{
 		//// TODO: 02.04.2016
-//		if( renderable instanceof Line )
-//		{
-//			shapeRenderer.render( (Line) renderable );
-//		} else if( renderable instanceof Rectangle )
-//		{
-//			shapeRenderer.render( (Rectangle) renderable );
-//		} else if( renderable instanceof Text )
-//		{
-//			shapeRenderer.render( (Text) renderable );
-//		} else if( renderable instanceof Cube )
-//		{
-//			shapeRenderer.render( (Cube) renderable );
-//		} else if( renderable instanceof Playah )
-//		{
-//			shapeRenderer.render( (Playah) renderable );
-//		}/*else
-//		{
-//			// nothing
-//		}*/
+		if( renderable instanceof Line )
+		{
+			shapeRenderer.render( (Line) renderable );
+		} else if( renderable instanceof Rectangle )
+		{
+			shapeRenderer.render( (Rectangle) renderable );
+		} else if( renderable instanceof Text )
+		{
+			shapeRenderer.render( (Text) renderable );
+		} else if( renderable instanceof Cube )
+		{
+			shapeRenderer.render( (Cube) renderable );
+		} else if( renderable instanceof Playah )
+		{
+			shapeRenderer.render( (Playah) renderable );
+		}/*else
+		{
+			// nothing
+		}*/
 	}
 
 	@Override
@@ -183,36 +183,6 @@ class GLFWRenderer implements Renderer
 	}
 
 	@Override
-	public void preLoopInitialization()
-	{
-		// This line is critical for LWJGL's interoperation with GLFW's
-		// OpenGL context, or any context that is managed externally.
-		// LWJGL detects the context that is current in the current thread,
-		// creates the ContextCapabilities instance and makes the OpenGL
-		// bindings available for use.
-		GL.createCapabilities();
-
-		System.out.println( glGetString( GL_VERSION ) );
-
-		shapeRenderer = new ShapeRenderer();
-
-		/* Get width and height of framebuffer */
-		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
-		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
-		glfwGetFramebufferSize(window, widthBuffer, heightBuffer);
-		int width = widthBuffer.get();
-		int height = heightBuffer.get();
-
-		orthoCam = new OrthoCam( 0, width, height, 0 );
-		camera = new ProjectionCamera( width / (float)height );
-
-		// Set the clear color
-		glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
-
-		glEnable( GL_DEPTH_TEST );
-	}
-
-	@Override
 	public void finishRenderIteration()
 	{
 		glfwSwapBuffers( window ); // swap the color buffers
@@ -234,6 +204,36 @@ class GLFWRenderer implements Renderer
 		// Initialize GLFW. Most GLFW functions will not work before doing this.
 		if( glfwInit() != GL_TRUE )
 			throw new IllegalStateException( "Unable to initialize GLFW" );
+	}
+
+	@Override
+	public void preLoopInitialization()
+	{
+		// This line is critical for LWJGL's interoperation with GLFW's
+		// OpenGL context, or any context that is managed externally.
+		// LWJGL detects the context that is current in the current thread,
+		// creates the ContextCapabilities instance and makes the OpenGL
+		// bindings available for use.
+		GL.createCapabilities();
+
+		System.out.println( glGetString( GL_VERSION ) );
+
+		shapeRenderer = new ShapeRenderer();
+
+		/* Get width and height of framebuffer */
+		IntBuffer widthBuffer = BufferUtils.createIntBuffer( 1 );
+		IntBuffer heightBuffer = BufferUtils.createIntBuffer( 1 );
+		glfwGetFramebufferSize( window, widthBuffer, heightBuffer );
+		int width = widthBuffer.get();
+		int height = heightBuffer.get();
+
+		orthoCam = new OrthoCam( 0, width, height, 0 );
+		camera = new ProjectionCamera( width / (float) height );
+
+		// Set the clear color
+		glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
+
+		glEnable( GL_DEPTH_TEST );
 	}
 
 	@Override
@@ -259,18 +259,6 @@ class GLFWRenderer implements Renderer
 	}
 
 	@Override
-	public void initializeGUIRenderIteration()
-	{
-		glClear( GL_DEPTH_BUFFER_BIT );
-		shapeRenderer.setPVMatrix( orthoCam.getViewProjectionMatrix() );
-	}
-
-	public void setCameraMatrix( Matrix4f cameraMatrix )
-	{
-		this.camera.setCameraMatrix( cameraMatrix );
-	}
-
-	@Override
 	public int getWindowHeight()
 	{
 		return height;
@@ -282,9 +270,21 @@ class GLFWRenderer implements Renderer
 		return width;
 	}
 
+	@Override
+	public void initializeGUIRenderIteration()
+	{
+		glClear( GL_DEPTH_BUFFER_BIT );
+		shapeRenderer.setPVMatrix( orthoCam.getViewProjectionMatrix() );
+	}
+
+	public void setCameraMatrix( Matrix4f cameraMatrix )
+	{
+		this.camera.setCameraMatrix( cameraMatrix );
+	}
+
 	/**
 	 * Initializes the input managers, if a window and a inputBridge are present
-	 *
+	 * <p>
 	 * Input managers: {@link GLFWKeyInput} and {@link GLFWMouseInput}
 	 */
 	private void setUpInputManagers()

@@ -13,14 +13,14 @@ import java.util.List;
  * <p>
  * Further implementations have to implement:
  * <ul>
- *    <li>{@link #acceptEntity(Entity)}
- *    <ul style="list-style: none;">
- *        <li>to specify what entities should be added to the list</li>
- *    </ul></li>
- *    <li>{@link #getFlag()}
- *    <ul style="list-style: none;">
- *        <li>to provide a valid SystemFlag (only non abstract implementations should have one)</li>
- *    </ul></li>
+ * <li>{@link #acceptEntity(Entity)}
+ * <ul style="list-style: none;">
+ * <li>to specify what entities should be added to the list</li>
+ * </ul></li>
+ * <li>{@link #getFlag()}
+ * <ul style="list-style: none;">
+ * <li>to provide a valid SystemFlag (only non abstract implementations should have one)</li>
+ * </ul></li>
  * </ul>
  *
  * @see Entity
@@ -81,8 +81,7 @@ public abstract class AbstractSystem implements System
 	 * Add/Remove entities to/from this Systems list, if they fullfill the requirements
 	 *
 	 * @param entity Entity to be procesed
-	 * @param type type of the change of the given Entity
-	 *
+	 * @param type   type of the change of the given Entity
 	 * @see ChangeProcessor
 	 */
 	private void processEntityChange( Entity entity, ChangeType type )
@@ -95,7 +94,7 @@ public abstract class AbstractSystem implements System
 					entityList.add( entity );
 				break;
 			case Deletion:
-				if( !acceptEntity( entity ) )
+				if( rejectEntity( entity ) )
 					entityList.remove( entity );
 				break;
 			case Remove:

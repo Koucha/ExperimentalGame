@@ -53,12 +53,6 @@ class GLFWMouseInput
 		} );
 	}
 
-	public void release()
-	{
-		buttonCallback.release();
-		positionCallback.release();
-	}
-
 	private void mouseButtonCallbackInvoke( int button, int action )
 	{
 		if( action == GLFW_PRESS )
@@ -68,5 +62,11 @@ class GLFWMouseInput
 		{
 			inputBridge.doKeyEvent( new InputEvent( GLFW_MOUSE_BUTTON_1 - button - 1, MOUSE_CODES.get( button ), KeyEventType.released ) );
 		}
+	}
+
+	public void release()
+	{
+		buttonCallback.release();
+		positionCallback.release();
 	}
 }

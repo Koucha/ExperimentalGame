@@ -1,5 +1,10 @@
 package com.koucha.experimentalgame;
 
+import com.koucha.experimentalgame.entitySystem.EntityManager;
+import com.koucha.experimentalgame.entitySystem.QuadTree;
+import com.koucha.experimentalgame.entitySystem.SystemManager;
+import com.koucha.experimentalgame.entitySystem.system.PhysicsSystem;
+import com.koucha.experimentalgame.entitySystem.system.RenderSystem;
 import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.input.InputEvent;
 import com.koucha.experimentalgame.lwjgl.GLFWGraphicsHub;
@@ -26,6 +31,9 @@ public class BackBone
 
 	private Renderer renderer;
 	private InputBridge inputBridge;
+	private EntityManager entityManager;
+	private SystemManager systemManager;
+
 	private boolean limitFPS = false;
 	private int framesPerSecond;
 	private int updatesPerSecond;
@@ -48,6 +56,14 @@ public class BackBone
 		inputBridge.getInputMap().addLink( "Quit", 0x100, ( InputEvent evt ) -> running = false );
 
 		//todo set up player etc.
+		entityManager = new EntityManager();
+		systemManager = new SystemManager( entityManager );
+
+		QuadTree quadTree = new QuadTree( -100, -100, 100, 100 );
+		systemManager.setRenderSystem( new RenderSystem( quadTree, renderer ) );
+		systemManager.add( new PhysicsSystem( quadTree ) );
+
+		entityManager.add( EntityFactory.makePlayer( inputBridge ) );
 
 		renderer.setInputBridge( inputBridge );
 
@@ -79,7 +95,7 @@ public class BackBone
 
 		renderer.preLoopInitialization();
 
-		final long deltaRenderTimeNS = ( long )( SECOND_IN_NANOS / MAX_FRAMES_PER_SECOND );
+		final long deltaRenderTimeNS = (long) (SECOND_IN_NANOS / MAX_FRAMES_PER_SECOND);
 		final long deltaRender5TimeNS = 5 * deltaRenderTimeNS;
 		final float deltaUpdateTimeNS = SECOND_IN_NANOS / AVG_UPDATES_PER_SECOND;
 
@@ -116,7 +132,7 @@ public class BackBone
 				if( nowTimeNS - lastRenderTimeNS > deltaRender5TimeNS )
 				{
 					lastRenderTimeNS = nowTimeNS;
-				}else
+				} else
 				{
 					lastRenderTimeNS += deltaRenderTimeNS;
 				}
@@ -154,8 +170,7 @@ public class BackBone
 	{
 		renderer.initializeUpdateIteration();
 
-		//todo list.update();
-		// hud.update(); // not really needed
+		systemManager.update();
 	}
 
 	/**
@@ -165,7 +180,7 @@ public class BackBone
 	{
 		renderer.initializeRenderIteration();
 
-		//todo list.render( renderer );
+		systemManager.render();
 
 		renderer.initializeGUIRenderIteration();
 

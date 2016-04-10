@@ -1,5 +1,6 @@
 package com.koucha.experimentalgame.lwjgl;
 
+import com.koucha.experimentalgame.entitySystem.system.MeshSubSystem;
 import com.koucha.experimentalgame.rendering.*;
 import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
@@ -59,10 +60,10 @@ class ShapeRenderer
 		glBindBuffer( GL_ARRAY_BUFFER, playahVB );
 
 		FloatBuffer buff = BufferUtils.createFloatBuffer( 3 * 12 );
-		buff    .put( +0.0f ).put( +0.0f ).put( +0.5f ) .put( +0.0f ).put( +0.5f ).put( -0.5f ) .put( -0.5f ).put( -0.5f ).put( -0.5f )
-				.put( +0.0f ).put( +0.0f ).put( +0.5f ) .put( +0.5f ).put( -0.5f ).put( -0.5f ) .put( +0.0f ).put( +0.5f ).put( -0.5f )
-				.put( +0.0f ).put( +0.0f ).put( +0.5f ) .put( -0.5f ).put( -0.5f ).put( -0.5f ) .put( +0.5f ).put( -0.5f ).put( -0.5f )
-				.put( +0.0f ).put( +0.5f ).put( -0.5f ) .put( +0.5f ).put( -0.5f ).put( -0.5f ) .put( -0.5f ).put( -0.5f ).put( -0.5f );
+		buff.put( +0.0f ).put( +0.0f ).put( +0.5f ).put( +0.0f ).put( +0.5f ).put( -0.5f ).put( -0.5f ).put( -0.5f ).put( -0.5f )
+				.put( +0.0f ).put( +0.0f ).put( +0.5f ).put( +0.5f ).put( -0.5f ).put( -0.5f ).put( +0.0f ).put( +0.5f ).put( -0.5f )
+				.put( +0.0f ).put( +0.0f ).put( +0.5f ).put( -0.5f ).put( -0.5f ).put( -0.5f ).put( +0.5f ).put( -0.5f ).put( -0.5f )
+				.put( +0.0f ).put( +0.5f ).put( -0.5f ).put( +0.5f ).put( -0.5f ).put( -0.5f ).put( -0.5f ).put( -0.5f ).put( -0.5f );
 		buff.flip();
 
 		glBufferData( GL_ARRAY_BUFFER, buff, GL_STATIC_DRAW );
@@ -74,13 +75,21 @@ class ShapeRenderer
 
 		float nx, ny, nz;
 		buff.clear();
-		nx = -0.872872f; ny = 0.436436f; nz = 0.218218f;
+		nx = -0.872872f;
+		ny = 0.436436f;
+		nz = 0.218218f;
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
-		nx = 0.872872f; ny = 0.436436f; nz = 0.218218f;
+		nx = 0.872872f;
+		ny = 0.436436f;
+		nz = 0.218218f;
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
-		nx = 0f; ny = -0.894427f; nz = 0.447214f;
+		nx = 0f;
+		ny = -0.894427f;
+		nz = 0.447214f;
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
-		nx = 0f; ny = 0f; nz = -1f;
+		nx = 0f;
+		ny = 0f;
+		nz = -1f;
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
 		buff.flip();
 
@@ -128,22 +137,34 @@ class ShapeRenderer
 
 		float nx, ny, nz;
 		buff.clear();
-		nx = 0f; ny = 1f; nz = 0f;
+		nx = 0f;
+		ny = 1f;
+		nz = 0f;
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
-		nx = -1f; ny = 0f; nz = 0f;
+		nx = -1f;
+		ny = 0f;
+		nz = 0f;
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
-		nx = 0f; ny = 0f; nz = 1f;
+		nx = 0f;
+		ny = 0f;
+		nz = 1f;
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
-		nx = 1f; ny = 0f; nz = 0f;
+		nx = 1f;
+		ny = 0f;
+		nz = 0f;
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
-		nx = 0f; ny = -1f; nz = 0f;
+		nx = 0f;
+		ny = -1f;
+		nz = 0f;
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
-		nx = 0f; ny = 0f; nz = -1f;
+		nx = 0f;
+		ny = 0f;
+		nz = -1f;
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
 		buff.put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz ).put( nx ).put( ny ).put( nz );
 		buff.flip();
@@ -234,26 +255,7 @@ class ShapeRenderer
 
 		working.translation( rectangle.getPosition() ).rotateZ( rectangle.getAngle() ).scale( rectangle.getWidth(), rectangle.getHeight(), 1 );
 
-		drawVAO(defaultShader2D, rectangle.getColor(), quadVA, 6);
-	}
-
-	public void render( Text text )
-	{
-		//todo
-	}
-
-	public void render( Cube cube )
-	{
-		working.identity().mul( cube.getPosition().getOrientedPosition() ).scale( cube.getSize() );
-
-		drawVAO(defaultShader3D, cube.getColor(), cubeVA, 36, true);
-	}
-
-	public void render( Playah playah )
-	{
-		working.identity().mul( playah.getPosition().getOrientedPosition() ).scale( playah.getSize() );
-
-		drawVAO(defaultShader3D, playah.getColor(), playahVA, 12, true );
+		drawVAO( defaultShader2D, rectangle.getColor(), quadVA, 6 );
 	}
 
 	private void drawVAO( int shaderProgram, Color color, int vao, int verticeNumber )
@@ -261,16 +263,16 @@ class ShapeRenderer
 		drawVAO( shaderProgram, color, vao, verticeNumber, false );
 	}
 
-	private void drawVAO( int shaderProgram, Color color, int vao, int verticeNumber, boolean hasNormals)
+	private void drawVAO( int shaderProgram, Color color, int vao, int verticeNumber, boolean hasNormals )
 	{
 		glUseProgram( shaderProgram );
 
 		int loc;
 
-		if(hasNormals)
+		if( hasNormals )
 		{
 			loc = glGetUniformLocation( shaderProgram, "NORM" );
-			if(loc == -1) System.err.println("Couldn't get Uniform location for 'NORM'");
+			if( loc == -1 ) System.err.println( "Couldn't get Uniform location for 'NORM'" );
 			new Matrix4f( working ).invert().transpose().get( fb16 );
 			glUniformMatrix4fv( loc, false, fb16 );
 		}
@@ -278,12 +280,12 @@ class ShapeRenderer
 		pvMatrix.mul( working, working );
 
 		loc = glGetUniformLocation( shaderProgram, "PVM" );
-		if(loc == -1) System.err.println("Couldn't get Uniform location for 'PVM'");
+		if( loc == -1 ) System.err.println( "Couldn't get Uniform location for 'PVM'" );
 		working.get( fb16 );
 		glUniformMatrix4fv( loc, false, fb16 );
 
 		loc = glGetUniformLocation( shaderProgram, "COLOR" );
-		if(loc == -1) System.err.println("Couldn't get Uniform location for 'COLOR'");
+		if( loc == -1 ) System.err.println( "Couldn't get Uniform location for 'COLOR'" );
 		color.get( fb4 );
 		glUniform4fv( loc, fb4 );
 
@@ -294,5 +296,25 @@ class ShapeRenderer
 		if( hasNormals ) glDisableVertexAttribArray( 1 );
 		glDisableVertexAttribArray( 0 );
 		glBindVertexArray( 0 );
+	}
+
+	public void render( Text text )
+	{
+		//todo
+	}
+
+	public void render( Cube cube )
+	{
+		// TODO: 10.04.2016
+//		working.identity().mul( cube.getPosition().getOrientedPosition() ).scale( cube.getSize() );
+//
+//		drawVAO(defaultShader3D, cube.getColor(), cubeVA, 36, true);
+	}
+
+	public void render( Playah playah )
+	{
+		working.identity().mul( MeshSubSystem.getOrientedPosition( playah ) ).scale( playah.getSize() );
+
+		drawVAO( defaultShader3D, playah.getColor(), playahVA, 12, true );
 	}
 }

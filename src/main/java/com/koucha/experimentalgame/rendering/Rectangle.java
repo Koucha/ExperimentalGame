@@ -32,10 +32,10 @@ public class Rectangle extends Mesh
 	 * Creates a filled Rectangle
 	 *
 	 * @param position coordinate of the center of the rectangle
-	 * @param angle rotation in radians clockwise from top
-	 * @param width x axis aligned size of the rectangle
-	 * @param height y axis aligned size of the rectangle
-	 * @param color paint color
+	 * @param angle    rotation in radians clockwise from top
+	 * @param width    x axis aligned size of the rectangle
+	 * @param height   y axis aligned size of the rectangle
+	 * @param color    paint color
 	 */
 	public Rectangle( Vector3f position, float angle, float width, float height, Color color )
 	{

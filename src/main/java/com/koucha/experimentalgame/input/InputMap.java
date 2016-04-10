@@ -137,6 +137,17 @@ public class InputMap
 	}
 
 	/**
+	 * Forwards a {@link InputEvent} to all {@link Callback} corresponding to the key the InputEvent originates from
+	 *
+	 * @param evt event to be forwarded
+	 * @throws NoLinkFoundException if the map has no entry for the corresponding key
+	 */
+	public void call( InputEvent evt ) throws NoLinkFoundException
+	{
+		findKey( evt.code ).call( evt );
+	}
+
+	/**
 	 * Sorts the {@link #keyList}
 	 */
 	private void sortKeys()
@@ -206,17 +217,6 @@ public class InputMap
 			}
 		}
 		key.putInArrayAt( i, keyList );
-	}
-
-	/**
-	 * Forwards a {@link InputEvent} to all {@link Callback} corresponding to the key the InputEvent originates from
-	 *
-	 * @param evt event to be forwarded
-	 * @throws NoLinkFoundException if the map has no entry for the corresponding key
-	 */
-	public void call( InputEvent evt ) throws NoLinkFoundException
-	{
-		findKey( evt.code ).call( evt );
 	}
 
 	/**

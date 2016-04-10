@@ -35,7 +35,7 @@ class GLFWKeyInput
 		this.inputBridge = inputBridge;
 
 		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
-		glfwSetKeyCallback( window, keyCallback = new GLFWKeyCallback()	//class not interface, no lambda for me :-/
+		glfwSetKeyCallback( window, keyCallback = new GLFWKeyCallback()    //class not interface, no lambda for me :-/
 		{
 			@Override
 			public void invoke( long window, int key, int scanCode, int action, int mods )
@@ -44,28 +44,22 @@ class GLFWKeyInput
 			}
 		} );
 
-		glfwSetCharModsCallback( window, charModsCallback = new GLFWCharModsCallback()	//class not interface, no lambda for me :-/
+		glfwSetCharModsCallback( window, charModsCallback = new GLFWCharModsCallback()    //class not interface, no lambda for me :-/
 		{
 			@Override
 			public void invoke( long window, int codePoint, int mods )
 			{
-				lastPressed = new String(Character.toChars(codePoint)).toUpperCase();
+				lastPressed = new String( Character.toChars( codePoint ) ).toUpperCase();
 				inputBridge.addText( lastPressed );
 			}
 		} );
 	}
 
-	public void release()
-	{
-		keyCallback.release();
-		charModsCallback.release();
-	}
-
 	/**
 	 * Is invoked by the {@link GLFWKeyCallback}
 	 *
-	 * @param key 		GLFW code of the key that generated the event
-	 * @param action	GLFW code of the action (pressed, released etc.)
+	 * @param key    GLFW code of the key that generated the event
+	 * @param action GLFW code of the action (pressed, released etc.)
 	 */
 	private void keyCallbackInvoke( int key, int action )
 	{
@@ -77,5 +71,11 @@ class GLFWKeyInput
 			String name = KEY_CODES.get( key );
 			inputBridge.doKeyEvent( new InputEvent( key, (name.length() == 1) ? (lastPressed) : (name), KeyEventType.released ) );
 		}
+	}
+
+	public void release()
+	{
+		keyCallback.release();
+		charModsCallback.release();
 	}
 }
