@@ -41,12 +41,12 @@ public class SystemManager
 		//noinspection Convert2streamapi
 		for( System sys : systemList )
 		{
-			sys.processEntities();
+			sys.update();
 		}
 	}
 
 	public void render()
 	{
-		renderSystem.processEntities();
+		renderSystem.update();
 	}
 }

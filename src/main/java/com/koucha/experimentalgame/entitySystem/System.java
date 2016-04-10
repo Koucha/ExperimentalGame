@@ -32,5 +32,5 @@ public interface System
 	/**
 	 * Process all Entities this System manipulates
 	 */
-	void processEntities();
+	void update();
 }

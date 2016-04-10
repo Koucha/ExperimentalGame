@@ -30,10 +30,8 @@ public class RenderSystem extends AbstractSystem
 	}
 
 	@Override
-	public void processEntities()
+	protected void processEntities()
 	{
-		updateEntityList();
-
 		// TODO: 09.04.2016 make better maybe?
 		for( Entity entity : entityList )
 		{

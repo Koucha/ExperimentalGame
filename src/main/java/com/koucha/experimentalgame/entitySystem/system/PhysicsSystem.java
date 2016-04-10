@@ -5,6 +5,8 @@ import com.koucha.experimentalgame.entitySystem.ComponentFlag;
 import com.koucha.experimentalgame.entitySystem.Entity;
 import com.koucha.experimentalgame.entitySystem.QuadTree;
 import com.koucha.experimentalgame.entitySystem.SystemFlag;
+import com.koucha.experimentalgame.entitySystem.component.Position;
+import com.koucha.experimentalgame.entitySystem.component.Velocity;
 
 // TODO: 10.04.2016 comment
 public class PhysicsSystem extends AbstractSystem
@@ -22,9 +24,16 @@ public class PhysicsSystem extends AbstractSystem
 	}
 
 	@Override
-	public void processEntities()
+	protected void processEntities()
 	{
-		//todo
+		// TODO: 09.04.2016 make better maybe?
+		for( Entity entity : entityList )
+		{
+			Velocity velocity = (Velocity) entity.get( ComponentFlag.Velocity );
+			Position position = (Position) entity.get( ComponentFlag.Position );
+
+			position.position.add( velocity.velocity );
+		}
 	}
 
 	@Override

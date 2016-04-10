@@ -3,6 +3,8 @@ package com.koucha.experimentalgame;
 import com.koucha.experimentalgame.entitySystem.EntityManager;
 import com.koucha.experimentalgame.entitySystem.QuadTree;
 import com.koucha.experimentalgame.entitySystem.SystemManager;
+import com.koucha.experimentalgame.entitySystem.system.InputProcessingSystem;
+import com.koucha.experimentalgame.entitySystem.system.LocalPlayerInputSystem;
 import com.koucha.experimentalgame.entitySystem.system.PhysicsSystem;
 import com.koucha.experimentalgame.entitySystem.system.RenderSystem;
 import com.koucha.experimentalgame.input.InputBridge;
@@ -62,8 +64,10 @@ public class BackBone
 		QuadTree quadTree = new QuadTree( -100, -100, 100, 100 );
 		systemManager.setRenderSystem( new RenderSystem( quadTree, renderer ) );
 		systemManager.add( new PhysicsSystem( quadTree ) );
+		systemManager.add( new LocalPlayerInputSystem( inputBridge ) );
+		systemManager.add( new InputProcessingSystem() );
 
-		entityManager.add( EntityFactory.makePlayer( inputBridge ) );
+		entityManager.add( EntityFactory.makePlayer() );
 
 		renderer.setInputBridge( inputBridge );
 

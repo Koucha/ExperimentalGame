@@ -77,6 +77,19 @@ public abstract class AbstractSystem implements System
 		manager.checkChangedEntities( getFlag(), this::processEntityChange );
 	}
 
+	@Override
+	public void update()
+	{
+		updateEntityList();
+
+		processEntities();
+	}
+
+	/**
+	 * Process all Entities this System manipulates
+	 */
+	protected abstract void processEntities();
+
 	/**
 	 * Add/Remove entities to/from this Systems list, if they fullfill the requirements
 	 *

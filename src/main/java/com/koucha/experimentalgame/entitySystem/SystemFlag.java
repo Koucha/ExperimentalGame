@@ -9,7 +9,7 @@ package com.koucha.experimentalgame.entitySystem;
  */
 public enum SystemFlag
 {
-	RenderSystem, PhysicsSystem;
+	RenderSystem, PhysicsSystem, LocalPlayerInputSystem, InputProcessingSystem;
 
 	private FastBitSet mask;
 
