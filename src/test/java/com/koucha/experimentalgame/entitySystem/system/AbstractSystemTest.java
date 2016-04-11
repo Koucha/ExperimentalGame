@@ -8,8 +8,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.stubbing.Answer;
 
-import java.util.List;
-
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -45,7 +43,7 @@ public class AbstractSystemTest
 		sys = spy( AbstractSystem.class );
 
 		//noinspection unchecked
-		sys.entityList = mock( List.class );
+		sys.entityList = mock( EntityList.class );
 
 		sys.manager = mock( EntityManager.class );
 	}
@@ -85,7 +83,7 @@ public class AbstractSystemTest
 
 		when( sys.acceptEntity( entity ) ).thenReturn( isAccepted );
 
-		when( sys.entityList.indexOf( entity ) ).thenReturn( (isInList) ? (0) : (-1) );
+		when( sys.entityList.contains( entity ) ).thenReturn( isInList );
 
 		doAnswer( (Answer< Void >) invocation -> {
 			Object[] args = invocation.getArguments();

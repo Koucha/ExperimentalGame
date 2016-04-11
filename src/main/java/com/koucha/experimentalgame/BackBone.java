@@ -1,8 +1,8 @@
 package com.koucha.experimentalgame;
 
 import com.koucha.experimentalgame.entitySystem.EntityManager;
-import com.koucha.experimentalgame.entitySystem.QuadTree;
 import com.koucha.experimentalgame.entitySystem.SystemManager;
+import com.koucha.experimentalgame.entitySystem.component.Guard;
 import com.koucha.experimentalgame.entitySystem.system.InputProcessingSystem;
 import com.koucha.experimentalgame.entitySystem.system.LocalPlayerInputSystem;
 import com.koucha.experimentalgame.entitySystem.system.PhysicsSystem;
@@ -23,7 +23,6 @@ public class BackBone
 	public static final GraphicsHub GRAPHICS_HUB = new GLFWGraphicsHub();
 
 	public static final float AVG_UPDATES_PER_SECOND = 100;
-	public static final float MAX_FRAMES_PER_SECOND = 60;
 
 	public static final float SECOND_IN_NANOS = 1000000000;
 
@@ -36,7 +35,6 @@ public class BackBone
 	private EntityManager entityManager;
 	private SystemManager systemManager;
 
-	private boolean limitFPS = false;
 	private int framesPerSecond;
 	private int updatesPerSecond;
 
@@ -61,18 +59,14 @@ public class BackBone
 		entityManager = new EntityManager();
 		systemManager = new SystemManager( entityManager );
 
-		QuadTree quadTree = new QuadTree( -100, -100, 100, 100 );
-		systemManager.setRenderSystem( new RenderSystem( quadTree, renderer ) );
-		systemManager.add( new PhysicsSystem( quadTree ) );
+		systemManager.setRenderSystem( new RenderSystem( renderer ) );
+		systemManager.add( new PhysicsSystem() );
 		systemManager.add( new LocalPlayerInputSystem( inputBridge ) );
 		systemManager.add( new InputProcessingSystem() );
 
 		entityManager.add( EntityFactory.makePlayer() );
 
 		renderer.setInputBridge( inputBridge );
-
-		// if v-sync is not done by renderer, the FPS will be limited manually
-		limitFPS = !renderer.vSyncEnabled();
 
 		// todo debug
 //		limitFPS = false;
@@ -99,53 +93,42 @@ public class BackBone
 
 		renderer.preLoopInitialization();
 
-		final long deltaRenderTimeNS = (long) (SECOND_IN_NANOS / MAX_FRAMES_PER_SECOND);
-		final long deltaRender5TimeNS = 5 * deltaRenderTimeNS;
 		final float deltaUpdateTimeNS = SECOND_IN_NANOS / AVG_UPDATES_PER_SECOND;
 
-		long lastRenderTimeNS = java.lang.System.nanoTime();
-		long lastUpdateTimeNS = lastRenderTimeNS;
-		long nowTimeNS = lastRenderTimeNS;
+		long nowTimeNS = java.lang.System.nanoTime();
+		long lastUpdateTimeNS = nowTimeNS;
 
-		float updatesToBeDone = 0;
+		float frameTimeNS;
+		float accumulatorNS = 2 * deltaUpdateTimeNS;
+		float alpha;
 
 		int frameCount = 0;
 		int updateCount = 0;
-		long secondTimerNS = lastRenderTimeNS;
+		long secondTimerNS = nowTimeNS;
 
 		while( running && !renderer.windowShouldClose() )
 		{
-			updatesToBeDone += (nowTimeNS - lastUpdateTimeNS) / deltaUpdateTimeNS;        // ex.: 1.4 = 0.5 + 0.9 (0.5: remainder from last iteration, 0.9: from this iteration)
+			frameTimeNS = nowTimeNS - lastUpdateTimeNS;
+			if( frameTimeNS > SECOND_IN_NANOS )
+				frameTimeNS = SECOND_IN_NANOS;
+			accumulatorNS += frameTimeNS;
 			lastUpdateTimeNS = nowTimeNS;
 
 			// update
-			while( updatesToBeDone >= 1 )
+			while( accumulatorNS >= deltaUpdateTimeNS )
 			{
+				Guard.switchBuffer();
 				update();
 				updateCount++;
-				updatesToBeDone--;        // ex.: 0.4 = 1.4--  (0.4: remainder from this iteration)
+				accumulatorNS -= deltaUpdateTimeNS;
 			}
-
-			if( limitFPS )
-			{
-				while( nowTimeNS - lastRenderTimeNS < deltaRenderTimeNS )
-				{
-					Thread.yield();
-					nowTimeNS = java.lang.System.nanoTime();
-				}
-				if( nowTimeNS - lastRenderTimeNS > deltaRender5TimeNS )
-				{
-					lastRenderTimeNS = nowTimeNS;
-				} else
-				{
-					lastRenderTimeNS += deltaRenderTimeNS;
-				}
-			}
-
-			render();
-			frameCount++;
 
 			nowTimeNS = java.lang.System.nanoTime();
+
+			alpha = accumulatorNS / deltaUpdateTimeNS;
+			render( alpha );
+			frameCount++;
+
 			if( nowTimeNS - secondTimerNS > SECOND_IN_NANOS )
 			{
 				secondTimerNS += SECOND_IN_NANOS;
@@ -179,12 +162,14 @@ public class BackBone
 
 	/**
 	 * Does all the rendering inside the game loop
+	 *
+	 * @param alpha
 	 */
-	private void render()
+	private void render( float alpha )
 	{
 		renderer.initializeRenderIteration();
 
-		systemManager.render();
+		systemManager.render( alpha );
 
 		renderer.initializeGUIRenderIteration();
 

@@ -3,7 +3,6 @@ package com.koucha.experimentalgame;
 
 import com.koucha.experimentalgame.entitySystem.Entity;
 import com.koucha.experimentalgame.entitySystem.component.*;
-import com.koucha.experimentalgame.input.InputBridge;
 import com.koucha.experimentalgame.rendering.Color;
 import com.koucha.experimentalgame.rendering.Playah;
 import org.joml.Vector3f;
@@ -22,8 +21,8 @@ public class EntityFactory
 		Entity player = new Entity();
 
 		Position pos = new Position();
-			pos.position.set( 0f, 0f, -0.2f );
-			player.add( pos );
+		pos.position.write().set( 0f, 0f, -0.2f );
+		player.add( pos );
 		player.add( new Velocity() );
 		player.add( new AABB() );
 		player.add( new Playah( new Vector3f( 0.05f, 0.05f, 0.05f ), new Color( 0.5f, 0.5f, 1f ) ) );

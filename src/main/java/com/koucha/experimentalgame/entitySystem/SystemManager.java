@@ -45,8 +45,9 @@ public class SystemManager
 		}
 	}
 
-	public void render()
+	public void render( float alpha )
 	{
+		renderSystem.setAlpha( alpha );
 		renderSystem.update();
 	}
 }

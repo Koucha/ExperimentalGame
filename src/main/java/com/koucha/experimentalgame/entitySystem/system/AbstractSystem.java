@@ -4,9 +4,6 @@ package com.koucha.experimentalgame.entitySystem.system;
 import com.koucha.experimentalgame.entitySystem.*;
 import com.koucha.experimentalgame.entitySystem.System;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * Basic implementation of a System.
  * Handles the per System Entity list and the binding to an {@link EntityManager}
@@ -36,22 +33,14 @@ public abstract class AbstractSystem implements System
 	/**
 	 * List of all entities this System should be conserned with
 	 */
-	protected List< Entity > entityList;
-
-	/**
-	 * Create System with a LinkedList of its components
-	 */
-	protected AbstractSystem()
-	{
-		entityList = new LinkedList<>();
-	}
+	protected EntityList entityList;
 
 	/**
 	 * Create a System with a custom List of components
 	 *
 	 * @param entityList List to be used
 	 */
-	protected AbstractSystem( List< Entity > entityList )
+	protected AbstractSystem( EntityList entityList )
 	{
 		this.entityList = entityList;
 	}
@@ -65,6 +54,14 @@ public abstract class AbstractSystem implements System
 			manager.link( this );
 	}
 
+	@Override
+	public void update()
+	{
+		updateEntityList();
+
+		processEntities();
+	}
+
 	/**
 	 * Apply changes from the EntityManager to this Systems Entity list
 	 *
@@ -75,14 +72,6 @@ public abstract class AbstractSystem implements System
 	public void updateEntityList()
 	{
 		manager.checkChangedEntities( getFlag(), this::processEntityChange );
-	}
-
-	@Override
-	public void update()
-	{
-		updateEntityList();
-
-		processEntities();
 	}
 
 	/**
@@ -107,7 +96,7 @@ public abstract class AbstractSystem implements System
 					entityList.add( entity );
 				break;
 			case Deletion:
-				if( rejectEntity( entity ) )
+				if( !acceptEntity( entity ) )
 					entityList.remove( entity );
 				break;
 			case Remove:
@@ -123,14 +112,14 @@ public abstract class AbstractSystem implements System
 	 */
 	protected abstract boolean acceptEntity( Entity entity );
 
-	/**
-	 * Test if that Entity should be removed from the List
-	 *
-	 * @param entity Entity to test
-	 * @return {@code true} if the Entity should be tossed, {@code false} otherwise
-	 */
-	protected boolean rejectEntity( Entity entity )
-	{
-		return !acceptEntity( entity );
-	}
+//	/**
+//	 * Test if that Entity should be removed from the List
+//	 *
+//	 * @param entity Entity to test
+//	 * @return {@code true} if the Entity should be tossed, {@code false} otherwise
+//	 */
+//	protected boolean rejectEntity( Entity entity )
+//	{
+//		return !acceptEntity( entity );
+//	}
 }

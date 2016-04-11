@@ -9,7 +9,7 @@ import org.joml.Vector3f;
  */
 public class Position implements Component
 {
-	public Vector3f position = new Vector3f();
+	public Guard< Vector3f > position = new Guard<>( new Vector3f(), new Vector3f() );
 
 	public Position()
 	{

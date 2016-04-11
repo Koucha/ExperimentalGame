@@ -3,18 +3,17 @@ package com.koucha.experimentalgame.entitySystem.system;
 
 import com.koucha.experimentalgame.entitySystem.ComponentFlag;
 import com.koucha.experimentalgame.entitySystem.Entity;
-import com.koucha.experimentalgame.entitySystem.QuadTree;
 import com.koucha.experimentalgame.entitySystem.SystemFlag;
+import com.koucha.experimentalgame.entitySystem.component.AABB;
 import com.koucha.experimentalgame.entitySystem.component.Position;
 import com.koucha.experimentalgame.entitySystem.component.Velocity;
 
 // TODO: 10.04.2016 comment
 public class PhysicsSystem extends AbstractSystem
 {
-	public PhysicsSystem( QuadTree entityList )
+	public PhysicsSystem()
 	{
-		super( entityList );
-		entityList.addAcceptor( this::acceptEntity );
+		super( new LinkedEntityList<>( new PhysicsElement() ) );
 	}
 
 	@Override
@@ -26,13 +25,13 @@ public class PhysicsSystem extends AbstractSystem
 	@Override
 	protected void processEntities()
 	{
+		PhysicsElement element;
 		// TODO: 09.04.2016 make better maybe?
-		for( Entity entity : entityList )
+		for( EntityList.Element el : entityList )
 		{
-			Velocity velocity = (Velocity) entity.get( ComponentFlag.Velocity );
-			Position position = (Position) entity.get( ComponentFlag.Position );
+			element = (PhysicsElement) el;
 
-			position.position.add( velocity.velocity );
+			element.position.position.write().set( element.position.position.read() ).add( element.velocity.velocity );
 		}
 	}
 
@@ -44,9 +43,28 @@ public class PhysicsSystem extends AbstractSystem
 				entity.accept( ComponentFlag.Velocity ));
 	}
 
-	@Override
-	protected boolean rejectEntity( Entity entity )
+	private static class PhysicsElement extends LinkedEntityList.LinkElement
 	{
-		return ((QuadTree) entityList).rejectEntity( entity );
+		Position position;
+		Velocity velocity;
+		AABB aabb;
+
+		private PhysicsElement()
+		{
+		}
+
+		private PhysicsElement( Entity entity )
+		{
+			super( entity );
+			velocity = (Velocity) entity.get( ComponentFlag.Velocity );
+			position = (Position) entity.get( ComponentFlag.Position );
+			aabb = (AABB) entity.get( ComponentFlag.AABB );
+		}
+
+		@Override
+		public EntityList.Element makeFrom( Entity entity )
+		{
+			return new PhysicsElement( entity );
+		}
 	}
 }

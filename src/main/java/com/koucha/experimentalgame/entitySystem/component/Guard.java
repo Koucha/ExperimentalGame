@@ -6,6 +6,7 @@ public class Guard< T >
 	private static boolean readFront = true;
 	private T front;
 	private T back;
+
 	public Guard( T original, T copy )
 	{
 		front = original;

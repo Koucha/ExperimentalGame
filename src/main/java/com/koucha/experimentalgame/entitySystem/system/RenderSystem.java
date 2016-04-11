@@ -3,8 +3,8 @@ package com.koucha.experimentalgame.entitySystem.system;
 
 import com.koucha.experimentalgame.entitySystem.ComponentFlag;
 import com.koucha.experimentalgame.entitySystem.Entity;
-import com.koucha.experimentalgame.entitySystem.QuadTree;
 import com.koucha.experimentalgame.entitySystem.SystemFlag;
+import com.koucha.experimentalgame.entitySystem.component.AABB;
 import com.koucha.experimentalgame.entitySystem.component.Mesh;
 import com.koucha.experimentalgame.entitySystem.component.Position;
 import com.koucha.experimentalgame.rendering.Renderer;
@@ -15,10 +15,9 @@ public class RenderSystem extends AbstractSystem
 
 	private final Renderer renderer;
 
-	public RenderSystem( QuadTree entityList, Renderer renderer )
+	public RenderSystem( Renderer renderer )
 	{
-		super( entityList );
-		entityList.addAcceptor( this::acceptEntity );
+		super( new LinkedEntityList<>( new RenderElement() ) );
 
 		this.renderer = renderer;
 	}
@@ -29,15 +28,21 @@ public class RenderSystem extends AbstractSystem
 		return SystemFlag.RenderSystem;
 	}
 
+	public void setAlpha( float alpha )
+	{
+		renderer.setAlpha( alpha );
+	}
+
 	@Override
 	protected void processEntities()
 	{
+		RenderElement element;
 		// TODO: 09.04.2016 make better maybe?
-		for( Entity entity : entityList )
+		for( EntityList.Element el : entityList )
 		{
-			Mesh mesh = (Mesh) entity.get( ComponentFlag.Mesh );
-			mesh.position = (Position) entity.get( ComponentFlag.Position );
-			renderer.render( mesh );
+			element = (RenderElement) el;
+			element.mesh.position = element.position;
+			renderer.render( element.mesh );
 		}
 	}
 
@@ -49,9 +54,28 @@ public class RenderSystem extends AbstractSystem
 				entity.accept( ComponentFlag.Position ));
 	}
 
-	@Override
-	protected boolean rejectEntity( Entity entity )
+	private static class RenderElement extends LinkedEntityList.LinkElement
 	{
-		return ((QuadTree) entityList).rejectEntity( entity );
+		Position position;
+		AABB aabb;
+		Mesh mesh;
+
+		private RenderElement()
+		{
+		}
+
+		private RenderElement( Entity entity )
+		{
+			super( entity );
+			mesh = (Mesh) entity.get( ComponentFlag.Mesh );
+			position = (Position) entity.get( ComponentFlag.Position );
+			aabb = (AABB) entity.get( ComponentFlag.AABB );
+		}
+
+		@Override
+		public EntityList.Element makeFrom( Entity entity )
+		{
+			return new RenderElement( entity );
+		}
 	}
 }

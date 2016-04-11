@@ -16,6 +16,8 @@ public class LocalPlayerInputSystem extends AbstractSystem
 
 	public LocalPlayerInputSystem( InputBridge inputBridge )
 	{
+		super( new LinkedEntityList<>( new InputElement() ) );
+
 		this.inputBridge = inputBridge;
 
 		InputMap inputMap = inputBridge.getInputMap();
@@ -74,9 +76,9 @@ public class LocalPlayerInputSystem extends AbstractSystem
 	@Override
 	protected void processEntities()
 	{
-		for( Entity entity : entityList )
+		for( EntityList.Element element : entityList )
 		{
-			InputSubSystem.write((Input) entity.get( ComponentFlag.Input ), input);
+			InputSubSystem.write( ((InputElement) element).input, input );
 		}
 	}
 
@@ -86,10 +88,32 @@ public class LocalPlayerInputSystem extends AbstractSystem
 		return entity.accept( ComponentFlag.LocalPlayer );
 	}
 
+	private static class InputElement extends LinkedEntityList.LinkElement
+	{
+		Input input;
+
+		private InputElement()
+		{
+		}
+
+		private InputElement( Entity entity )
+		{
+			super( entity );
+			input = (Input) entity.get( ComponentFlag.Input );
+		}
+
+		@Override
+		public EntityList.Element makeFrom( Entity entity )
+		{
+			return new InputElement( entity );
+		}
+	}
+
 	/**
 	 * Is thrown if a key event performed an unknown action
 	 */
-	public class InvalidStateException extends Exception {
+	private class InvalidStateException extends Exception
+	{
 		// empty
 	}
 }

@@ -30,7 +30,7 @@ public final class InputSubSystem
 
 	public static boolean check( Input input, Selector up )
 	{
-		return ( ( input.bitmask & up.value() ) == up.value() );
+		return ((input.bitmask & up.value()) == up.value());
 	}
 
 	/**

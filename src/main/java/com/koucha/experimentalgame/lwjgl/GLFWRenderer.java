@@ -43,6 +43,7 @@ class GLFWRenderer implements Renderer
 	// Hard links needed to protect from garbage collection (used by JNI code)
 	private GLFWKeyInput keyInput;
 	private GLFWMouseInput mouseInput;
+	private float alpha;
 
 	GLFWRenderer()
 	{
@@ -107,7 +108,7 @@ class GLFWRenderer implements Renderer
 			shapeRenderer.render( (Cube) renderable );
 		} else if( renderable instanceof Playah )
 		{
-			shapeRenderer.render( (Playah) renderable );
+			shapeRenderer.render( (Playah) renderable, alpha );
 		}/*else
 		{
 			// nothing
@@ -158,6 +159,12 @@ class GLFWRenderer implements Renderer
 		glfwShowWindow( window );
 
 		glfwSetInputMode( window, GLFW_CURSOR, GLFW_CURSOR_DISABLED );
+	}
+
+	@Override
+	public void setAlpha( float alpha )
+	{
+		this.alpha = alpha;
 	}
 
 	@Override

@@ -311,9 +311,9 @@ class ShapeRenderer
 //		drawVAO(defaultShader3D, cube.getColor(), cubeVA, 36, true);
 	}
 
-	public void render( Playah playah )
+	public void render( Playah playah, float alpha )
 	{
-		working.identity().mul( MeshSubSystem.getOrientedPosition( playah ) ).scale( playah.getSize() );
+		working.identity().mul( MeshSubSystem.getOrientedPosition( playah, alpha ) ).scale( playah.getSize() );
 
 		drawVAO( defaultShader3D, playah.getColor(), playahVA, 12, true );
 	}

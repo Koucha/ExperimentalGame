@@ -35,6 +35,8 @@ public interface Renderer
 
 	void createFullscreenWindow( String title );
 
+	void setAlpha( float alpha );
+
 	/**
 	 * @param inputBridge receiver of the input captured by the renderer
 	 */
